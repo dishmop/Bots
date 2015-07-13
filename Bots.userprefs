@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Module.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Bot.cs" Line="11" Column="20" />
+      <File FileName="Assets/Scripts/BotMono.cs" Line="13" Column="8" />
+      <File FileName="Assets/Scripts/Engine.cs" Line="4" Column="1" />
+      <File FileName="Assets/Scripts/Module.cs" Line="12" Column="3" />
+      <File FileName="Assets/Scripts/Cell.cs" Line="6" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
