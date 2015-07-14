@@ -7,6 +7,7 @@ using System.IO;
 public class BotMono : MonoBehaviour {
 
 	public Bot bot;
+	public bool enableWriteData = true;
 	
 	public string filename = "test.xml";
 	
@@ -22,7 +23,13 @@ public class BotMono : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		ConstructExample();
-		WriteData();
+		if (enableWriteData){
+			WriteData();
+		}
+		else{
+			ReadData();
+		}
+		bot.DebugPrint();
 	
 	}
 	
@@ -39,8 +46,15 @@ public class BotMono : MonoBehaviour {
 	void WriteData(){
 		XmlSerializer serializer = new XmlSerializer(typeof(Bot));
 		FileStream stream = new FileStream(CreateFilePath(), FileMode.Create);
-	//	serializer.Serialize(stream, bot.rootModule);
+		//serializer.Serialize(stream, bot.rootModule);
 		serializer.Serialize(stream, bot);
+		stream.Close();
+	}
+	
+	void ReadData(){
+		XmlSerializer serializer = new XmlSerializer(typeof(Bot));
+		FileStream stream = new FileStream(CreateFilePath(), FileMode.Open);
+		bot = serializer.Deserialize(stream) as Bot;
 		stream.Close();
 	}
 }

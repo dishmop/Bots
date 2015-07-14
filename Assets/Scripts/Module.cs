@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using UnityEngine;
+using System.Xml;
 using System.Xml.Serialization;
 
 [XmlRoot("Module")]
@@ -17,6 +18,21 @@ public class Module{
 		DebugUtils.Assert (spokeId < numSpokes, "Invalid spoke Id");
 		DebugUtils.Assert (modules[spokeId] == null, "Attempting to attach to occupied spoke");
 		modules[spokeId] = otherModule;
+	}
+	
+	public virtual void DebugPrint(){
+		Debug.Log("numSpokes = " + numSpokes);
+		for (int i = 0; i < numSpokes; ++i){
+			Module module = modules[i];
+			if (module != null){
+				Debug.Log ("Spoke num: " + i);
+				module.DebugPrint();
+			}
+			else{
+				
+			//	Debug.Log ("Spoke num: " + i + " = null");
+			}
+		}
 	}
 
 }

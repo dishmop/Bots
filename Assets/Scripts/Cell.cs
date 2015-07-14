@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using UnityEngine;
+using System.Xml;
 using System.Xml.Serialization;
 
 
@@ -11,6 +12,13 @@ public class Cell : Module{
 	
 	public Cell(Module parent, int spokeId){
 		parent.Attach(spokeId, this);
+	}
+	
+	
+	public override void DebugPrint(){
+		Debug.Log("Type = Cell");
+		Debug.Log ("testValue = " + testValue);
+		base.DebugPrint();
 	}
 	
 
