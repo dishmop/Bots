@@ -1,0 +1,304 @@
+fileFormatVersion: 2
+guid: 09c659f7cd070a945a4968fffa234257
+labels:
+- paper
+- drawing
+- paint
+- brush
+timeCreated: 1436970395
+licenseType: Free
+SubstanceImporter:
+  serializedVersion: 5
+  materialInstances:
+  - serializedVersion: 16
+    name: Drawing_Paper_01
+    prototypeName: Drawing_Paper_01
+    shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+    shaderKeywords: _NORMALMAP _PARALLAXMAP
+    renderQueue: -1
+    lightmapFlags: 5
+    inputs:
+    - name: $normalformat
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: $outputsize
+      value:
+        scalar[0]: 9
+        scalar[1]: 9
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: $randomseed
+      value:
+        scalar[0]: 8418
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Hue_Shift
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Saturation
+      value:
+        scalar[0]: .5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Luminosity
+      value:
+        scalar[0]: .5
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Emboss
+      value:
+        scalar[0]: -7.71999979
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Light_Angle
+      value:
+        scalar[0]: .136000007
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Contrast
+      value:
+        scalar[0]: -.057
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Normal
+      value:
+        scalar[0]: .340999991
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Depth
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Relief_Balance
+      value:
+        scalar[0]: 13.8000002
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Crumple
+      value:
+        scalar[0]: 0
+        scalar[1]: 0
+        scalar[2]: 0
+        scalar[3]: 0
+        texture: {instanceID: 0}
+    - name: Paper_Color
+      value:
+        scalar[0]: .993407726
+        scalar[1]: 1
+        scalar[2]: .926470578
+        scalar[3]: 1
+        texture: {instanceID: 0}
+    materialInformation:
+      serializedVersion: 5
+      offset: {x: 0, y: 0}
+      scale: {x: 5, y: 5}
+      generateMipmaps: 1
+      generateAllOutputs: 1
+      animationUpdateRate: 42
+    materialProperties:
+      serializedVersion: 2
+      texEnvs:
+        data:
+          first:
+            name: _MainTex
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 5, y: 5}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _BumpMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 5, y: 10}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailNormalMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _ParallaxMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 5, y: 10}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _OcclusionMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _EmissionMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 5, y: 5}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailMask
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _DetailAlbedoMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 5, y: 5}
+            offset: {x: 0, y: 0}
+        data:
+          first:
+            name: _MetallicGlossMap
+          second:
+            texture: {instanceID: 0}
+            scale: {x: 1, y: 1}
+            offset: {x: 0, y: 0}
+      floats:
+        data:
+          first:
+            name: _SrcBlend
+          second: 1
+        data:
+          first:
+            name: _DstBlend
+          second: 0
+        data:
+          first:
+            name: _Cutoff
+          second: .5
+        data:
+          first:
+            name: _Parallax
+          second: .0236000009
+        data:
+          first:
+            name: _ZWrite
+          second: 1
+        data:
+          first:
+            name: _Glossiness
+          second: .270000011
+        data:
+          first:
+            name: _BumpScale
+          second: 1
+        data:
+          first:
+            name: _OcclusionStrength
+          second: 1
+        data:
+          first:
+            name: _DetailNormalMapScale
+          second: 1
+        data:
+          first:
+            name: _UVSec
+          second: 0
+        data:
+          first:
+            name: _Mode
+          second: 0
+        data:
+          first:
+            name: _Metallic
+          second: 0
+      colors:
+        data:
+          first:
+            name: _EmissionColor
+          second: {r: 0, g: 0, b: 0, a: 1}
+        data:
+          first:
+            name: _Color
+          second: {r: 1, g: 1, b: 1, a: 1}
+    textureParameters:
+    - name: Drawing_Paper_01_Diffuse
+      alphaSource: 5
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Drawing_Paper_01_Specular
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Drawing_Paper_01_Normal
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Drawing_Paper_01_Bump
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Drawing_Paper_01_Displacement
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    - name: Drawing_Paper_01_Height
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
+    textureAssignments:
+    - shaderProp:
+        name: _MainTex
+      material: {instanceID: 0}
+      baseUID: 397734401
+    - shaderProp:
+        name: _BumpMap
+      material: {instanceID: 0}
+      baseUID: 397734412
+    - shaderProp:
+        name: _ParallaxMap
+      material: {instanceID: 0}
+      baseUID: 397734426
+    buildTargetSettings:
+    - serializedVersion: 2
+      buildTarget: 
+      textureWidth: 512
+      textureHeight: 512
+      textureFormat: 0
+      loadingBehavior: 1
+  deletedPrototypes: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
