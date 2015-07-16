@@ -1,22 +1,26 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GridPaper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/EditorButton.cs">
     <Files>
-      <File FileName="Assets/Scripts/MathUtils.cs" Line="183" Column="84" />
+      <File FileName="Assets/Scripts/VectorCircle.cs" Line="53" Column="4" />
+      <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/QuitOnEsc.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Bot.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotMono.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Engine.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Module.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Cell.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GridPaper.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EditorButton.cs" Line="72" Column="1" />
+      <File FileName="Assets/Scripts/Engine.cs" Line="11" Column="25" />
       <File FileName="Assets/Scripts/Editor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GridPaper.cs" Line="83" Column="29" />
+      <File FileName="Assets/Scripts/ModuleType.cs" Line="2" Column="8" />
+      <File FileName="Assets/Scripts/EditorUI.cs" Line="17" Column="1" />
+      <File FileName="Assets/Scripts/Module.cs" Line="17" Column="24" />
+      <File FileName="Assets/Scripts/Cell.cs" Line="18" Column="24" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True" />
+            <Node name="Scripts" expanded="True">
+              <Node name="EditorButton.cs" selected="True" />
+            </Node>
           </Node>
         </State>
       </Pad>

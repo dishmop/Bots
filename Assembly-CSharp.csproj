@@ -45,18 +45,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\EditorUI.cs" />
     <Compile Include="Assets\Scripts\AppHelper.cs" />
     <Compile Include="Assets\Scripts\Bot.cs" />
     <Compile Include="Assets\Scripts\BotMono.cs" />
     <Compile Include="Assets\Scripts\Cell.cs" />
     <Compile Include="Assets\Scripts\DebugUtils.cs" />
     <Compile Include="Assets\Scripts\Editor.cs" />
+    <Compile Include="Assets\Scripts\EditorButton.cs" />
+    <Compile Include="Assets\Scripts\EditorFactory.cs" />
+    <Compile Include="Assets\Scripts\EditorModulePicture.cs" />
+    <Compile Include="Assets\Scripts\EditorUI.cs" />
     <Compile Include="Assets\Scripts\Engine.cs" />
     <Compile Include="Assets\Scripts\GridPaper.cs" />
     <Compile Include="Assets\Scripts\MathUtils.cs" />
     <Compile Include="Assets\Scripts\Module.cs" />
+    <Compile Include="Assets\Scripts\ModuleType.cs" />
     <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
+    <Compile Include="Assets\Scripts\VectorCircle.cs" />
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
     </Reference>

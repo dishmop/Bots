@@ -14,6 +14,10 @@ public class Module{
 	public Module (){
 	}
 	
+	public virtual string GetTypeName(){
+		return "Module";
+	}
+	
 	public void Attach(int spokeId, Module otherModule){
 		DebugUtils.Assert (spokeId < numSpokes, "Invalid spoke Id");
 		DebugUtils.Assert (modules[spokeId] == null, "Attempting to attach to occupied spoke");

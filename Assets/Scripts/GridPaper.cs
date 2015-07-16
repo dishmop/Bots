@@ -1,60 +1,82 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Vectrosity;
 
 public class GridPaper : MonoBehaviour {
-	public Color lineCol = Color.white;
-	public float gridLinethickeness;
-	float sideLen = 0.5f;
-	Camera editorCamera;
+	public bool isDotted = false;
+	public List<Vector3>	placementPoints = new List<Vector3>();
+
+	float sideLen = 1f/8f;	// in units of one width
 	
-	// Can't we get this automatically?
-	float basePlaneHalfSide = 2.5f;
 	
 	
 	List<VectorLine> lines = new List<VectorLine>();
 
 
 	VectorLine ConstructGridLine(Vector3[] points){
-		VectorLine line = new VectorLine("Vertical grid line", points, Editor.singleton.pencilLineLight, gridLinethickeness);
-		line.textureScale = 16;
+		VectorLine line = new VectorLine("Vertical grid line", points, Editor.singleton.pencilLine, Editor.singleton.GetLinePencilLightWidth());
+		line.textureScale =  Editor.singleton.textureScale;
 		line.drawTransform = transform;
-		line.color = lineCol;
-		line.Draw3D();
+		
 		return line;
 		
 	}
+	
 
 	void ConstructGrid(){
 		Vector3[] points = new Vector3[2];
-		VectorLine.SetCamera3D(editorCamera);
+		
+		Mesh mesh = GetComponent<MeshFilter>().mesh;
+		float left = mesh.bounds.min.x;
+		float bottom = mesh.bounds.min.y;
+		float targetWidth = mesh.bounds.max.x - left;
+		float targetHeight = mesh.bounds.max.y - bottom;
+		
+		float useSideLen = sideLen * targetWidth;
 		
 		// Used for the vertical lines
-		float sideLenH = 0.5f * sideLen / Mathf.Tan (30 * Mathf.Deg2Rad);
-		int numLinesH = (int)(2 * basePlaneHalfSide / sideLenH);
+		float sideLenH = 0.5f * useSideLen / Mathf.Tan (30 * Mathf.Deg2Rad);
+		int numLinesH = (int)(targetWidth / sideLenH);
 		
 		// Used for the sloping lines
 		float sideLenH2 = sideLenH * 2;
-		float numLinesH2 = (int)(2 * basePlaneHalfSide / sideLenH2);
+		float numLinesH2 = (int)(targetWidth/ sideLenH2);
 		float sideLenV2 = sideLenH2 * Mathf.Tan (30 * Mathf.Deg2Rad);
-		int numLinesV2 =  (int)(2 * basePlaneHalfSide / sideLenV2);
+		int numLinesV2 =  (int)(targetHeight / sideLenV2);
 
 		// Get the grid window extents		
 		float width = numLinesH * sideLenH;
 		float height = numLinesV2 * sideLenV2;
-		float left = -basePlaneHalfSide;
-		float bottom = -basePlaneHalfSide;
-		float top = -basePlaneHalfSide + height;
-		float right = -basePlaneHalfSide + width;
+		float top = bottom + height;
+		float right = left + width;
 		
 		// Vertical lines
-		
 		for (int i = 0; i < numLinesH + 1; ++i){
-			points[0] = new Vector3(left + i * sideLenH, Editor.singleton.pencilZoffset, bottom);
-			points[1] = new Vector3(left + i * sideLenH, Editor.singleton.pencilZoffset, top);
+			points[0] = new Vector3(left + i * sideLenH, bottom, 0);
+			points[1] = new Vector3(left + i * sideLenH, top, 0);
 			lines.Add (ConstructGridLine(points));
 		}
+		
+		// While we are about it, construct the placement points
+		for (int i = 0; i < numLinesH + 1; ++i){
+			Vector3 botttomPos = new Vector3(left + i * sideLenH, bottom, 0);
+			if ((i % 2) == 0){
+				for (int j = 0; j < numLinesV2+1; ++ j){
+					placementPoints.Add(botttomPos + j * useSideLen * new Vector3(0, 1, 0));
+				}
+			}
+			else{
+				for (int j = 0; j < numLinesV2; ++ j){
+					placementPoints.Add(botttomPos + (j + 0.5f) * useSideLen * new Vector3(0, 1, 0));
+				}
+			}
+		}
+		for (int i = 0; i < placementPoints.Count(); ++i){
+			placementPoints[i] = transform.TransformPoint(placementPoints[i]);
+		}
+		
 
 		// Right up lines		
 		Vector2 rightUpDir2D = new Vector3(1, Mathf.Tan(30 * Mathf.Deg2Rad));
@@ -68,8 +90,8 @@ public class GridPaper : MonoBehaviour {
 			float distRight = MathUtils.Geometry2D.IntersectRay2D(startPos2D, rightUpDir2D, new Vector2( right, bottom), new Vector2(0, 1));
 			Vector2 endPos2D = startPos2D + Mathf.Min (distTop, distRight) * rightUpDir2D;
 			
-			points[0] = new Vector3(startPos2D.x, Editor.singleton.pencilZoffset, startPos2D.y);
-			points[1] = new Vector3(endPos2D.x, Editor.singleton.pencilZoffset, endPos2D.y);
+			points[0] = new Vector3(startPos2D.x, startPos2D.y, 0);
+			points[1] = new Vector3(endPos2D.x, endPos2D.y, 0);
 			lines.Add (ConstructGridLine(points));
 		}
 		
@@ -83,8 +105,8 @@ public class GridPaper : MonoBehaviour {
 			float distRight = MathUtils.Geometry2D.IntersectRay2D(startPos2D, rightUpDir2D, new Vector2( right, bottom), new Vector2(0, 1));
 			Vector2 endPos2D = startPos2D + Mathf.Min (distTop, distRight) * rightUpDir2D;
 			
-			points[0] = new Vector3(startPos2D.x, Editor.singleton.pencilZoffset, startPos2D.y);
-			points[1] = new Vector3(endPos2D.x, Editor.singleton.pencilZoffset, endPos2D.y);
+			points[0] = new Vector3(startPos2D.x, startPos2D.y, 0);
+			points[1] = new Vector3(endPos2D.x, endPos2D.y, 0);
 			lines.Add (ConstructGridLine(points));
 		}	
 		
@@ -100,8 +122,8 @@ public class GridPaper : MonoBehaviour {
 			float distRight = MathUtils.Geometry2D.IntersectRay2D(startPos2D, rightDownDir2D, new Vector2( right, bottom), new Vector2(0, 1));
 			Vector2 endPos2D = startPos2D + Mathf.Min (distBottom, distRight) * rightDownDir2D;
 			
-			points[0] = new Vector3(startPos2D.x, Editor.singleton.pencilZoffset, startPos2D.y);
-			points[1] = new Vector3(endPos2D.x, Editor.singleton.pencilZoffset, endPos2D.y);
+			points[0] = new Vector3(startPos2D.x, startPos2D.y, 0);
+			points[1] = new Vector3(endPos2D.x, endPos2D.y, 0);
 			lines.Add (ConstructGridLine(points));
 		}
 		
@@ -116,32 +138,28 @@ public class GridPaper : MonoBehaviour {
 			float distRight = MathUtils.Geometry2D.IntersectRay2D(startPos2D, rightDownDir2D, new Vector2( right, bottom), new Vector2(0, 1));
 			Vector2 endPos2D = startPos2D + Mathf.Min (distBottom, distRight) * rightDownDir2D;
 			
-			points[0] = new Vector3(startPos2D.x, Editor.singleton.pencilZoffset, startPos2D.y);
-			points[1] = new Vector3(endPos2D.x, Editor.singleton.pencilZoffset, endPos2D.y);
+			points[0] = new Vector3(startPos2D.x, startPos2D.y, 0);
+			points[1] = new Vector3(endPos2D.x, endPos2D.y, 0);
 			lines.Add (ConstructGridLine(points));
 		}	
 		
 		// do the borders - The left is already done
 		// Bottom
-		points[0] = new Vector3(left, Editor.singleton.pencilZoffset, bottom);
-		points[1] = new Vector3(right, Editor.singleton.pencilZoffset, bottom);
+		points[0] = new Vector3(left, bottom, 0);
+		points[1] = new Vector3(right, bottom, 0);
 		lines.Add (ConstructGridLine(points));
 		
 		// Top
-		points[0] = new Vector3(left, Editor.singleton.pencilZoffset, top);
-		points[1] = new Vector3(right, Editor.singleton.pencilZoffset, top);
+		points[0] = new Vector3(left, top, 0);
+		points[1] = new Vector3(right, top, 0);
 		lines.Add (ConstructGridLine(points));
-		
-			
-		
-		
 		
 	}
 
 	// Use this for initialization
 	void Start () {
-		editorCamera = Editor.singleton.editorCamera.GetComponent<Camera>();
 		ConstructGrid();
+		GetComponent<MeshRenderer>().enabled = false;
 		
 	
 	}
@@ -150,8 +168,9 @@ public class GridPaper : MonoBehaviour {
 	void Update () {
 		foreach (VectorLine line in lines){
 			line.drawTransform = transform;
-			line.lineWidth = gridLinethickeness/(float)editorCamera.orthographicSize;
-			line.color = lineCol;
+			line.lineWidth = Editor.singleton.GetLinePencilLightWidth();
+			line.textureScale = Editor.singleton.textureScale;
+			line.material = isDotted ? Editor.singleton.pencilLineDotted : Editor.singleton.pencilLine;
 			line.Draw3D();
 		}
 		

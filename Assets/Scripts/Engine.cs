@@ -8,6 +8,10 @@ public class Engine : Module{
 	public Engine(){
 	}
 	
+	public override string GetTypeName(){
+		return "Engine";
+	}
+	
 	public Engine(Module parent, int spokeId){
 		parent.Attach(spokeId, this);
 	}

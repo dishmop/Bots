@@ -5,7 +5,7 @@ labels:
 - drawing
 - paint
 - brush
-timeCreated: 1436970395
+timeCreated: 1437044357
 licenseType: Free
 SubstanceImporter:
   serializedVersion: 5
@@ -138,7 +138,7 @@ SubstanceImporter:
             name: _BumpMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 5, y: 10}
+            scale: {x: 5, y: 5}
             offset: {x: 0, y: 0}
         data:
           first:
@@ -152,7 +152,7 @@ SubstanceImporter:
             name: _ParallaxMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 5, y: 10}
+            scale: {x: 5, y: 5}
             offset: {x: 0, y: 0}
         data:
           first:
