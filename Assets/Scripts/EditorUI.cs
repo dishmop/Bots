@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Vectrosity;
 
 public class EditorUI : MonoBehaviour {
 	public static EditorUI singleton = null;
 	public GameObject buttonFrame;
 	public GameObject gridGO;
 	public float placementPointRadius;
-	public bool hasCurrentPlacementPos = false;
 	public bool isInsideGrid = false;
-	public Vector3 currentPlacementPos = Vector3.zero;
+	public GridPaper.PlacementPoint currentPlacement = null;
 	public GameObject cursorPicture;
+	
+	bool hasBotChanged = true;
+	List<VectorLine>	validGridLines = new List<VectorLine>();
 	
 	Dictionary<int, GameObject> botDrawing = new Dictionary<int, GameObject>();
 	int nextRepId = 100;
 	
 	Bot	editorBot = new Bot();
-	Vector3 botPos = Vector3.zero;
+	GridPaper.PlacementPoint botPoint = null;
 	
 	GameObject activeModuleButtonGO;
 	float buttonBoarderPerc = 0.1f;
@@ -65,15 +68,13 @@ public class EditorUI : MonoBehaviour {
 			// Test if we are inside the grid zone
 			isInsideGrid = gridGO.GetComponent<GridPaper>().boundingRect.Contains(mousePos);
 			
-			currentPlacementPos = Vector3.zero;
-			hasCurrentPlacementPos = false;
+			currentPlacement = null;
 			if (isInsideGrid){
 				// Test if we hit any of the placement points
 				float placementPointRadiusSQ = placementPointRadius * placementPointRadius;
-				foreach (Vector3 point in gridGO.GetComponent<GridPaper>().placementPoints){
-					if ((point - mousePos).sqrMagnitude < placementPointRadiusSQ){
-						currentPlacementPos = point;
-						hasCurrentPlacementPos = true;
+				foreach (GridPaper.PlacementPoint point in gridGO.GetComponent<GridPaper>().placementPoints){
+					if ((point.pos - mousePos).sqrMagnitude < placementPointRadiusSQ){
+						currentPlacement = point;						
 					}
 				}
 			}
@@ -97,11 +98,51 @@ public class EditorUI : MonoBehaviour {
 		}
 		
 		DrawBot();
+		UpdateGridLines();
+		
+	}
+	
+	void UpdateGridLines(){
+		foreach (VectorLine line in validGridLines){
+			line.drawTransform = transform;
+			line.lineWidth = Editor.singleton.GetLinePencilLightWidth();
+			line.textureScale = Editor.singleton.textureScale;
+			line.Draw3D();
+		}
+	}
+	
+	
+	void DrawValidGridLines(){
+		for (int i = 0; i < validGridLines.Count(); ++i){
+			VectorLine line = validGridLines[i];
+			VectorLine.Destroy(ref line);
+		}
+		validGridLines.Clear ();
+		if (editorBot.rootModule != null){
+			foreach (GridPaper.PlacementPoint point in gridGO.GetComponent<GridPaper>().placementPoints){
+				// Go round three of the spokes
+				for (int i = 0; i < 3; ++i){
+					GridPaper.PlacementPoint otherPoint = point.neighbouringPoints[i];
+					if (point.picture == null && otherPoint != null && otherPoint.picture == null){
+						Vector3[] points = new Vector3[2];
+						points[0] = point.pos;
+						points[1] = otherPoint.pos;
+						
+						VectorLine newLine = gridGO.GetComponent<GridPaper>().ConstructGridLine(points);
+						validGridLines.Add(newLine);
+					}
+				}
+			}
+		}
+		
 	}
 	
 	void DrawBot(){
-		HandleModuleDraw(editorBot.rootModule);
-		
+		hasBotChanged = false;
+		HandleModuleDraw(editorBot.rootModule, botPoint);
+		if (hasBotChanged){
+			DrawValidGridLines();
+		}
 		
 	}
 	
@@ -109,7 +150,7 @@ public class EditorUI : MonoBehaviour {
 		return nextRepId++;
 	}
 	
-	void HandleModuleDraw(Module module){
+	void HandleModuleDraw(Module module, GridPaper.PlacementPoint point){
 		if (module == null) return;
 		
 		// If the flag is dirty and we have a representation, then remove the representation
@@ -122,10 +163,12 @@ public class EditorUI : MonoBehaviour {
 			module.repId[(int)Module.DirtyFlag.kEditor] = GetNextRepId();
 			GameObject newPicture = EditorFactory.singleton.ConstructEditorPicture(editorBot.rootModule);
 			newPicture.transform.SetParent(transform);
-			newPicture.transform.position = botPos;
+			newPicture.transform.position = botPoint.pos;
 			newPicture.transform.localScale = 2f * new Vector3(placementPointRadius, placementPointRadius, 1);;
-			
+			module.dirtyFlag[(int)Module.DirtyFlag.kEditor] = false;
 			botDrawing.Add(module.repId[(int)Module.DirtyFlag.kEditor], newPicture);
+			hasBotChanged = true;
+			point.picture = newPicture;
 		}
 	}
 	
@@ -133,7 +176,7 @@ public class EditorUI : MonoBehaviour {
 
 		TestForPlacementIntersection();
 		if (isInsideGrid){
-			if (hasCurrentPlacementPos){
+			if (currentPlacement != null){
 				if (cursorPicture != null && cursorPicture.GetComponent<EditorModulePicture>().moduleType != activeModuleButtonGO.GetComponent<EditorButton>().moduleType){
 					GameObject.Destroy(cursorPicture);
 					cursorPicture = null;
@@ -142,15 +185,15 @@ public class EditorUI : MonoBehaviour {
 					cursorPicture = GameObject.Instantiate(EditorFactory.singleton.modulePicturePrefab);
 					cursorPicture.transform.SetParent(transform);
 					cursorPicture.transform.localScale = 2f * new Vector3(placementPointRadius, placementPointRadius, 1);
-					cursorPicture.transform.position = currentPlacementPos;
+					cursorPicture.transform.position = currentPlacement.pos;
 					cursorPicture.GetComponent<EditorModulePicture>().moduleType = activeModuleButtonGO.GetComponent<EditorButton>().moduleType;
 					cursorPicture.GetComponent<EditorModulePicture>().textColor = Editor.singleton.textOverColor;
 					cursorPicture.GetComponent<EditorModulePicture>().lineWidth = Editor.singleton.pencilLineWidthLight;
 				}
-				cursorPicture.transform.position = currentPlacementPos;
+				cursorPicture.transform.position = currentPlacement.pos;
 				if (Input.GetMouseButtonDown(0)){
 					editorBot.rootModule = EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType);
-					botPos = currentPlacementPos;
+					botPoint = currentPlacement;
 					gridGO.GetComponent<GridPaper>().isDotted = true;
 					GameObject.Destroy(cursorPicture);
 					cursorPicture = null;

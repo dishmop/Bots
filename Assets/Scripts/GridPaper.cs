@@ -6,7 +6,16 @@ using Vectrosity;
 
 public class GridPaper : MonoBehaviour {
 	public bool isDotted = false;
-	public List<Vector3>	placementPoints = new List<Vector3>();
+	public class PlacementPoint{
+		public PlacementPoint(Vector3 pos){
+			this.pos = pos;
+		}
+		public Vector3 pos;
+		public GameObject picture; 
+		public PlacementPoint[] neighbouringPoints = new PlacementPoint[6];
+		
+	}
+	public List<PlacementPoint>	placementPoints = new List<PlacementPoint>();
 	public Rect				boundingRect;
 	
 	float sideLen = 1f/8f;	// in units of one width
@@ -16,13 +25,12 @@ public class GridPaper : MonoBehaviour {
 	List<VectorLine> lines = new List<VectorLine>();
 
 
-	VectorLine ConstructGridLine(Vector3[] points){
+	public VectorLine ConstructGridLine(Vector3[] points){
 		VectorLine line = new VectorLine("Vertical grid line", points, Editor.singleton.pencilLine, Editor.singleton.GetLinePencilLightWidth());
 		line.textureScale =  Editor.singleton.textureScale;
 		line.drawTransform = transform;
 		
 		return line;
-		
 	}
 	
 
@@ -65,17 +73,95 @@ public class GridPaper : MonoBehaviour {
 			Vector3 botttomPos = new Vector3(left + i * sideLenH, bottom, 0);
 			if ((i % 2) == 0){
 				for (int j = 0; j < numLinesV2+1; ++ j){
-					placementPoints.Add(botttomPos + j * useSideLen * new Vector3(0, 1, 0));
+					PlacementPoint newPoint = new PlacementPoint(botttomPos + j * useSideLen * new Vector3(0, 1, 0));
+					placementPoints.Add(newPoint);
 				}
 			}
 			else{
 				for (int j = 0; j < numLinesV2; ++ j){
-					placementPoints.Add(botttomPos + (j + 0.5f) * useSideLen * new Vector3(0, 1, 0));
+					PlacementPoint newPoint = new PlacementPoint(botttomPos + (j + 0.5f) * useSideLen * new Vector3(0, 1, 0));
+					placementPoints.Add(newPoint);
 				}
 			}
 		}
 		for (int i = 0; i < placementPoints.Count(); ++i){
-			placementPoints[i] = transform.TransformPoint(placementPoints[i]);
+			placementPoints[i].pos = transform.TransformPoint(placementPoints[i].pos);
+		}
+		// Link the placement positions up with spokes so we cna navigate around them more easily
+		int totCount = 0;
+		int xCount = 0;
+		for (int i = 0; i < numLinesH + 1; ++i){
+			if ((i % 2) == 0){
+				int yCount = 0;
+				for (int j = 0; j < numLinesV2+1; ++ j){
+					PlacementPoint thisPoint = placementPoints[totCount];
+					// If not the top row
+					if (yCount != numLinesV2){
+						thisPoint.neighbouringPoints[0] = placementPoints[totCount + 1];
+					}
+					// If not the top row and not the right column
+					if (yCount != numLinesV2 && xCount != numLinesH){
+						thisPoint.neighbouringPoints[1] = placementPoints[totCount + numLinesV2 + 1];
+					}
+					// If not the bottom row and not the right column
+					if (yCount != 0 && xCount != numLinesH){
+						thisPoint.neighbouringPoints[2] = placementPoints[totCount + numLinesV2];
+					}
+					// If not the bottom row
+					if (yCount != 0){
+						thisPoint.neighbouringPoints[3] = placementPoints[totCount -1];
+						
+					}
+					// If not the bottom row and not the left column
+					if (yCount != 0 && xCount != 0){
+						thisPoint.neighbouringPoints[4] = placementPoints[totCount - numLinesV2 - 1];
+						
+					}
+					// If not the top row and not the left column
+					if (yCount != numLinesV2 && xCount != 0){
+						thisPoint.neighbouringPoints[5] = placementPoints[totCount - numLinesV2];
+						
+					}
+					totCount++;
+					yCount++;
+				}
+			}
+			else{
+				int yCount = 0;
+				for (int j = 0; j < numLinesV2; ++ j){
+					PlacementPoint thisPoint = placementPoints[totCount];
+					// If not the top row
+					if (yCount != numLinesV2-1){
+						thisPoint.neighbouringPoints[0] = placementPoints[totCount + 1];
+					}
+					// If not the top row and not the right column
+					if (yCount != numLinesV2-1 && xCount != numLinesH){
+						thisPoint.neighbouringPoints[1] = placementPoints[totCount + numLinesV2 + 1];
+					}
+					// If not the bottom row and not the right column
+					if (yCount != 0 && xCount != numLinesH){
+						thisPoint.neighbouringPoints[2] = placementPoints[totCount + numLinesV2];
+					}
+					// If not the bottom row
+					if (yCount != 0){
+						thisPoint.neighbouringPoints[3] = placementPoints[totCount -1];
+						
+					}
+					// If not the bottom row and not the left column
+					if (yCount != 0 && xCount != 0){
+						thisPoint.neighbouringPoints[4] = placementPoints[totCount - numLinesV2 - 1];
+						
+					}
+					// If not the top row and not the left column
+					if (yCount != numLinesV2-1 && xCount != 0){
+						thisPoint.neighbouringPoints[5] = placementPoints[totCount - numLinesV2];
+						
+					}				
+					totCount++;
+					yCount++;
+				}
+			}
+			xCount++;
 		}
 		
 
