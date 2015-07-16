@@ -8,8 +8,15 @@ public class EditorUI : MonoBehaviour {
 	public GameObject gridGO;
 	public float placementPointRadius;
 	public bool hasCurrentPlacementPos = false;
+	public bool isInsideGrid = false;
 	public Vector3 currentPlacementPos = Vector3.zero;
 	public GameObject cursorPicture;
+	
+	Dictionary<int, GameObject> botDrawing = new Dictionary<int, GameObject>();
+	int nextRepId = 100;
+	
+	Bot	editorBot = new Bot();
+	Vector3 botPos = Vector3.zero;
 	
 	GameObject activeModuleButtonGO;
 	float buttonBoarderPerc = 0.1f;
@@ -45,12 +52,7 @@ public class EditorUI : MonoBehaviour {
 		activeModuleButtonGO = moduleButtons[0];
 		activeModuleButtonGO.GetComponent<EditorButton>().state = EditorButton.State.kActive;
 		
-		
 		buttonFrame.GetComponent<MeshRenderer>().enabled = false;
-		
-	
-	
-	
 	}
 	
 	void TestForPlacementIntersection(){
@@ -59,22 +61,117 @@ public class EditorUI : MonoBehaviour {
 		float dist;
 		if (uiPlane.Raycast(mouseRay, out dist)){
 			Vector3 mousePos = mouseRay.GetPoint(dist);
-			float placementPointRadiusSQ = placementPointRadius * placementPointRadius;
+			
+			// Test if we are inside the grid zone
+			isInsideGrid = gridGO.GetComponent<GridPaper>().boundingRect.Contains(mousePos);
+			
 			currentPlacementPos = Vector3.zero;
 			hasCurrentPlacementPos = false;
-			foreach (Vector3 point in gridGO.GetComponent<GridPaper>().placementPoints){
-				if ((point - mousePos).sqrMagnitude < placementPointRadiusSQ){
-					currentPlacementPos = point;
-					hasCurrentPlacementPos = true;
+			if (isInsideGrid){
+				// Test if we hit any of the placement points
+				float placementPointRadiusSQ = placementPointRadius * placementPointRadius;
+				foreach (Vector3 point in gridGO.GetComponent<GridPaper>().placementPoints){
+					if ((point - mousePos).sqrMagnitude < placementPointRadiusSQ){
+						currentPlacementPos = point;
+						hasCurrentPlacementPos = true;
+					}
 				}
 			}
+			
+			
 		}
+		
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		HandleButtonInput();
+		
+		// if we haven't placed anything yet
+		if (editorBot.rootModule == null){
+			HandleEmptyBotInput();
+		}
+		else{
+			HandleNonEmptyBotInput();
+		}
+		
+		DrawBot();
+	}
+	
+	void DrawBot(){
+		HandleModuleDraw(editorBot.rootModule);
+		
+		
+	}
+	
+	int GetNextRepId(){
+		return nextRepId++;
+	}
+	
+	void HandleModuleDraw(Module module){
+		if (module == null) return;
+		
+		// If the flag is dirty and we have a representation, then remove the representation
+		if (module.dirtyFlag[(int)Module.DirtyFlag.kEditor] && botDrawing.ContainsKey(module.repId[(int)Module.DirtyFlag.kEditor])){
+			GameObject.Destroy (botDrawing[module.repId[(int)Module.DirtyFlag.kEditor]]);
+			module.repId[(int)Module.DirtyFlag.kEditor] = -1;
+		}
+		// If we don't have a representation, then we need to make one
+		if (!botDrawing.ContainsKey(module.repId[(int)Module.DirtyFlag.kEditor])){
+			module.repId[(int)Module.DirtyFlag.kEditor] = GetNextRepId();
+			GameObject newPicture = EditorFactory.singleton.ConstructEditorPicture(editorBot.rootModule);
+			newPicture.transform.SetParent(transform);
+			newPicture.transform.position = botPos;
+			newPicture.transform.localScale = 2f * new Vector3(placementPointRadius, placementPointRadius, 1);;
+			
+			botDrawing.Add(module.repId[(int)Module.DirtyFlag.kEditor], newPicture);
+		}
+	}
+	
+	void HandleEmptyBotInput(){
+
+		TestForPlacementIntersection();
+		if (isInsideGrid){
+			if (hasCurrentPlacementPos){
+				if (cursorPicture != null && cursorPicture.GetComponent<EditorModulePicture>().moduleType != activeModuleButtonGO.GetComponent<EditorButton>().moduleType){
+					GameObject.Destroy(cursorPicture);
+					cursorPicture = null;
+				}
+				if (cursorPicture == null){
+					cursorPicture = GameObject.Instantiate(EditorFactory.singleton.modulePicturePrefab);
+					cursorPicture.transform.SetParent(transform);
+					cursorPicture.transform.localScale = 2f * new Vector3(placementPointRadius, placementPointRadius, 1);
+					cursorPicture.transform.position = currentPlacementPos;
+					cursorPicture.GetComponent<EditorModulePicture>().moduleType = activeModuleButtonGO.GetComponent<EditorButton>().moduleType;
+					cursorPicture.GetComponent<EditorModulePicture>().textColor = Editor.singleton.textOverColor;
+					cursorPicture.GetComponent<EditorModulePicture>().lineWidth = Editor.singleton.pencilLineWidthLight;
+				}
+				cursorPicture.transform.position = currentPlacementPos;
+				if (Input.GetMouseButtonDown(0)){
+					editorBot.rootModule = EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType);
+					botPos = currentPlacementPos;
+					gridGO.GetComponent<GridPaper>().isDotted = true;
+					GameObject.Destroy(cursorPicture);
+					cursorPicture = null;
+				}
+			}
+		}
+		else{
+			if (cursorPicture != null){
+				GameObject.Destroy(cursorPicture);
+				cursorPicture = null;
+			}
+		}
+	}
+	
+	void HandleNonEmptyBotInput(){
+
+	}
+	
+	void HandleButtonInput(){
 		Ray mouseRay = Editor.singleton.editorCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+		
 		int layerMask = 1 << 5;
 		RaycastHit raycastHit;
 		foreach (GameObject go in moduleButtons){
@@ -96,36 +193,7 @@ public class EditorUI : MonoBehaviour {
 					activeModuleButtonGO = raycastHit.collider.gameObject;
 				}
 			}
-		}
-		TestForPlacementIntersection();
-		if (hasCurrentPlacementPos){
-			if (cursorPicture != null && cursorPicture.GetComponent<EditorModulePicture>().moduleType != activeModuleButtonGO.GetComponent<EditorButton>().moduleType){
-				GameObject.Destroy(cursorPicture);
-				cursorPicture = null;
-			}
-			if (cursorPicture == null){
-				cursorPicture = GameObject.Instantiate(EditorFactory.singleton.modulePicturePrefab);
-				cursorPicture.transform.SetParent(transform);
-				cursorPicture.transform.localScale = new Vector3(placementPointRadius, placementPointRadius, 1);
-				cursorPicture.transform.position = currentPlacementPos;
-				cursorPicture.GetComponent<EditorModulePicture>().moduleType = activeModuleButtonGO.GetComponent<EditorButton>().moduleType;
-				cursorPicture.GetComponent<EditorModulePicture>().textColor = Editor.singleton.textOverColor;
-				cursorPicture.GetComponent<EditorModulePicture>().lineWidth = Editor.singleton.pencilLineWidthLight;
-			}
-			cursorPicture.transform.position = currentPlacementPos;
-		}
-		else{
-			if (cursorPicture != null){
-				GameObject.Destroy(cursorPicture);
-				cursorPicture = null;
-			}
-		}
-
-		
-
-			
-	
-	}
+		}	}
 	
 	void Awake(){
 		// Singleton

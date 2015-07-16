@@ -7,7 +7,8 @@ using Vectrosity;
 public class GridPaper : MonoBehaviour {
 	public bool isDotted = false;
 	public List<Vector3>	placementPoints = new List<Vector3>();
-
+	public Rect				boundingRect;
+	
 	float sideLen = 1f/8f;	// in units of one width
 	
 	
@@ -153,6 +154,10 @@ public class GridPaper : MonoBehaviour {
 		points[0] = new Vector3(left, top, 0);
 		points[1] = new Vector3(right, top, 0);
 		lines.Add (ConstructGridLine(points));
+		
+		Vector3 bottomLeft = transform.TransformPoint(new Vector3(left, bottom));
+		Vector3 topRight = transform.TransformPoint(new Vector3(right, top));
+		boundingRect = new Rect(bottomLeft.x, bottomLeft.y, topRight.x - bottomLeft.x, topRight.y - bottomLeft.y);
 		
 	}
 

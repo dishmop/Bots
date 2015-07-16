@@ -1,28 +1,22 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/EditorButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GridPaper.cs">
     <Files>
-      <File FileName="Assets/Scripts/VectorCircle.cs" Line="53" Column="4" />
-      <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="23" Column="3" />
       <File FileName="Assets/Scripts/QuitOnEsc.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GridPaper.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EditorButton.cs" Line="72" Column="1" />
+      <File FileName="Assets/Scripts/GridPaper.cs" Line="78" Column="1" />
       <File FileName="Assets/Scripts/Engine.cs" Line="11" Column="25" />
-      <File FileName="Assets/Scripts/Editor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Editor.cs" Line="15" Column="25" />
       <File FileName="Assets/Scripts/ModuleType.cs" Line="2" Column="8" />
-      <File FileName="Assets/Scripts/EditorUI.cs" Line="17" Column="1" />
-      <File FileName="Assets/Scripts/Module.cs" Line="17" Column="24" />
+      <File FileName="Assets/Scripts/EditorUI.cs" Line="65" Column="83" />
+      <File FileName="Assets/Scripts/Module.cs" Line="9" Column="33" />
       <File FileName="Assets/Scripts/Cell.cs" Line="18" Column="24" />
+      <File FileName="Assets/Scripts/EditorFactory.cs" Line="7" Column="39" />
+      <File FileName="Assets/Scripts/EditorButton.cs" Line="66" Column="49" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True">
-              <Node name="EditorButton.cs" selected="True" />
-            </Node>
-          </Node>
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

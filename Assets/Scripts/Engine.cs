@@ -21,5 +21,10 @@ public class Engine : Module{
 		base.DebugPrint();
 	}
 	
+	public override ModuleType GetModeulType(){
+		return ModuleType.kEngine;
+	}
+	
+	
 	
 }

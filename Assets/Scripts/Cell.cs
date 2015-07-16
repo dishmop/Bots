@@ -19,6 +19,10 @@ public class Cell : Module{
 		return "Cell";
 	}
 	
+	public override ModuleType GetModeulType(){
+		return ModuleType.kCell;
+	}
+	
 	
 	public override void DebugPrint(){
 		Debug.Log("Type = Cell");

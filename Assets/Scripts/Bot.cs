@@ -20,5 +20,7 @@ public class Bot{
 		this.rootModule = rootModule;
 		this.name = name;
 	}
+	
+	// MAKE A DICTIONARY OF ALL THEMODULES SO WE CAN LOOK THEM UP QUICKLY
 
 }
