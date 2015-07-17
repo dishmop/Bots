@@ -3,10 +3,19 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
 using Vectrosity;
+using UnityEngine.Events;
 
 public class EditorButton : MonoBehaviour {
 	public GameObject pictureGO;
+	public GameObject textGO;
 	public ModuleType moduleType;
+	public bool isRadio = true;
+	
+	public UnityEvent onActivate;
+	
+	
+	float nonRadioActiveduraction = 0.2f;
+	float activationTime = 0;
 
 	
 	
@@ -16,21 +25,23 @@ public class EditorButton : MonoBehaviour {
 		kActive
 	}
 	
-	public State state = State.kNormal;
-	
-
+	State state = State.kNormal;
 	VectorLine boxLine;
 	
-	public void OnPointerEnter(){
-		Debug.Log("OnPointerEnter: Type = " + moduleType.ToString());
+	public State GetState(){
+		return state;
 	}
 	
-	public void OnPointerExit(){
-		Debug.Log("OnPointerExit: Type = " + moduleType.ToString());
-	}
-	
-	
+	public void SetState(State newState){
+		if ( state != State.kActive && newState == State.kActive){
+			activationTime = Time.time;
+			onActivate.Invoke();
+		}
+		state = newState;
+		
 
+	}
+	
 
 	// Use this for initialization
 	void Start () {
@@ -58,6 +69,9 @@ public class EditorButton : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!isRadio && state == State.kActive && Time.time > activationTime + nonRadioActiveduraction){
+			SetState(State.kOver);
+		}
 		Color color = Color.white;
 		switch (state){
 			case State.kNormal:{
@@ -84,9 +98,15 @@ public class EditorButton : MonoBehaviour {
 		boxLine.lineWidth = Editor.singleton.GetLinePencilHeavyWidth();
 		boxLine.color = color;
 		boxLine.Draw3D();
-		pictureGO.GetComponent<EditorModulePicture>().moduleType = moduleType;
-		pictureGO.GetComponent<EditorModulePicture>().color = color;
-		pictureGO.GetComponent<EditorModulePicture>().rodCol = color;
+		if (pictureGO){
+			pictureGO.GetComponent<EditorModulePicture>().moduleType = moduleType;
+			pictureGO.GetComponent<EditorModulePicture>().color = color;
+			pictureGO.GetComponent<EditorModulePicture>().rodCol = color;
+		}
+		if (textGO){
+			textGO.GetComponent<TextMesh>().color = color;
+		}
+		
 	}
 		
 }

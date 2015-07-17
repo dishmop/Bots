@@ -22,14 +22,14 @@ public class BotMono : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		ConstructExample();
-		if (enableWriteData){
-			WriteData();
-		}
-		else{
-			ReadData();
-		}
-		bot.DebugPrint();
+//		ConstructExample();
+//		if (enableWriteData){
+//			WriteData();
+//		}
+//		else{
+//			ReadData();
+//		}
+//		bot.DebugPrint();
 	
 	}
 	
@@ -44,7 +44,7 @@ public class BotMono : MonoBehaviour {
 		return Application.persistentDataPath + "/" +  filename;
 	}
 	
-	void WriteData(){
+	public void WriteData(){
 		XmlSerializer serializer = new XmlSerializer(typeof(Bot));
 		FileStream stream = new FileStream(CreateFilePath(), FileMode.Create);
 		//serializer.Serialize(stream, bot.rootModule);
@@ -52,7 +52,7 @@ public class BotMono : MonoBehaviour {
 		stream.Close();
 	}
 	
-	void ReadData(){
+	public void ReadData(){
 		XmlSerializer serializer = new XmlSerializer(typeof(Bot));
 		FileStream stream = new FileStream(CreateFilePath(), FileMode.Open);
 		bot = serializer.Deserialize(stream) as Bot;

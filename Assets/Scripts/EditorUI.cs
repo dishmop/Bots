@@ -33,8 +33,15 @@ public class EditorUI : MonoBehaviour {
 	Module hiddenFromModule;
 	Module hiddenToModule;
 	
+	public void WriteData(){
+		GetComponent<BotMono>().WriteData();
+	
+	}
+	
 	// Use this for initialization
 	void Start () {
+	
+		GetComponent<BotMono>().bot = editorBot;
 	
 		Renderer rend = buttonFrame.GetComponent<Renderer>();
 		float left = 	rend.bounds.min.x;
@@ -61,7 +68,7 @@ public class EditorUI : MonoBehaviour {
 		}
 		
 		activeModuleButtonGO = moduleButtons[0];
-		activeModuleButtonGO.GetComponent<EditorButton>().state = EditorButton.State.kActive;
+		activeModuleButtonGO.GetComponent<EditorButton>().SetState( EditorButton.State.kActive);
 		
 		buttonFrame.GetComponent<MeshRenderer>().enabled = false;
 	}
@@ -430,21 +437,21 @@ public class EditorUI : MonoBehaviour {
 		int layerMask = 1 << 5;
 		RaycastHit raycastHit;
 		foreach (GameObject go in moduleButtons){
-			if (go.GetComponent<EditorButton>().state == EditorButton.State.kOver){
-				go.GetComponent<EditorButton>().state = EditorButton.State.kNormal;
+			if (go.GetComponent<EditorButton>().GetState () == EditorButton.State.kOver){
+				go.GetComponent<EditorButton>().SetState(EditorButton.State.kNormal);
 			}
 		}
 		if (Physics.Raycast(mouseRay, out raycastHit, 20, layerMask)){
 			EditorButton button = raycastHit.collider.gameObject.GetComponent<EditorButton>();
 			if (button){
-				if (button.state != EditorButton.State.kActive){
-					button.state = EditorButton.State.kOver;
+				if (button.GetState() != EditorButton.State.kActive){
+					button.SetState(EditorButton.State.kOver);
 				}
 				if (Input.GetMouseButtonDown(0)){
 					foreach (GameObject go in moduleButtons){
-						go.GetComponent<EditorButton>().state = EditorButton.State.kNormal;
+						go.GetComponent<EditorButton>().SetState (EditorButton.State.kNormal);
 					}
-					button.state = EditorButton.State.kActive;
+					button.SetState (EditorButton.State.kActive);
 					activeModuleButtonGO = raycastHit.collider.gameObject;
 				}
 			}
