@@ -13,8 +13,6 @@ public class Module{
 	public float energy;
 	public Guid guid;
 	
-	// the spoke on this that our parent is attached to 
-	public int parentSpoke = -1;
 	
 	public enum DirtyFlag{
 		kEditor,
@@ -25,6 +23,7 @@ public class Module{
 	public Guid[] repId = new Guid[(int)DirtyFlag.kNumFlags];
 	public Bot bot;
 	
+	public bool visited;
 	
 	public Module (Bot bot){
 		InitSetup(bot);
@@ -39,7 +38,7 @@ public class Module{
 		DebugUtils.Assert (parent.modules[spokeId] == null, "Attempting to attach to occupied spoke");
 		
 		// Work out which spoke our parent is on relative to us
-		parentSpoke = SpokeDirs.CalcInverseSpoke(spokeId);
+		int parentSpoke = SpokeDirs.CalcInverseSpoke(spokeId);
 		
 		parent.modules[spokeId] = this;
 		modules[parentSpoke] = parent;
@@ -51,6 +50,14 @@ public class Module{
 	
 	public virtual ModuleType GetModeulType(){
 		return ModuleType.kError;
+	}
+	
+	public void CloneProperties(Module module){
+		for (int i = 0; i < 6; ++i){
+			modules[i] = module.modules[i];
+		}
+		bot = module.bot;
+		
 	}
 	
 

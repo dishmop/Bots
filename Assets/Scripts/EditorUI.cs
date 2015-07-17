@@ -29,6 +29,10 @@ public class EditorUI : MonoBehaviour {
 	float buttonBoarderPerc = 0.1f;
 	GameObject[] moduleButtons = new GameObject[(int)ModuleType.kNumTypes];
 	
+	// We can specify one spoke/rod which is "hidden"
+	Module hiddenFromModule;
+	Module hiddenToModule;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -154,26 +158,34 @@ public class EditorUI : MonoBehaviour {
 		
 		Queue<Module> moduleQueue = new Queue<Module>();
 		Queue<GridPaper.PlacementPoint> placementQueue = new Queue<GridPaper.PlacementPoint>();
+		Queue<int> spokeQueue = new Queue<int>();
 		
 		moduleQueue.Enqueue(editorBot.rootModule);
 		placementQueue.Enqueue(botPoint);
+		spokeQueue.Enqueue(-1);
+		
+		
+		editorBot.ClearVisitedFlags();
 		
 		while (moduleQueue.Count() != 0){
 			Module thisModule = moduleQueue.Dequeue();
 			GridPaper.PlacementPoint thisPlacement = placementQueue.Dequeue();
+			int thisSpoke = spokeQueue.Dequeue();
 			
-			// Add any children to the queue (don't include the parent)
+			
+			
+			// Add any children to the queue (don't include any that have already been visited
 			for (int i = 0; i < 6; ++i){
-				if (i != thisModule.parentSpoke){
-					if (thisModule.modules[i] != null){
-						moduleQueue.Enqueue(thisModule.modules[i]);
-						placementQueue.Enqueue(thisPlacement.neighbouringPoints[i]);
-					}
+				if (thisModule.modules[i] != null && !thisModule.modules[i].visited){
+					moduleQueue.Enqueue(thisModule.modules[i]);
+					placementQueue.Enqueue(thisPlacement.neighbouringPoints[i]);
+					spokeQueue.Enqueue(SpokeDirs.CalcInverseSpoke(i));
 				}
 				
 			}
 			
-			HandleModuleDraw(thisModule, thisPlacement);
+			HandleModuleDraw(thisModule, thisPlacement, thisSpoke);
+			thisModule.visited = true;
 		}
 			
 		
@@ -184,8 +196,21 @@ public class EditorUI : MonoBehaviour {
 	}
 	
 	
-	void HandleModuleDraw(Module module, GridPaper.PlacementPoint point){
+	void HandleModuleDraw(Module module, GridPaper.PlacementPoint point, int spoke){
 		if (module == null) return;
+
+		bool fadeSpoke = false;
+		if (spoke != -1){
+			Module parentModule = module.modules[spoke];
+			if (parentModule != null){
+				if ((module == hiddenFromModule && parentModule == hiddenToModule) ||
+				    (module == hiddenToModule && parentModule == hiddenFromModule)){
+					fadeSpoke = true;
+				}
+			}
+		}		
+
+
 		
 		// If the flag is dirty and we have a representation, then remove the representation
 		if (module.dirtyFlag[(int)Module.DirtyFlag.kEditor] && botDrawing.ContainsKey(module.repId[(int)Module.DirtyFlag.kEditor])){
@@ -202,12 +227,13 @@ public class EditorUI : MonoBehaviour {
 			newPicture.transform.localScale = new Vector3(moduleRadius, moduleRadius, 1);
 			newPicture.GetComponent<EditorModulePicture>().dataGuid = module.guid;
 			
-			newPicture.GetComponent<EditorModulePicture>().SetSpoke(module.parentSpoke, gridGO.GetComponent<GridPaper>().GetSeperation());
+			newPicture.GetComponent<EditorModulePicture>().SetSpoke(spoke, gridGO.GetComponent<GridPaper>().GetSeperation());
 			module.dirtyFlag[(int)Module.DirtyFlag.kEditor] = false;
 			botDrawing.Add(module.repId[(int)Module.DirtyFlag.kEditor], newPicture);
 			hasBotChanged = true;
 			point.picture = newPicture;
 		}
+		botDrawing[module.repId[(int)Module.DirtyFlag.kEditor]].GetComponent<EditorModulePicture>().rodCol = fadeSpoke ? Editor.singleton.lightColor : Editor.singleton.heavyColor;
 	}
 	
 	void HandleEmptyBotInput(){
@@ -225,8 +251,9 @@ public class EditorUI : MonoBehaviour {
 					cursorPicture.transform.localScale = new Vector3(moduleRadius, moduleRadius, 1);
 					cursorPicture.transform.position = currentPlacement.pos;
 					cursorPicture.GetComponent<EditorModulePicture>().moduleType = activeModuleButtonGO.GetComponent<EditorButton>().moduleType;
-					cursorPicture.GetComponent<EditorModulePicture>().textColor = Editor.singleton.textOverColor ;
-					cursorPicture.GetComponent<EditorModulePicture>().lineWidth = Editor.singleton.pencilLineWidthLight;
+					cursorPicture.GetComponent<EditorModulePicture>().color = Editor.singleton.heavyColor;
+					cursorPicture.GetComponent<EditorModulePicture>().rodCol = Editor.singleton.heavyColor;
+					cursorPicture.GetComponent<EditorModulePicture>().isCursor = true;
 				}
 				cursorPicture.transform.position = currentPlacement.pos;
 				if (Input.GetMouseButtonDown(0)){
@@ -285,42 +312,92 @@ public class EditorUI : MonoBehaviour {
 						}
 					}
 				}
-				if (cursorPicture == null){
-					// If we have a place for the rod and we don;t have a picture, hen make one
+				// If we don't have a pictureand we ought to, then make one
+				if (cursorPicture == null && (cursorSpoke != -1 || currentPlacement.picture != null)){
 
-					if (cursorSpoke != -1){
-						cursorPicture = GameObject.Instantiate(EditorFactory.singleton.modulePicturePrefab);
-						cursorPicture.transform.SetParent(transform);
-						cursorPicture.transform.localScale = new Vector3(moduleRadius, moduleRadius, 1);
-						cursorPicture.transform.position = currentPlacement.pos;
-						cursorPicture.GetComponent<EditorModulePicture>().moduleType = activeModuleButtonGO.GetComponent<EditorButton>().moduleType;
-						cursorPicture.GetComponent<EditorModulePicture>().textColor = Editor.singleton.textOverColor ;
-						cursorPicture.GetComponent<EditorModulePicture>().lineWidth = Editor.singleton.pencilLineWidthLight;
-					}
+					cursorPicture = GameObject.Instantiate(EditorFactory.singleton.modulePicturePrefab);
+					cursorPicture.transform.SetParent(transform);
+					cursorPicture.transform.localScale = new Vector3(moduleRadius, moduleRadius, 1);
+					cursorPicture.transform.position = currentPlacement.pos;
+					cursorPicture.GetComponent<EditorModulePicture>().moduleType = activeModuleButtonGO.GetComponent<EditorButton>().moduleType;
+					cursorPicture.GetComponent<EditorModulePicture>().color = Editor.singleton.heavyColor;
+					cursorPicture.GetComponent<EditorModulePicture>().rodCol = Editor.singleton.heavyColor;
+					cursorPicture.GetComponent<EditorModulePicture>().isCursor = true;
 
 					
 					
 				}
+				bool hasGotHiddenSpoke = false;
 				if (cursorPicture != null){
-					// if we are over an already constructed module, then make it one invisible
+					// if we are over an already constructed module, then make it invisible - also check if we are duplicating a rod which is already there
 					if (currentPlacement.picture != null){
 						currentPlacement.picture.GetComponent<EditorModulePicture>().moduleVisible = false;
+						Guid fromModuleGuid = currentPlacement.picture.GetComponent<EditorModulePicture>().dataGuid;
+						
+						Module fromModule = editorBot.FindModule(fromModuleGuid);
+						
+						if (cursorSpoke != -1 ){
+							if (fromModule.modules[cursorSpoke] != null){
+								cursorSpoke = -1;
+							}
+							else{
+								Guid toModuleGuid = currentPlacement.neighbouringPoints[cursorSpoke].picture.GetComponent<EditorModulePicture>().dataGuid;
+								Module toModule =  editorBot.FindModule(toModuleGuid);
+								
+								// Ask the bot which rod would need to be removed to account for the new one we want to add
+								Module disconnectedModule = editorBot.TrialNewSpoke(fromModule, toModule);
+								
+								// Specify the hidden rod
+								SetHiddenSpoke(fromModule, disconnectedModule);
+								hasGotHiddenSpoke = true;
+							}
+						}
 					}
 					cursorPicture.GetComponent<EditorModulePicture>().SetSpoke(cursorSpoke, gridGO.GetComponent<GridPaper>().GetSeperation());
 				}
+				if (!hasGotHiddenSpoke){
+					SetHiddenSpoke(null, null);
+				}
+				
 				if (cursorPicture != null){
 					cursorPicture.transform.position = currentPlacement.pos;
 					if (Input.GetMouseButtonDown(0)){
 					
-						// Find the parent Module - by first finding the other placementpoint
-						GridPaper.PlacementPoint parentPoint = currentPlacement.neighbouringPoints[cursorSpoke];
-
-						Guid parentModuleGuid = parentPoint.picture.GetComponent<EditorModulePicture>().dataGuid;
-						Module parentModule = editorBot.FindModule(parentModuleGuid);
-						int parentSpoke = SpokeDirs.CalcInverseSpoke(cursorSpoke);
+						// If there is not one there already
+						if (currentPlacement.picture == null){
 						
-						EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, parentModule, parentSpoke);
-
+							// Find the parent Module - by first finding the other placementpoint
+							GridPaper.PlacementPoint parentPoint = currentPlacement.neighbouringPoints[cursorSpoke];
+	
+							Guid parentModuleGuid = parentPoint.picture.GetComponent<EditorModulePicture>().dataGuid;
+							Module parentModule = editorBot.FindModule(parentModuleGuid);
+							int parentSpoke = SpokeDirs.CalcInverseSpoke(cursorSpoke);
+							
+							EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, parentModule, parentSpoke);
+						}
+						// if there is one there already, then copy the connections
+						else{
+							// Find the module we are replacing
+							Guid discardModuleGuid = currentPlacement.picture.GetComponent<EditorModulePicture>().dataGuid;
+							Module discardModule = editorBot.FindModule(discardModuleGuid);
+							
+							// Construct the new one with same parent as the discarded one
+							Module newModule = EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, editorBot);
+							editorBot.ReplaceModule(discardModule, newModule);
+							GameObject.Destroy(currentPlacement.picture);
+							
+							// If we have a hidden spoke, then we need to replace this hidden spoke in the actual bot
+							if (hiddenFromModule != null){
+								Guid toModuleGuid = currentPlacement.neighbouringPoints[cursorSpoke].picture.GetComponent<EditorModulePicture>().dataGuid;
+								Module toModule =  editorBot.FindModule(toModuleGuid);
+								toModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+								newModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+								
+								DebugUtils.Assert (cursorSpoke != -1, "made some dodgy assumption about cursorSpoke");
+								editorBot.ReplaceSpoke(newModule, toModule, cursorSpoke, hiddenToModule);
+							}
+						
+						}
 						GameObject.Destroy(cursorPicture);
 						cursorPicture = null;
 					}
@@ -334,6 +411,27 @@ public class EditorUI : MonoBehaviour {
 			}
 		}
 
+	}
+	
+	void SetHiddenSpoke(Module fromModule, Module toModule){
+		if (hiddenFromModule != fromModule || hiddenToModule != toModule){
+			if (hiddenFromModule != null){
+				hiddenFromModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+			}
+			if (hiddenToModule != null){
+				hiddenToModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+			}
+			if (fromModule != null){
+				fromModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+			}
+			if (toModule != null){
+				toModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+			}
+			
+			
+			hiddenFromModule = fromModule;
+			hiddenToModule = toModule;
+		}
 	}
 	
 	void HandleButtonInput(){

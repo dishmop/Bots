@@ -1,18 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Vectrosity;
+using System;
 
 public class Editor : MonoBehaviour {
 
 	public static Editor singleton = null;
 	public GameObject editorCamera;
 	public Material pencilLine;
+	public Material pencilCursorLine;
 	public Material pencilLineDotted;
 	public float pencilLineWidthLight = 10;
 	public float textureScale = 1;
-	public Color textNormalColor;
-	public Color textOverColor;
-	public Color textActiveColor;
+
+	[NonSerialized]
+	public Color lightColor = new Color(1, 1, 1, 0.25f);
+	[NonSerialized] 
+	public Color mediumColor = new Color(1, 1, 1, 0.5f);
+	[NonSerialized] 
+	public Color heavyColor = new Color(1, 1, 1, 0.75f);
 	
 	public float GetLinePencilLightWidth(){
 		return pencilLineWidthLight/(float)editorCamera.GetComponent<Camera>().orthographicSize;

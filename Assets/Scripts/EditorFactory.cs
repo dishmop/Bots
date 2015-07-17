@@ -17,8 +17,8 @@ public class EditorFactory : MonoBehaviour {
 		GameObject go = GameObject.Instantiate(modulePicturePrefab);
 		EditorModulePicture picture = go.GetComponent<EditorModulePicture>();
 		picture.moduleType = module.GetModeulType();
-		picture.textColor = Editor.singleton.textOverColor;
-		picture.lineWidth = Editor.singleton.pencilLineWidthLight;
+		picture.color = Editor.singleton.heavyColor;
+		picture.rodCol = Editor.singleton.heavyColor;
 		picture.dataGuid = module.guid;
 		
 		return go;
@@ -47,6 +47,8 @@ public class EditorFactory : MonoBehaviour {
 		}
 		return null;
 	}
+	
+
 	
 	
 	// Use this for initialization
