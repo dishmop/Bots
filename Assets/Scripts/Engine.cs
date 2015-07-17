@@ -12,6 +12,10 @@ public class Engine : Module{
 		return "Engine";
 	}
 	
+	public override string GetShortTypeName(){
+		return "E";
+	}
+	
 	public Engine(Module parent, int spokeId) : base(parent, spokeId){
 	}
 	
@@ -20,7 +24,7 @@ public class Engine : Module{
 		base.DebugPrint();
 	}
 	
-	public override ModuleType GetModeulType(){
+	public override ModuleType GetModuleType(){
 		return ModuleType.kEngine;
 	}
 	

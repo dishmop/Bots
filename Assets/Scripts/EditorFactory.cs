@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class EditorFactory : MonoBehaviour {
 	public static EditorFactory singleton = null;
@@ -8,18 +9,36 @@ public class EditorFactory : MonoBehaviour {
 	
 	Module[] modules = new Module[(int)ModuleType.kNumTypes];
 	
-	public string GameModuleName(ModuleType type){
+	public string GetModuleName(ModuleType type){
 		return modules[(int)type].GetTypeName();
 		
 	}
 	
-	public GameObject ConstructEditorPicture(Module module){
+	public string GetModuleShortName(ModuleType type){
+		return modules[(int)type].GetShortTypeName();
+		
+	}
+	
+	public GameObject ConstructEditorPicture(Module module, bool isShort){
 		GameObject go = GameObject.Instantiate(modulePicturePrefab);
 		EditorModulePicture picture = go.GetComponent<EditorModulePicture>();
-		picture.moduleType = module.GetModeulType();
+		picture.moduleType = module.GetModuleType();
 		picture.color = Editor.singleton.heavyColor;
 		picture.rodCol = Editor.singleton.heavyColor;
+		picture.isShort = isShort;
 		picture.dataGuid = module.guid;
+		
+		return go;
+	}
+	
+	public GameObject ConstructEditorPicture(ModuleType moduleType, bool isShort){
+		GameObject go = GameObject.Instantiate(modulePicturePrefab);
+		EditorModulePicture picture = go.GetComponent<EditorModulePicture>();
+		picture.moduleType = moduleType;
+		picture.color = Editor.singleton.heavyColor;
+		picture.rodCol = Editor.singleton.heavyColor;
+		picture.isShort = isShort;
+		picture.dataGuid = Guid.Empty;
 		
 		return go;
 	}

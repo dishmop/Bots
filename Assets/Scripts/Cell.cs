@@ -18,7 +18,11 @@ public class Cell : Module{
 		return "Cell";
 	}
 	
-	public override ModuleType GetModeulType(){
+	public override string GetShortTypeName(){
+		return "C";
+	}
+	
+	public override ModuleType GetModuleType(){
 		return ModuleType.kCell;
 	}
 	

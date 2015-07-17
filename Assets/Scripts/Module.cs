@@ -48,7 +48,12 @@ public class Module{
 		return "Module";
 	}
 	
-	public virtual ModuleType GetModeulType(){
+	public virtual string GetShortTypeName(){
+		return "M";
+	}
+	
+	
+	public virtual ModuleType GetModuleType(){
 		return ModuleType.kError;
 	}
 	

@@ -14,6 +14,9 @@ public class EditorModulePicture : MonoBehaviour {
 	public Guid guid;
 	public bool moduleVisible = true;
 	public bool isCursor = false;
+	public bool isShort = false;
+	public float shortYPos = 0f;
+	public float longYPos = 0.2f;
 	
 	// guid of the object we are representing
 	public Guid dataGuid = Guid.Empty;
@@ -111,8 +114,9 @@ public class EditorModulePicture : MonoBehaviour {
 			circle.Draw3D();
 			
 			
-			TextGO.GetComponent<TextMesh>().text = EditorFactory.singleton.GameModuleName(moduleType);
+			TextGO.GetComponent<TextMesh>().text = isShort ? EditorFactory.singleton.GetModuleShortName(moduleType) : EditorFactory.singleton.GetModuleName(moduleType);
 			TextGO.GetComponent<TextMesh>().color = GetLineMaterial().color * color;
+			TextGO.transform.localPosition = new Vector3(0, isShort ? shortYPos : longYPos, 0);
 		}
 		HandleSpoke();
 	}

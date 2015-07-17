@@ -220,7 +220,7 @@ public class EditorUI : MonoBehaviour {
 		// If we don't have a representation, then we need to make one
 		if (!botDrawing.ContainsKey(module.repId[(int)Module.DirtyFlag.kEditor])){
 			
-			GameObject newPicture = EditorFactory.singleton.ConstructEditorPicture(module);
+			GameObject newPicture = EditorFactory.singleton.ConstructEditorPicture(module, true);
 			module.repId[(int)Module.DirtyFlag.kEditor] = newPicture.GetComponent<EditorModulePicture>().guid;
 			newPicture.transform.SetParent(transform);
 			newPicture.transform.position = point.pos;
@@ -246,13 +246,10 @@ public class EditorUI : MonoBehaviour {
 					cursorPicture = null;
 				}
 				if (cursorPicture == null){
-					cursorPicture = GameObject.Instantiate(EditorFactory.singleton.modulePicturePrefab);
+					cursorPicture = EditorFactory.singleton.ConstructEditorPicture(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, true);
 					cursorPicture.transform.SetParent(transform);
 					cursorPicture.transform.localScale = new Vector3(moduleRadius, moduleRadius, 1);
 					cursorPicture.transform.position = currentPlacement.pos;
-					cursorPicture.GetComponent<EditorModulePicture>().moduleType = activeModuleButtonGO.GetComponent<EditorButton>().moduleType;
-					cursorPicture.GetComponent<EditorModulePicture>().color = Editor.singleton.heavyColor;
-					cursorPicture.GetComponent<EditorModulePicture>().rodCol = Editor.singleton.heavyColor;
 					cursorPicture.GetComponent<EditorModulePicture>().isCursor = true;
 				}
 				cursorPicture.transform.position = currentPlacement.pos;
@@ -314,18 +311,11 @@ public class EditorUI : MonoBehaviour {
 				}
 				// If we don't have a pictureand we ought to, then make one
 				if (cursorPicture == null && (cursorSpoke != -1 || currentPlacement.picture != null)){
-
-					cursorPicture = GameObject.Instantiate(EditorFactory.singleton.modulePicturePrefab);
-					cursorPicture.transform.SetParent(transform);
-					cursorPicture.transform.localScale = new Vector3(moduleRadius, moduleRadius, 1);
-					cursorPicture.transform.position = currentPlacement.pos;
-					cursorPicture.GetComponent<EditorModulePicture>().moduleType = activeModuleButtonGO.GetComponent<EditorButton>().moduleType;
-					cursorPicture.GetComponent<EditorModulePicture>().color = Editor.singleton.heavyColor;
-					cursorPicture.GetComponent<EditorModulePicture>().rodCol = Editor.singleton.heavyColor;
-					cursorPicture.GetComponent<EditorModulePicture>().isCursor = true;
-
-					
-					
+						cursorPicture = EditorFactory.singleton.ConstructEditorPicture(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, true);
+						cursorPicture.transform.SetParent(transform);
+						cursorPicture.transform.localScale = new Vector3(moduleRadius, moduleRadius, 1);
+						cursorPicture.transform.position = currentPlacement.pos;
+						cursorPicture.GetComponent<EditorModulePicture>().isCursor = true;
 				}
 				bool hasGotHiddenSpoke = false;
 				if (cursorPicture != null){
