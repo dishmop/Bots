@@ -104,7 +104,6 @@ public class EditorUI : MonoBehaviour {
 	
 	void UpdateGridLines(){
 		foreach (VectorLine line in validGridLines){
-			line.drawTransform = transform;
 			line.lineWidth = Editor.singleton.GetLinePencilLightWidth();
 			line.textureScale = Editor.singleton.textureScale;
 			line.Draw3D();
@@ -117,19 +116,25 @@ public class EditorUI : MonoBehaviour {
 			VectorLine line = validGridLines[i];
 			VectorLine.Destroy(ref line);
 		}
+		//Vector3 offset = new Vector3(0, 0, -0.01f);
 		validGridLines.Clear ();
 		if (editorBot.rootModule != null){
 			foreach (GridPaper.PlacementPoint point in gridGO.GetComponent<GridPaper>().placementPoints){
 				// Go round three of the spokes
 				for (int i = 0; i < 3; ++i){
 					GridPaper.PlacementPoint otherPoint = point.neighbouringPoints[i];
-					if (point.picture == null && otherPoint != null && otherPoint.picture == null){
-						Vector3[] points = new Vector3[2];
-						points[0] = point.pos;
-						points[1] = otherPoint.pos;
-						
-						VectorLine newLine = gridGO.GetComponent<GridPaper>().ConstructGridLine(points);
-						validGridLines.Add(newLine);
+					if (otherPoint != null){
+						if ((point.picture != null && otherPoint.picture == null) ||
+						    (point.picture == null && otherPoint.picture != null))
+						{
+							Vector3[] points = new Vector3[2];
+							points[0] = point.pos;
+							points[1] = otherPoint.pos;
+							
+							VectorLine newLine = new VectorLine("Editor grid line", points, Editor.singleton.pencilLine, Editor.singleton.GetLinePencilMediumWidth());
+							newLine.textureScale =  Editor.singleton.textureScale;
+							validGridLines.Add(newLine);
+						}
 					}
 				}
 			}
