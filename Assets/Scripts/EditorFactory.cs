@@ -19,17 +19,18 @@ public class EditorFactory : MonoBehaviour {
 		picture.moduleType = module.GetModeulType();
 		picture.textColor = Editor.singleton.textOverColor;
 		picture.lineWidth = Editor.singleton.pencilLineWidthLight;
+		picture.dataGuid = module.guid;
 		
 		return go;
 	}
 	
-	public Module ConstructModule(ModuleType type){
+	public Module ConstructModule(ModuleType type, Bot bot){
 		switch (type){
 			case ModuleType.kCell:{
-				return new Cell();
+				return new Cell(bot);
 			}
 			case ModuleType.kEngine:{
-				return new Engine();
+				return new Engine(bot);
 			}
 		}
 		return null;
@@ -38,10 +39,10 @@ public class EditorFactory : MonoBehaviour {
 	public Module ConstructModule(ModuleType type, Module parent, int spokeId){
 		switch (type){
 			case ModuleType.kCell:{
-				return new Cell();
+				return new Cell(parent, spokeId);
 			}
 			case ModuleType.kEngine:{
-				return new Engine();
+				return new Engine(parent, spokeId);
 			}
 		}
 		return null;
@@ -63,8 +64,8 @@ public class EditorFactory : MonoBehaviour {
 		if (singleton != null) Debug.LogError ("Error assigning singleton");
 		singleton = this;
 		
-		modules[(int)ModuleType.kCell] = new Cell();
-		modules[(int)ModuleType.kEngine] = new Engine();
+		modules[(int)ModuleType.kCell] = new Cell((Bot)null);
+		modules[(int)ModuleType.kEngine] = new Engine((Bot)null);
 	}
 	
 	

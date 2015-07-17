@@ -13,11 +13,11 @@ public class BotMono : MonoBehaviour {
 	
 
 	void ConstructExample(){
-		Cell cell = new Cell();
+
+		bot = new Bot("Sample Bot");
+		Cell cell = new Cell(bot);
 		new Engine(cell, 1);
 		new Engine(cell, 5);
-		bot = new Bot(cell, "Sample Bot");
-		
 	}
 
 	// Use this for initialization
@@ -35,6 +35,7 @@ public class BotMono : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+	//	WriteData()
 	
 	}
 	

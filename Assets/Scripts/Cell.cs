@@ -7,12 +7,11 @@ using System.Xml.Serialization;
 public class Cell : Module{
 	public bool testValue = true;
 
-	public Cell(){
+	public Cell(Bot bot) : base(bot){
 	}
 	
 	
-	public Cell(Module parent, int spokeId){
-		parent.Attach(spokeId, this);
+	public Cell(Module parent, int spokeId) : base(parent, spokeId){
 	}
 	
 	public override string GetTypeName(){

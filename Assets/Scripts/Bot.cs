@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Collections.Generic;
+using System;
 
 [XmlRoot("Bot")]
 public class Bot{
 	public Module rootModule;
 	public string name; 
+	public Dictionary<Guid, Module> moduleLookup = new Dictionary<Guid, Module>();
 	
+
 	public Bot (){
 	}
 	
@@ -16,11 +20,19 @@ public class Bot{
 		rootModule.DebugPrint();
 	}
 	
-	public Bot (Module rootModule, string name){
-		this.rootModule = rootModule;
+	public Bot (string name){
 		this.name = name;
 	}
 	
-	// MAKE A DICTIONARY OF ALL THEMODULES SO WE CAN LOOK THEM UP QUICKLY
+	public Module FindModule(Guid guid){
+//		foreach (KeyValuePair<Guid, Module> entry in moduleLookup){
+//			Debug.Log ("key = " + entry.Key.ToString() + ", Value = " + entry.Value.ToString());
+//		}
+		if (!moduleLookup.ContainsKey(guid)) return null;
+		return moduleLookup[guid];
+	}
+	
+	
+
 
 }

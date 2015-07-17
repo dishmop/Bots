@@ -6,6 +6,7 @@ using Vectrosity;
 
 public class GridPaper : MonoBehaviour {
 	public bool isDotted = false;
+	public bool isVisible = true;
 	public class PlacementPoint{
 		public PlacementPoint(Vector3 pos){
 			this.pos = pos;
@@ -23,6 +24,7 @@ public class GridPaper : MonoBehaviour {
 	
 	
 	List<VectorLine> lines = new List<VectorLine>();
+	List<VectorLine> borderLines = new List<VectorLine>();
 
 
 	public VectorLine ConstructGridLine(Vector3[] points){
@@ -31,6 +33,11 @@ public class GridPaper : MonoBehaviour {
 		line.drawTransform = transform;
 		
 		return line;
+	}
+	
+	// in world space
+	public float GetSeperation(){
+		return transform.lossyScale.x * sideLen;
 	}
 	
 
@@ -61,8 +68,8 @@ public class GridPaper : MonoBehaviour {
 		float top = bottom + height;
 		float right = left + width;
 		
-		// Vertical lines
-		for (int i = 0; i < numLinesH + 1; ++i){
+		// Vertical lines (ignore the first and last)
+		for (int i = 1; i < numLinesH; ++i){
 			points[0] = new Vector3(left + i * sideLenH, bottom, 0);
 			points[1] = new Vector3(left + i * sideLenH, top, 0);
 			lines.Add (ConstructGridLine(points));
@@ -230,16 +237,26 @@ public class GridPaper : MonoBehaviour {
 			lines.Add (ConstructGridLine(points));
 		}	
 		
-		// do the borders - The left is already done
+		// do the borders
 		// Bottom
 		points[0] = new Vector3(left, bottom, 0);
 		points[1] = new Vector3(right, bottom, 0);
-		lines.Add (ConstructGridLine(points));
+		borderLines.Add (ConstructGridLine(points));
 		
 		// Top
 		points[0] = new Vector3(left, top, 0);
 		points[1] = new Vector3(right, top, 0);
-		lines.Add (ConstructGridLine(points));
+		borderLines.Add (ConstructGridLine(points));
+		
+		// Left
+		points[0] = new Vector3(left, bottom, 0);
+		points[1] = new Vector3(left, top, 0);
+		borderLines.Add (ConstructGridLine(points));
+		
+		// Right
+		points[0] = new Vector3(right, bottom, 0);
+		points[1] = new Vector3(right, top, 0);
+		borderLines.Add (ConstructGridLine(points));
 		
 		Vector3 bottomLeft = transform.TransformPoint(new Vector3(left, bottom));
 		Vector3 topRight = transform.TransformPoint(new Vector3(right, top));
@@ -260,8 +277,16 @@ public class GridPaper : MonoBehaviour {
 		foreach (VectorLine line in lines){
 			line.drawTransform = transform;
 			line.lineWidth = Editor.singleton.GetLinePencilLightWidth();
-			line.textureScale = Editor.singleton.textureScale;
 			line.material = isDotted ? Editor.singleton.pencilLineDotted : Editor.singleton.pencilLine;
+			if (!isVisible){
+				line.lineWidth = 0;
+			}
+			line.Draw3D();
+		}
+		foreach (VectorLine line in borderLines){
+			line.drawTransform = transform;
+			line.lineWidth = Editor.singleton.GetLinePencilLightWidth();
+
 			line.Draw3D();
 		}
 		

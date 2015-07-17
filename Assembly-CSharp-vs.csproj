@@ -62,6 +62,7 @@
      <Compile Include="Assets\Scripts\Module.cs" />
      <Compile Include="Assets\Scripts\ModuleType.cs" />
      <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
+     <Compile Include="Assets\Scripts\SpokeDirs.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowConeTap.shader" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowCompose.shader" />
