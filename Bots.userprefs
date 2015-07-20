@@ -1,28 +1,38 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/EditorUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/lua_src/LuaParser.cs">
     <Files>
-      <File FileName="Assets/Scripts/QuitOnEsc.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Engine.cs" Line="16" Column="1" />
+      <File FileName="Assets/Scripts/Engine.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Editor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ModuleType.cs" Line="6" Column="8" />
-      <File FileName="Assets/Scripts/Cell.cs" Line="14" Column="57" />
-      <File FileName="Assets/Scripts/EditorButton.cs" Line="65" Column="1" />
-      <File FileName="Assets/Scripts/SpokeDirs.cs" Line="26" Column="41" />
-      <File FileName="Assets/Scripts/EditorUI.cs" Line="205" Column="69" />
-      <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="92" Column="1" />
-      <File FileName="Assets/Scripts/GridPaper.cs" Line="267" Column="1" />
-      <File FileName="Assets/Scripts/Bot.cs" Line="18" Column="9" />
-      <File FileName="Assets/Scripts/BotMono.cs" Line="49" Column="26" />
-      <File FileName="Assets/Scripts/Module.cs" Line="35" Column="1" />
-      <File FileName="Assets/Scripts/EditorFactory.cs" Line="45" Column="1" />
+      <File FileName="Assets/Scripts/ModuleType.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EditorButton.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SpokeDirs.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EditorUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GridPaper.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Bot.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Cell.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Module.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotMono.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/QuitOnEsc.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AppHelper.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/lua_src/Executors/CompilerExecutor.cs" Line="291" Column="1" />
+      <File FileName="Assets/Scripts/LuaTest.cs" Line="38" Column="1" />
+      <File FileName="Assets/Scripts/lua_src/Executors/DefaultExecutor.cs" Line="76" Column="8" />
+      <File FileName="Assets/Scripts/lua_src/LuaParser.cs" Line="109" Column="1" />
+      <File FileName="Assets/Scripts/lua_src/Executors/InterpreterExecutor.cs" Line="39" Column="1" />
+      <File FileName="Assets/Scripts/lua_src/LuaSettings.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/lua_src/LuaContext.cs" Line="43" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="EditorUI.cs" selected="True" />
+              <Node name="lua_src" expanded="True">
+                <Node name="Executors" expanded="True" />
+                <Node name="LuaParser.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
@@ -31,8 +41,18 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/EditorFactory.cs" line="33" />
-      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/EditorUI.cs" line="205" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/TestCode.cs" line="119" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/Executors/CompilerExecutor.cs" line="283" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/Executors/CompilerExecutor.cs" line="154" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="458" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="427" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="463" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="438" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="440" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="450" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="448" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="492" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="112" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
