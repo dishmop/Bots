@@ -1,46 +1,66 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.IO;
+using System;
+using System.Reflection;
+using LuaInterface;
 
 public class LuaTest : MonoBehaviour {
-
-	static public AluminumLua.LuaObject CallMe1 (AluminumLua.LuaObject [] args){
-		Debug.Log("CallMe1 called!");
-		return  new AluminumLua.LuaObject();
-	}
+	public string LuaFileToLoad = "";
 	
-	
-	static public AluminumLua.LuaObject CallMe2 (AluminumLua.LuaObject [] args){
-		Debug.Log("CallMe2 called!");
-		return  new AluminumLua.LuaObject();
-	}
-	
+	Lua lua = new Lua();
 
 	// Use this for initialization
 	void Start () {
+		// Do bindings
+		lua.RegisterFunction("ConstructBot",this,this.GetType().GetMethod("ConstructBot"));
+		lua.RegisterFunction("ConstructCell",this,this.GetType().GetMethod("ConstructCell",  new Type[] { typeof(Bot) }));
+		lua.RegisterFunction("ConstructEngine",this,this.GetType().GetMethod("ConstructEngine",  new Type[] { typeof(Bot) }));
+		lua.RegisterFunction("ConstructCellP",this,this.GetType().GetMethod("ConstructCell",  new Type[] { typeof(Module), typeof(int) }));
+		lua.RegisterFunction("ConstructEngineP",this,this.GetType().GetMethod("ConstructEngine",  new Type[] { typeof(Module), typeof(int) }));
 		
-		var context = new AluminumLua.LuaContext ();
-		context.AddBasicLibrary ();
-		context.AddIoLibrary ();
+		lua.DoFile(Application.streamingAssetsPath+"/"+LuaFileToLoad);		
 		
-		context.SetGlobal ("CallMe1", LuaTest.CallMe1);
-		context.SetGlobal ("CallMe2", LuaTest.CallMe2);
-		context.SetGlobal ("random_string", "hello");
-		// ...
-		
-		string pathname = Application.persistentDataPath + "/helloworld.lua";
-		TextReader luaFile = File.OpenText(pathname);
-		
-		var parser = new AluminumLua.LuaParser (context, luaFile); // < or leave file_name out to read stdin
-		parser.Parse ();
-		
-	
 	}
-	
-
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+	
+	public Bot ConstructBot(){
+		Bot bot  = new Bot();
+		Debug.Log ("Construct Bot");
+		return bot;
+		
+	}
+	
+	public Cell ConstructCell(Bot bot){
+		Cell cell  = new Cell(bot);
+		Debug.Log ("Construct Cell");
+		return cell;
+		
+	}
+	
+	public Cell ConstructCell(Module parent, int spoke){
+		Cell cell  = new Cell(parent, spoke);
+		Debug.Log ("Construct Cell from parent");
+		return cell;
+		
+	}
+	
+	
+	public Engine ConstructEngine(Bot bot){
+		Engine engine = new Engine(bot);
+		Debug.Log ("Construct Engine");
+		return engine;
+		
+	}
+	
+	public Engine ConstructEngine(Module parent, int spoke){
+		Engine engine = new Engine(parent, spoke);
+		Debug.Log ("Construct Engine from parent");
+		return engine;
+		
+	}
+
 }

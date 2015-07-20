@@ -65,21 +65,6 @@
      <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
-     <Compile Include="Assets\Scripts\lua_src\AssemblyInfo.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Executors\CompilerExecutor.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Executors\DefaultExecutor.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Executors\ExpressionTrees\ExpressionCompiler.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Executors\ExpressionTrees\ExpressionVisitor.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Executors\IExecutor.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Executors\InterpreterExecutor.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Libraries\BasicLibrary.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Libraries\IoLibrary.cs" />
-     <Compile Include="Assets\Scripts\lua_src\LinkedDictionary.cs" />
-     <Compile Include="Assets\Scripts\lua_src\LuaContext.cs" />
-     <Compile Include="Assets\Scripts\lua_src\LuaObject.cs" />
-     <Compile Include="Assets\Scripts\lua_src\LuaParser.cs" />
-     <Compile Include="Assets\Scripts\lua_src\LuaSettings.cs" />
-     <Compile Include="Assets\Scripts\lua_src\Main.cs" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowConeTap.shader" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowCompose.shader" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowEffectDownsample.shader" />
@@ -94,6 +79,15 @@
  </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="KopiLua">
+ <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins/KopiLua.dll</HintPath>
+ </Reference>
+ <Reference Include="KopiLuaDll">
+ <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins/KopiLuaDll.dll</HintPath>
+ </Reference>
+ <Reference Include="KopiLuaInterface">
+ <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins/KopiLuaInterface.dll</HintPath>
  </Reference>
  <Reference Include="Vectrosity">
  <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins/Vectrosity.dll</HintPath>

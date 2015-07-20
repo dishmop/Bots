@@ -55,6 +55,15 @@
     <Reference Include="UnityEngine.Analytics">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
     </Reference>
+    <Reference Include="KopiLua">
+      <HintPath>Assets\Plugins\KopiLua.dll</HintPath>
+    </Reference>
+    <Reference Include="KopiLuaDll">
+      <HintPath>Assets\Plugins\KopiLuaDll.dll</HintPath>
+    </Reference>
+    <Reference Include="KopiLuaInterface">
+      <HintPath>Assets\Plugins\KopiLuaInterface.dll</HintPath>
+    </Reference>
     <Reference Include="Vectrosity">
       <HintPath>Assets\Plugins\Vectrosity.dll</HintPath>
     </Reference>

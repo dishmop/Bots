@@ -64,21 +64,6 @@
     <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
     <Compile Include="Assets\Scripts\SpokeDirs.cs" />
     <Compile Include="Assets\Scripts\VectorCircle.cs" />
-    <Compile Include="Assets\Scripts\lua_src\AssemblyInfo.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Executors\CompilerExecutor.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Executors\DefaultExecutor.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Executors\ExpressionTrees\ExpressionCompiler.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Executors\ExpressionTrees\ExpressionVisitor.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Executors\IExecutor.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Executors\InterpreterExecutor.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Libraries\BasicLibrary.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Libraries\IoLibrary.cs" />
-    <Compile Include="Assets\Scripts\lua_src\LinkedDictionary.cs" />
-    <Compile Include="Assets\Scripts\lua_src\LuaContext.cs" />
-    <Compile Include="Assets\Scripts\lua_src\LuaObject.cs" />
-    <Compile Include="Assets\Scripts\lua_src\LuaParser.cs" />
-    <Compile Include="Assets\Scripts\lua_src\LuaSettings.cs" />
-    <Compile Include="Assets\Scripts\lua_src\Main.cs" />
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -87,6 +72,15 @@
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="KopiLua">
+      <HintPath>Assets\Plugins\KopiLua.dll</HintPath>
+    </Reference>
+    <Reference Include="KopiLuaDll">
+      <HintPath>Assets\Plugins\KopiLuaDll.dll</HintPath>
+    </Reference>
+    <Reference Include="KopiLuaInterface">
+      <HintPath>Assets\Plugins\KopiLuaInterface.dll</HintPath>
     </Reference>
     <Reference Include="Vectrosity">
       <HintPath>Assets\Plugins\Vectrosity.dll</HintPath>
