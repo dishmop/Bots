@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BotCell : MonoBehaviour {
-
+public class BotFuelCell : MonoBehaviour {
+	public FuelCell fuelCell;
+	
 	// Use this for initialization
 	void Start () {
 	

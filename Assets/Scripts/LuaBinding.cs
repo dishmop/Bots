@@ -24,6 +24,22 @@ public class LuaBinding{
 		lua.RegisterFunction("Log",this,this.GetType().GetMethod("Log"));
 	}
 	
+	public Bot ProcessLuaFile(string luaFilename){
+		
+		bot = null;
+		try
+		{
+			lua.DoFile(luaFilename);	
+		}
+		catch (KopiLua.Lua.LuaException ex)
+		{
+			Debug.Log(ex.StackTrace);
+		}
+
+		return bot;
+	}
+	
+	
 	
 	public string GenerateBotConstructionScript(Bot bot){
 		bot.ClearVisitedFlags();

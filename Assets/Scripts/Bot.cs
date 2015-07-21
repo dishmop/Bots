@@ -8,6 +8,7 @@ public class Bot{
 	public Module rootModule;
 	public string name; 
 	public Dictionary<Guid, Module> moduleLookup = new Dictionary<Guid, Module>();
+	public float rodSize = 1.25f;
 	
 
 	public Bot (){

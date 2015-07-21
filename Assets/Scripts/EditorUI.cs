@@ -51,7 +51,7 @@ public class EditorUI : MonoBehaviour {
 	}
 	
 	public void LoadBot(){
-		binding.lua.DoFile(Application.streamingAssetsPath+"/"+loadFileName);		
+		editorBot = binding.ProcessLuaFile(Application.streamingAssetsPath+"/"+loadFileName);
 		AssignPlacements();
 	}
 	
@@ -68,8 +68,10 @@ public class EditorUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		LoadBot();
-		if (binding.bot != null)
-			editorBot = binding.bot;
+		
+		// If for some reason we failed to load the bot, make an empty one
+		if (editorBot == null)
+			editorBot = new Bot();
 		
 		Renderer rend = buttonFrame.GetComponent<Renderer>();
 		float left = 	rend.bounds.min.x;

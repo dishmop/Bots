@@ -22,6 +22,10 @@ public class SpokeDirs{
 		return rot * up;
 	}
 	
+	static public Quaternion GetDirRotation(int dir){
+		return  Quaternion.Euler(0, 0, -60 * (float)dir);
+	}
+	
 	static public SpokeDirs.Dirs CalcInverseSpoke(SpokeDirs.Dirs dir){
 		return (SpokeDirs.Dirs)(((int) dir + 3) % 6);
 	}

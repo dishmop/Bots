@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class BotEngine : MonoBehaviour {
-
+	public Engine engine;
+	
 	// Use this for initialization
 	void Start () {
 	
