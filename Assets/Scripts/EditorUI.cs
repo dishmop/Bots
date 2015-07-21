@@ -13,6 +13,11 @@ public class EditorUI : MonoBehaviour {
 	public bool isInsideGrid = false;
 	public GridPaper.PlacementPoint currentPlacement = null;
 	public GameObject cursorPicture;
+	public string saveFileName;
+	public string loadFileName;
+	
+	
+	LuaBinding binding  = new LuaBinding();
 	
 	int cursorSpoke = -1;
 	
@@ -38,11 +43,26 @@ public class EditorUI : MonoBehaviour {
 	
 	}
 	
+	public void LoadBot(){
+		binding.lua.DoFile(Application.streamingAssetsPath+"/"+loadFileName);		
+		AssignPlacements();
+	}
+	
+	void AssignPlacements(){
+		
+		List<GridPaper.PlacementPoint> points = gridGO.GetComponent<GridPaper>().placementPoints;
+		botPoint = points[points.Count() / 2 + 4];
+		
+		// Traverse the bot placing them in the appropriate positions
+		
+	
+	}
+	
 	// Use this for initialization
 	void Start () {
-	
-		GetComponent<BotMono>().bot = editorBot;
-	
+		LoadBot();
+		editorBot = binding.bot;
+		
 		Renderer rend = buttonFrame.GetComponent<Renderer>();
 		float left = 	rend.bounds.min.x;
 		float right = 	rend.bounds.max.x;
@@ -64,6 +84,7 @@ public class EditorUI : MonoBehaviour {
 			newButton.transform.position = startPos - new Vector3(0, i * buttonStride, 0);
 			newButton.transform.localScale = new Vector3(buttonSize, buttonSize, 1);
 			newButton.GetComponent<EditorButton>().moduleType = (ModuleType)i;
+			newButton.name = "EditorButton_" + newButton.GetComponent<EditorButton>().moduleType.ToString();
 			moduleButtons[i] = newButton;
 		}
 		
@@ -118,11 +139,15 @@ public class EditorUI : MonoBehaviour {
 	}
 	
 	void UpdateGridLines(){
+		gridGO.GetComponent<GridPaper>().isVisible = (editorBot.rootModule == null);
+
 		foreach (VectorLine line in validGridLines){
 			line.lineWidth = Editor.singleton.GetLinePencilLightWidth();
 			line.textureScale = Editor.singleton.textureScale;
 			line.Draw3D();
 		}
+		
+		
 	}
 	
 	
@@ -261,9 +286,9 @@ public class EditorUI : MonoBehaviour {
 				}
 				cursorPicture.transform.position = currentPlacement.pos;
 				if (Input.GetMouseButtonDown(0)){
-					editorBot.rootModule = EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, editorBot);
+					EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, editorBot);
 					botPoint = currentPlacement;
-					gridGO.GetComponent<GridPaper>().isVisible = false;
+					
 					GameObject.Destroy(cursorPicture);
 					cursorPicture = null;
 				}

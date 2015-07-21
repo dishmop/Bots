@@ -1,16 +1,14 @@
-﻿using UnityEngine;
-using System.Collections;
+using UnityEngine;
 using System;
 using System.Reflection;
 using LuaInterface;
 
-public class LuaTest : MonoBehaviour {
-	public string LuaFileToLoad = "";
-	
-	Lua lua = new Lua();
 
-	// Use this for initialization
-	void Start () {
+public class LuaBinding{
+	public Bot bot; 
+	public Lua lua = new Lua();
+		
+	public LuaBinding(){
 		// Do bindings
 		lua.RegisterFunction("ConstructBot",this,this.GetType().GetMethod("ConstructBot"));
 		lua.RegisterFunction("ConstructCell",this,this.GetType().GetMethod("ConstructCell"));
@@ -18,18 +16,11 @@ public class LuaTest : MonoBehaviour {
 		lua.RegisterFunction("ConstructAttachedCell",this,this.GetType().GetMethod("ConstructAttachedCell"));
 		lua.RegisterFunction("ConstructAttachedEngine",this,this.GetType().GetMethod("ConstructAttachedEngine"));
 		lua.RegisterFunction("Log",this,this.GetType().GetMethod("Log"));
-		
-		lua.DoFile(Application.streamingAssetsPath+"/"+LuaFileToLoad);		
-		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 	
 	public Bot ConstructBot(){
-		Bot bot  = new Bot();
+		bot  = new Bot();
 		Debug.Log ("Construct Bot");
 		return bot;
 		
@@ -66,5 +57,6 @@ public class LuaTest : MonoBehaviour {
 	public void Log(string text){
 		Debug.Log (text);
 	}
-
+	
+	
 }

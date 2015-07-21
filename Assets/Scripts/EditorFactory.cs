@@ -28,6 +28,8 @@ public class EditorFactory : MonoBehaviour {
 		picture.isShort = isShort;
 		picture.dataGuid = module.guid;
 		
+		Debug.Log("ConstructEditorPicture: picture.moduleType =  " + picture.moduleType.ToString());
+		
 		return go;
 	}
 	

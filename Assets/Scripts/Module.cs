@@ -84,6 +84,7 @@ public class Module{
 	
 	void InitSetup(Bot bot){
 		guid = Guid.NewGuid();
+		
 		for (int i = 0; i < dirtyFlag.Count(); ++i){
 			dirtyFlag[i] = true;
 			repId[i] = Guid.Empty;
@@ -92,6 +93,7 @@ public class Module{
 		this.bot = bot;
 		if (bot != null){
 			bot.moduleLookup.Add (guid, this);
+			bot.rootModule = this;
 		}
 	}
 

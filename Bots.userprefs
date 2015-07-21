@@ -1,30 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../UnityLuaIntegration-master/Assets/Scripts/LuaManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/EditorModulePicture.cs">
     <Files>
-      <File FileName="Assets/Scripts/Engine.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Editor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ModuleType.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EditorButton.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/SpokeDirs.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EditorUI.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GridPaper.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Bot.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Cell.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Module.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotMono.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/QuitOnEsc.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/AppHelper.cs" Line="1" Column="1" />
-      <File FileName="../../../../../Downloads/AluminumLua-master/src/Main.cs" Line="1" Column="1" />
-      <File FileName="../UnityLuaIntegration-master/Assets/Scripts/LuaManager.cs" Line="19" Column="83" />
+      <File FileName="Assets/DrawnBox.cs" Line="6" Column="21" />
+      <File FileName="Assets/Scripts/EditorButton.cs" Line="71" Column="5" />
+      <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="107" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True" />
-            <Node name="LuaTest.cs" selected="True" />
+            <Node name="Scripts" expanded="True">
+              <Node name="EditorModulePicture.cs" selected="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
@@ -38,6 +26,10 @@
       <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaObject.cs" line="227" />
       <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="115" />
       <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="215" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/LuaBinding.cs" line="37" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Module.cs" line="87" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/EditorModulePicture.cs" line="55" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/EditorModulePicture.cs" line="45" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
