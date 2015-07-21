@@ -241,6 +241,10 @@ public class EditorUI : MonoBehaviour {
 		
 	}
 	
+	void SetDirtyFlag(Module module, bool value){
+		module.dirtyFlag[(int)Module.DirtyFlag.kEditor] = value;
+	}
+	
 	
 	void HandleModuleDraw(Module module, GridPaper.PlacementPoint point, int spoke){
 		if (module == null) return;
@@ -275,7 +279,7 @@ public class EditorUI : MonoBehaviour {
 			newPicture.GetComponent<EditorModulePicture>().dataGuid = module.guid;
 			
 			newPicture.GetComponent<EditorModulePicture>().SetSpoke(spoke, gridGO.GetComponent<GridPaper>().GetSeperation());
-			module.dirtyFlag[(int)Module.DirtyFlag.kEditor] = false;
+			SetDirtyFlag(module, false);
 			botDrawing.Add(module.repId[(int)Module.DirtyFlag.kEditor], newPicture);
 			hasBotChanged = true;
 			point.picture = newPicture;
@@ -427,8 +431,8 @@ public class EditorUI : MonoBehaviour {
 							if (hiddenFromModule != null){
 								Guid toModuleGuid = currentPlacement.neighbouringPoints[cursorSpoke].picture.GetComponent<EditorModulePicture>().dataGuid;
 								Module toModule =  editorBot.FindModule(toModuleGuid);
-								toModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
-								newModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+								SetDirtyFlag(toModule, true);
+								SetDirtyFlag(newModule, true);
 								
 								DebugUtils.Assert (cursorSpoke != -1, "made some dodgy assumption about cursorSpoke");
 								editorBot.ReplaceSpoke(newModule, toModule, cursorSpoke, hiddenToModule);
@@ -454,16 +458,16 @@ public class EditorUI : MonoBehaviour {
 	void SetHiddenSpoke(Module fromModule, Module toModule){
 		if (hiddenFromModule != fromModule || hiddenToModule != toModule){
 			if (hiddenFromModule != null){
-				hiddenFromModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+				SetDirtyFlag(hiddenFromModule, true);
 			}
 			if (hiddenToModule != null){
-				hiddenToModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+				SetDirtyFlag(hiddenToModule, true);
 			}
 			if (fromModule != null){
-				fromModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+				SetDirtyFlag(fromModule, true);
 			}
 			if (toModule != null){
-				toModule.dirtyFlag[(int)Module.DirtyFlag.kEditor]  = true;
+				SetDirtyFlag(toModule, true);
 			}
 			
 			
