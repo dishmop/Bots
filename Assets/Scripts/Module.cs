@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
-using System.Xml;
-using System.Xml.Serialization;
 using System.Linq;
 using System;
 
-[XmlRoot("Module")]
-[XmlInclude(typeof(Cell))]
-[XmlInclude(typeof(Engine))]
 public class Module{
 	public const int numSpokes = 6;
 	public Module[]  modules = new Module[6];
@@ -81,6 +76,14 @@ public class Module{
 			//	Debug.Log ("Spoke num: " + i + " = null");
 			}
 		}
+	}
+	
+	public virtual string GenerateRootConstructor(string botName){
+		return "Construct" + GetTypeName() + "(" + botName + ")\n";
+	}
+	
+	public virtual string GenerateAttachConstructor(string parentObjName, int spoke){
+		return "ConstructAttached" + GetTypeName() + "(" + parentObjName + ", " + spoke + ")\n";
 	}
 	
 	void InitSetup(Bot bot){

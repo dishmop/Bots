@@ -236,6 +236,11 @@ public class EditorUI : MonoBehaviour {
 		
 	}
 	
+	bool IsFlagDirty(Module module){
+		return module.dirtyFlag[(int)Module.DirtyFlag.kEditor];
+		
+	}
+	
 	
 	void HandleModuleDraw(Module module, GridPaper.PlacementPoint point, int spoke){
 		if (module == null) return;
@@ -255,7 +260,7 @@ public class EditorUI : MonoBehaviour {
 
 		
 		// If the flag is dirty and we have a representation, then remove the representation
-		if (module.dirtyFlag[(int)Module.DirtyFlag.kEditor] && botDrawing.ContainsKey(module.repId[(int)Module.DirtyFlag.kEditor])){
+		if (IsFlagDirty (module) && botDrawing.ContainsKey(module.repId[(int)Module.DirtyFlag.kEditor])){
 			GameObject.Destroy (botDrawing[module.repId[(int)Module.DirtyFlag.kEditor]]);
 			module.repId[(int)Module.DirtyFlag.kEditor] = Guid.Empty;
 		}

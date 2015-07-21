@@ -1,7 +1,8 @@
-﻿
+
 public enum ModuleType{
-	kCell,
+	kFuelCell,
 	kEngine,
+	kConstructor,
 	kNumTypes,
 	kError
 

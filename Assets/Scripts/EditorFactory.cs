@@ -47,11 +47,14 @@ public class EditorFactory : MonoBehaviour {
 	
 	public Module ConstructModule(ModuleType type, Bot bot){
 		switch (type){
-			case ModuleType.kCell:{
-				return new Cell(bot);
+			case ModuleType.kFuelCell:{
+				return new FuelCell(bot);
 			}
 			case ModuleType.kEngine:{
 				return new Engine(bot);
+			}
+			case ModuleType.kConstructor:{
+				return new Constructor(bot, "missile");
 			}
 		}
 		return null;
@@ -59,11 +62,14 @@ public class EditorFactory : MonoBehaviour {
 	
 	public Module ConstructModule(ModuleType type, Module parent, int spokeId){
 		switch (type){
-			case ModuleType.kCell:{
-				return new Cell(parent, spokeId);
+			case ModuleType.kFuelCell:{
+				return new FuelCell(parent, spokeId);
 			}
 			case ModuleType.kEngine:{
 				return new Engine(parent, spokeId);
+			}
+			case ModuleType.kConstructor:{
+				return new Constructor(parent, spokeId, "missile");
 			}
 		}
 		return null;
@@ -87,8 +93,9 @@ public class EditorFactory : MonoBehaviour {
 		if (singleton != null) Debug.LogError ("Error assigning singleton");
 		singleton = this;
 		
-		modules[(int)ModuleType.kCell] = new Cell((Bot)null);
+		modules[(int)ModuleType.kFuelCell] = new FuelCell((Bot)null);
 		modules[(int)ModuleType.kEngine] = new Engine((Bot)null);
+		modules[(int)ModuleType.kConstructor] = new Constructor((Bot)null, "");
 	}
 	
 	

@@ -47,8 +47,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\AppHelper.cs" />
     <Compile Include="Assets\Scripts\Bot.cs" />
-    <Compile Include="Assets\Scripts\BotMono.cs" />
-    <Compile Include="Assets\Scripts\Cell.cs" />
+    <Compile Include="Assets\Scripts\BotBot.cs" />
+    <Compile Include="Assets\Scripts\BotCell.cs" />
+    <Compile Include="Assets\Scripts\BotConstructor.cs" />
+    <Compile Include="Assets\Scripts\BotEngine.cs" />
+    <Compile Include="Assets\Scripts\BotFactory.cs" />
+    <Compile Include="Assets\Scripts\Constructor.cs" />
     <Compile Include="Assets\Scripts\DebugUtils.cs" />
     <Compile Include="Assets\Scripts\DrawnBox.cs" />
     <Compile Include="Assets\Scripts\Editor.cs" />
@@ -58,9 +62,9 @@
     <Compile Include="Assets\Scripts\EditorScriptView.cs" />
     <Compile Include="Assets\Scripts\EditorUI.cs" />
     <Compile Include="Assets\Scripts\Engine.cs" />
+    <Compile Include="Assets\Scripts\FuelCell.cs" />
     <Compile Include="Assets\Scripts\GridPaper.cs" />
     <Compile Include="Assets\Scripts\LuaBinding.cs" />
-    <Compile Include="Assets\Scripts\LuaTest.cs" />
     <Compile Include="Assets\Scripts\MathUtils.cs" />
     <Compile Include="Assets\Scripts\Module.cs" />
     <Compile Include="Assets\Scripts\ModuleType.cs" />

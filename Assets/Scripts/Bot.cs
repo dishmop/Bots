@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using System.Xml;
-using System.Xml.Serialization;
 using System.Collections.Generic;
 using System;
 using System.Linq;
 
-[XmlRoot("Bot")]
+
 public class Bot{
 	public Module rootModule;
 	public string name; 

@@ -14,10 +14,13 @@ public class LuaBinding{
 	public LuaBinding(){
 		// Do bindings
 		lua.RegisterFunction("ConstructBot",this,this.GetType().GetMethod("ConstructBot"));
-		lua.RegisterFunction("ConstructCell",this,this.GetType().GetMethod("ConstructCell"));
+		lua.RegisterFunction("ConstructFuelCell",this,this.GetType().GetMethod("ConstructFuelCell"));
 		lua.RegisterFunction("ConstructEngine",this,this.GetType().GetMethod("ConstructEngine"));
-		lua.RegisterFunction("ConstructAttachedCell",this,this.GetType().GetMethod("ConstructAttachedCell"));
+		lua.RegisterFunction("ConstructConstructor",this,this.GetType().GetMethod("ConstructConstructor"));
+		lua.RegisterFunction("ConstructAttachedFuelCell",this,this.GetType().GetMethod("ConstructAttachedFuelCell"));
 		lua.RegisterFunction("ConstructAttachedEngine",this,this.GetType().GetMethod("ConstructAttachedEngine"));
+		lua.RegisterFunction("ConstructAttachedConstructor",this,this.GetType().GetMethod("ConstructAttachedConstructor"));
+		
 		lua.RegisterFunction("Log",this,this.GetType().GetMethod("Log"));
 	}
 	
@@ -51,12 +54,12 @@ public class LuaBinding{
 			
 			// If this is the first module
 			if (thisParentObjName == null){
-				builder.Append(thisObjName + " = Construct" + thisModule.GetTypeName() + "(bot)\n");
+				builder.Append(thisObjName + " = " + thisModule.GenerateRootConstructor("bot"));
 				
 			}
 			// Otherwise parent it to the parent module
 			else{
-				builder.Append(thisObjName + " = ConstructAttached" + thisModule.GetTypeName() + "(" + thisParentObjName + ", " + thisSpoke + ")\n");
+				builder.Append(thisObjName + " = " + thisModule.GenerateAttachConstructor(thisParentObjName, thisSpoke));
 			}
 			for (int i = 0; i < 6; ++i){
 				if (thisModule.modules[i] != null && !thisModule.modules[i].visited){
@@ -83,17 +86,17 @@ public class LuaBinding{
 		
 	}
 	
-	public Cell ConstructCell(Bot bot){
-		Cell cell  = new Cell(bot);
+	public FuelCell ConstructFuelCell(Bot bot){
+		FuelCell cell  = new FuelCell(bot);
 		bot.rootModule = cell;
-		Debug.Log ("Construct Cell");
+		Debug.Log ("Construct FuelCell");
 		return cell;
 		
 	}
 	
-	public Cell ConstructAttachedCell(Module parent, int spoke){
-		Cell cell  = new Cell(parent, spoke);
-		Debug.Log ("Construct attached Cell");
+	public FuelCell ConstructAttachedFuelCell(Module parent, int spoke){
+		FuelCell cell  = new FuelCell(parent, spoke);
+		Debug.Log ("Construct attached FuelCell");
 		return cell;
 		
 	}
@@ -113,8 +116,24 @@ public class LuaBinding{
 		return engine;
 		
 	}
+	
+	public Constructor ConstructConstructor(Bot bot, string botDefinition){
+		Constructor constructor = new Constructor(bot, botDefinition);
+		bot.rootModule = constructor;
+		Debug.Log ("Construct Constructor");
+		return constructor;
+		
+	}
+	
+	public Constructor ConstructAttachedConstructor(Module parent, int spoke, string botDefinition){
+		Constructor constructor = new Constructor(parent, spoke, botDefinition);
+		Debug.Log ("Construct attached Constructor");
+		return constructor;
+		
+	}
+	
 	public void Log(string text){
-		Debug.Log (text);
+		Debug.Log ("Lua: " + text);
 	}
 	
 	

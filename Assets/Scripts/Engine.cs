@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
-using System.Xml;
-using System.Xml.Serialization;
 
-[XmlRoot("Engine")]
+
 public class Engine : Module{
+	int orient = 0;
 
 	public Engine(Bot bot) : base(bot){
+	}
+	
+	
+	public Engine(Module parent, int spokeId) : base(parent, spokeId){
 	}
 	
 	public override string GetTypeName(){
@@ -15,9 +18,7 @@ public class Engine : Module{
 	public override string GetShortTypeName(){
 		return "E";
 	}
-	
-	public Engine(Module parent, int spokeId) : base(parent, spokeId){
-	}
+
 	
 	public override void DebugPrint(){
 		Debug.Log("Type = Engine");

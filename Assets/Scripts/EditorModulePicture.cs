@@ -15,8 +15,8 @@ public class EditorModulePicture : MonoBehaviour {
 	public bool moduleVisible = true;
 	public bool isCursor = false;
 	public bool isShort = false;
-	public float shortYPos = 0f;
-	public float longYPos = 0.2f;
+	float shortYPos = 0f;
+	float longYPos = 0.1f;
 	
 	// guid of the object we are representing
 	public Guid dataGuid = Guid.Empty;
