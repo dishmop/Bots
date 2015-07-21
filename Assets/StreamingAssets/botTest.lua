@@ -1,8 +1,7 @@
-
-
 bot = ConstructBot()
-cell = ConstructCell(bot)
-engine1 = ConstructAttachedEngine(cell, 2)
-engine2 = ConstructAttachedEngine(cell, 4)
-
-
+obj_0 = ConstructCell(bot)
+obj_1 = ConstructAttachedEngine(obj_0, 0)
+obj_2 = ConstructAttachedEngine(obj_0, 2)
+obj_3 = ConstructAttachedEngine(obj_0, 4)
+obj_4 = ConstructAttachedEngine(obj_2, 0)
+obj_5 = ConstructAttachedEngine(obj_3, 0)

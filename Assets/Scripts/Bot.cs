@@ -16,6 +16,7 @@ public class Bot{
 	}
 	
 	public void DebugPrint(){
+		ClearVisitedFlags();
 		Debug.Log("Bot - DebugPrint");
 		Debug.Log("Name = " + name);
 		rootModule.DebugPrint();

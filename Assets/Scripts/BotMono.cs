@@ -22,7 +22,7 @@ public class BotMono : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-//		ConstructExample();
+//			ConstructExample();
 //		if (enableWriteData){
 //			WriteData();
 //		}
@@ -30,7 +30,7 @@ public class BotMono : MonoBehaviour {
 //			ReadData();
 //		}
 //		bot.DebugPrint();
-	
+//	
 	}
 	
 	// Update is called once per frame

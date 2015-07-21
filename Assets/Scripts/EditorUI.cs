@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System;
 using Vectrosity;
 
@@ -8,6 +9,7 @@ public class EditorUI : MonoBehaviour {
 	public static EditorUI singleton = null;
 	public GameObject buttonFrame;
 	public GameObject gridGO;
+	public GameObject scriptViewGO;
 	public float placementPointRadius;
 	public float moduleRadius;
 	public bool isInsideGrid = false;
@@ -39,7 +41,11 @@ public class EditorUI : MonoBehaviour {
 	Module hiddenToModule;
 	
 	public void WriteData(){
-		GetComponent<BotMono>().WriteData();
+		StreamWriter sr = File.CreateText(Application.streamingAssetsPath+"/"+loadFileName);
+		
+		sr.Write(binding.GenerateBotConstructionScript(editorBot));
+		
+		sr.Close();
 	
 	}
 	
@@ -61,7 +67,8 @@ public class EditorUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		LoadBot();
-		editorBot = binding.bot;
+		if (binding.bot != null)
+			editorBot = binding.bot;
 		
 		Renderer rend = buttonFrame.GetComponent<Renderer>();
 		float left = 	rend.bounds.min.x;
@@ -135,6 +142,8 @@ public class EditorUI : MonoBehaviour {
 		
 		DrawBot();
 		UpdateGridLines();
+		string scriptText = binding.GenerateBotConstructionScript(editorBot);
+		scriptViewGO.transform.FindChild ("Text").GetComponent<TextMesh>().text = scriptText;
 		
 	}
 	
@@ -237,6 +246,7 @@ public class EditorUI : MonoBehaviour {
 			if (parentModule != null){
 				if ((module == hiddenFromModule && parentModule == hiddenToModule) ||
 				    (module == hiddenToModule && parentModule == hiddenFromModule)){
+					//fadeSpoke = true;
 					fadeSpoke = true;
 				}
 			}
@@ -286,9 +296,9 @@ public class EditorUI : MonoBehaviour {
 				}
 				cursorPicture.transform.position = currentPlacement.pos;
 				if (Input.GetMouseButtonDown(0)){
-					EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, editorBot);
+					Module newModule = EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, editorBot);
 					botPoint = currentPlacement;
-					
+					editorBot.rootModule  = newModule;
 					GameObject.Destroy(cursorPicture);
 					cursorPicture = null;
 				}
@@ -422,6 +432,7 @@ public class EditorUI : MonoBehaviour {
 						}
 						GameObject.Destroy(cursorPicture);
 						cursorPicture = null;
+						//editorBot.DebugPrint();
 					}
 				}
 			}

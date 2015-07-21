@@ -69,9 +69,10 @@ public class Module{
 	
 	public virtual void DebugPrint(){
 		Debug.Log("numSpokes = " + numSpokes);
+		visited = true;
 		for (int i = 0; i < numSpokes; ++i){
 			Module module = modules[i];
-			if (module != null){
+			if (module != null && !module.visited){
 				Debug.Log ("Spoke num: " + i);
 				module.DebugPrint();
 			}
@@ -93,7 +94,6 @@ public class Module{
 		this.bot = bot;
 		if (bot != null){
 			bot.moduleLookup.Add (guid, this);
-			bot.rootModule = this;
 		}
 	}
 
