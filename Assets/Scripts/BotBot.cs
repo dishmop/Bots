@@ -5,6 +5,7 @@ using System;
 
 public class BotBot : MonoBehaviour {
 	public Bot bot;
+	public Bounds bounds;
 	
 	Dictionary<Guid, GameObject> modulesToGO = new Dictionary<Guid, GameObject>();
 	

@@ -16,8 +16,9 @@ public class BotFactory : MonoBehaviour {
 	
 	public GameObject ConstructBotBot(Bot bot){
 	
-		GameObject newBotBot = GameObject.Instantiate(botBotPrefab);
-		newBotBot.GetComponent<BotBot>().bot = bot;
+		GameObject newBotBotGO = GameObject.Instantiate(botBotPrefab);
+		BotBot newBotBot = newBotBotGO.GetComponent<BotBot>();
+		newBotBot.bot = bot;
 		
 		Queue<Module> moduleQueue = new Queue<Module>();
 		Queue<int> spokeToParent = new Queue<int>();
@@ -41,10 +42,10 @@ public class BotFactory : MonoBehaviour {
 			}
 			// Make the module Game Object
 			GameObject newModuleGO = ConstructBotModule(thisModule);
-			newModuleGO.transform.SetParent(newBotBot.transform);
+			newModuleGO.transform.SetParent(newBotBotGO.transform);
 			newModuleGO.transform.localPosition = thisPos;
 			newModuleGO.transform.localScale = new Vector3(1f, 1f, 1f);
-			newBotBot.GetComponent<BotBot>().RegisterModule(thisModule, newModuleGO);
+			newBotBot.RegisterModule(thisModule, newModuleGO);
 			
 			// Make the rod conecting them (if there is one)
 			if (thisSpokeToParent != -1){
@@ -54,7 +55,7 @@ public class BotFactory : MonoBehaviour {
 				rodPos.z = botRodPrefab.transform.position.z;
 				Quaternion rodRotation = SpokeDirs.GetDirRotation(thisSpokeToParent);
 				GameObject newRod = GameObject.Instantiate(botRodPrefab);
-				newRod.transform.SetParent(newBotBot.transform);
+				newRod.transform.SetParent(newBotBotGO.transform);
 				newRod.transform.position = rodPos;
 				newRod.transform.rotation = rodRotation;
 				
@@ -62,11 +63,20 @@ public class BotFactory : MonoBehaviour {
 			}
 			
 			thisModule.visited = true;
-			
-			
 		}
+
 		
-		return gameObject;
+		// Work out its bounds
+		Bounds bounds = new Bounds();
+		foreach (Transform child in newBotBot.transform){
+			Renderer renderer = child.GetComponent<Renderer>();
+			if (renderer != null){
+				bounds.Encapsulate(renderer.bounds);
+			}
+		}
+		newBotBot.bounds = bounds;
+		
+		return newBotBotGO;
 		
 	}
 	
@@ -76,14 +86,17 @@ public class BotFactory : MonoBehaviour {
 		switch (module.GetModuleType()){
 			case ModuleType.kFuelCell:{
 				newModule = GameObject.Instantiate(botFuelCellPrefab);
+				newModule.GetComponent<BotFuelCell>().fuelCell = module as FuelCell;
 				break;
 			}
 			case ModuleType.kEngine:{
 				newModule = GameObject.Instantiate(botEnginePrefab);
+				newModule.GetComponent<BotEngine>().engine = module as Engine;
 				break;
 			}
 			case ModuleType.kConstructor:{
 				newModule = GameObject.Instantiate(botConstructorPrefab);
+				newModule.GetComponent<BotConstructor>().constructor = module as Constructor;
 				break;
 			}
 		}
