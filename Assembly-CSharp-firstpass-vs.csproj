@@ -49,9 +49,13 @@
      <Compile Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\GlowEffect.cs" />
      <Compile Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\ImageEffectBase.cs" />
      <Compile Include="Assets\Plugins\VectrosityDemos\MultiDim.cs" />
+     <None Include="Assets\Shaders\noiseSimplex.cginc" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowConeTap.shader" />
+     <None Include="Assets\Shaders\noise-simplex_v04.shader" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowCompose.shader" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowEffectDownsample.shader" />
+     <None Include="Assets\Shaders\noise-simplex_v03.shader" />
+     <None Include="Assets\Shaders\noise-simplex_v05.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

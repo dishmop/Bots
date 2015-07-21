@@ -1,32 +1,38 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BotFactory.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/EditorButton.cs">
     <Files>
-      <File FileName="Assets/Scripts/Bot.cs" Line="2" Column="1" />
       <File FileName="Assets/Scripts/EditorButton.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/DrawnBox.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EditorUI.cs" Line="54" Column="88" />
+      <File FileName="Assets/Scripts/EditorUI.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Module.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/GridPaper.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EditorFactory.cs" Line="9" Column="2" />
+      <File FileName="Assets/Scripts/EditorFactory.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Constructor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotFactory.cs" Line="15" Column="3" />
       <File FileName="Assets/Scripts/FuelCell.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/ModuleType.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotConstructor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Engine.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/HomeBase.cs" Line="15" Column="31" />
-      <File FileName="Assets/Scripts/LuaBinding.cs" Line="27" Column="48" />
-      <File FileName="Assets/Scripts/BotFuelCell.cs" Line="8" Column="2" />
+      <File FileName="Assets/Scripts/LuaBinding.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotFuelCell.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotBot.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotEngine.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Bot.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SpokeDirs.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotFactory.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="BotFactory.cs" selected="True" />
+              <Node name="EditorButton.cs" selected="True" />
             </Node>
+            <Node name="Shaders" expanded="True" />
+          </Node>
+          <Node name="Assembly-CSharp-firstpass" expanded="True">
+            <Node name="Shaders" expanded="True" />
           </Node>
         </State>
       </Pad>

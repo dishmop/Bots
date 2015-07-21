@@ -73,9 +73,13 @@
      <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
+     <None Include="Assets\Shaders\noiseSimplex.cginc" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowConeTap.shader" />
+     <None Include="Assets\Shaders\noise-simplex_v04.shader" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowCompose.shader" />
      <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowEffectDownsample.shader" />
+     <None Include="Assets\Shaders\noise-simplex_v03.shader" />
+     <None Include="Assets\Shaders\noise-simplex_v05.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
