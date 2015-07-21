@@ -274,15 +274,14 @@ public class EditorUI : MonoBehaviour {
 
 		
 		// If the flag is dirty and we have a representation, then remove the representation
-		if (IsFlagDirty (module) && botDrawing.ContainsKey(module.repId[(int)Module.DirtyFlag.kEditor])){
-			GameObject.Destroy (botDrawing[module.repId[(int)Module.DirtyFlag.kEditor]]);
-			module.repId[(int)Module.DirtyFlag.kEditor] = Guid.Empty;
+		if (IsFlagDirty (module) && botDrawing.ContainsKey(module.guid)){
+			GameObject.Destroy (botDrawing[module.guid]);
+			botDrawing.Remove(module.guid);
 		}
 		// If we don't have a representation, then we need to make one
-		if (!botDrawing.ContainsKey(module.repId[(int)Module.DirtyFlag.kEditor])){
+		if (!botDrawing.ContainsKey(module.guid)){
 			
 			GameObject newPicture = EditorFactory.singleton.ConstructEditorPicture(module, true);
-			module.repId[(int)Module.DirtyFlag.kEditor] = newPicture.GetComponent<EditorModulePicture>().guid;
 			newPicture.transform.SetParent(transform);
 			newPicture.transform.position = point.pos;
 			newPicture.transform.localScale = new Vector3(moduleRadius, moduleRadius, 1);
@@ -290,11 +289,11 @@ public class EditorUI : MonoBehaviour {
 			
 			newPicture.GetComponent<EditorModulePicture>().SetSpoke(spoke, gridGO.GetComponent<GridPaper>().GetSeperation());
 			SetDirtyFlag(module, false);
-			botDrawing.Add(module.repId[(int)Module.DirtyFlag.kEditor], newPicture);
+			botDrawing.Add(module.guid, newPicture);
 			hasBotChanged = true;
 			point.picture = newPicture;
 		}
-		botDrawing[module.repId[(int)Module.DirtyFlag.kEditor]].GetComponent<EditorModulePicture>().rodCol = fadeSpoke ? Editor.singleton.lightColor : Editor.singleton.heavyColor;
+		botDrawing[module.guid].GetComponent<EditorModulePicture>().rodCol = fadeSpoke ? Editor.singleton.lightColor : Editor.singleton.heavyColor;
 	}
 	
 	void HandleEmptyBotInput(){

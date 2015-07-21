@@ -9,13 +9,6 @@ public class Module{
 	public Guid guid;
 	
 	
-	public enum DirtyFlag{
-		kEditor,
-		kGame,
-		kNumFlags
-	};
-	public bool[] dirtyFlag = new bool[(int)DirtyFlag.kNumFlags];
-	public Guid[] repId = new Guid[(int)DirtyFlag.kNumFlags];
 	public Bot bot;
 	
 	public bool visited;
@@ -71,10 +64,6 @@ public class Module{
 				Debug.Log ("Spoke num: " + i);
 				module.DebugPrint();
 			}
-			else{
-				
-			//	Debug.Log ("Spoke num: " + i + " = null");
-			}
 		}
 	}
 	
@@ -89,11 +78,6 @@ public class Module{
 	void InitSetup(Bot bot){
 		guid = Guid.NewGuid();
 		
-		for (int i = 0; i < dirtyFlag.Count(); ++i){
-			dirtyFlag[i] = true;
-			repId[i] = Guid.Empty;
-		}
-
 		this.bot = bot;
 		if (bot != null){
 			bot.moduleLookup.Add (guid, this);
