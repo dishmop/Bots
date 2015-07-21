@@ -27,6 +27,7 @@ public class EditorUI : MonoBehaviour {
 	List<VectorLine>	validGridLines = new List<VectorLine>();
 	
 	Dictionary<Guid, GameObject> botDrawing = new Dictionary<Guid, GameObject>();
+	Dictionary<Guid, bool> dirtyFlags = new Dictionary<Guid, bool>();
 
 	
 	Bot	editorBot = new Bot();
@@ -236,13 +237,22 @@ public class EditorUI : MonoBehaviour {
 		
 	}
 	
+	
 	bool IsFlagDirty(Module module){
-		return module.dirtyFlag[(int)Module.DirtyFlag.kEditor];
+		if (!dirtyFlags.ContainsKey(module.guid)){
+			dirtyFlags.Add(module.guid, true);
+		}
+		return dirtyFlags[module.guid];
+		//return module.dirtyFlag[(int)Module.DirtyFlag.kEditor];
 		
 	}
 	
 	void SetDirtyFlag(Module module, bool value){
-		module.dirtyFlag[(int)Module.DirtyFlag.kEditor] = value;
+		if (!dirtyFlags.ContainsKey(module.guid)){
+				dirtyFlags.Add(module.guid, true);
+		}
+		dirtyFlags[module.guid] = value;
+		//module.dirtyFlag[(int)Module.DirtyFlag.kEditor] = value;
 	}
 	
 	
@@ -415,6 +425,7 @@ public class EditorUI : MonoBehaviour {
 							int parentSpoke = SpokeDirs.CalcInverseSpoke(cursorSpoke);
 							
 							EditorFactory.singleton.ConstructModule(activeModuleButtonGO.GetComponent<EditorButton>().moduleType, parentModule, parentSpoke);
+							
 						}
 						// if there is one there already, then copy the connections
 						else{
