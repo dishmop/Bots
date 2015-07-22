@@ -74,12 +74,10 @@
      <Compile Include="Assets\Scripts\ModuleType.cs" />
      <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
+     <Compile Include="Assets\Scripts\TestYield.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
      <None Include="Assets\Shaders\noiseSimplex.cginc" />
-     <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowConeTap.shader" />
      <None Include="Assets\Shaders\noise-simplex_v04.shader" />
-     <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowCompose.shader" />
-     <None Include="Assets\Plugins\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowEffectDownsample.shader" />
      <None Include="Assets\Shaders\noise-simplex_v03.shader" />
      <None Include="Assets\Shaders\noise-simplex_v05.shader" />
  <Reference Include="UnityEngine.UI">
@@ -106,12 +104,6 @@
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{957D3F3B-251F-8BF6-D49D-C20B7372F1E3}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
-    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
-      <Project>{7D575035-AE50-8C35-E145-857D5F9C1E6F}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

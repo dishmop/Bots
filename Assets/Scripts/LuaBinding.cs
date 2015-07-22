@@ -12,6 +12,11 @@ public class LuaBinding{
 	public Lua lua = new Lua();
 		
 	public LuaBinding(){
+		var ver = System.Reflection.Assembly.GetAssembly(typeof(Lua)).GetName().Version;
+		Debug.Log ("Lua DLL version number" + ver.ToString());
+	
+
+		
 		// Do bindings
 		lua.RegisterFunction("ConstructBot",this,this.GetType().GetMethod("ConstructBot"));
 		lua.RegisterFunction("ConstructFuelCell",this,this.GetType().GetMethod("ConstructFuelCell"));
@@ -30,6 +35,7 @@ public class LuaBinding{
 		try
 		{
 			lua.DoFile(luaFilename);	
+			
 		}
 		catch (KopiLua.Lua.LuaException ex)
 		{

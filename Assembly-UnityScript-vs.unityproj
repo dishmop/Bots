@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{FC47BF86-EF2C-6FB2-1BE8-8B373B286C04}</ProjectGuid>
+	<ProjectGuid>{2ACD2D60-DFB4-DC1D-AFAA-1FC6C32CE03C}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,38 +46,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\AppHelper.cs" />
-     <Compile Include="Assets\Scripts\Bot.cs" />
-     <Compile Include="Assets\Scripts\BotBot.cs" />
-     <Compile Include="Assets\Scripts\BotConstructor.cs" />
-     <Compile Include="Assets\Scripts\BotEngine.cs" />
-     <Compile Include="Assets\Scripts\BotFactory.cs" />
-     <Compile Include="Assets\Scripts\BotFuelCell.cs" />
-     <Compile Include="Assets\Scripts\BotModule.cs" />
-     <Compile Include="Assets\Scripts\Constructor.cs" />
-     <Compile Include="Assets\Scripts\DebugUtils.cs" />
-     <Compile Include="Assets\Scripts\DrawnBox.cs" />
-     <Compile Include="Assets\Scripts\Editor.cs" />
-     <Compile Include="Assets\Scripts\EditorButton.cs" />
-     <Compile Include="Assets\Scripts\EditorFactory.cs" />
-     <Compile Include="Assets\Scripts\EditorModulePicture.cs" />
-     <Compile Include="Assets\Scripts\EditorScriptView.cs" />
-     <Compile Include="Assets\Scripts\EditorUI.cs" />
-     <Compile Include="Assets\Scripts\Engine.cs" />
-     <Compile Include="Assets\Scripts\FuelCell.cs" />
-     <Compile Include="Assets\Scripts\GenerateEffect.cs" />
-     <Compile Include="Assets\Scripts\GridPaper.cs" />
-     <Compile Include="Assets\Scripts\HomeBase.cs" />
-     <Compile Include="Assets\Scripts\LuaBinding.cs" />
-     <Compile Include="Assets\Scripts\MathUtils.cs" />
-     <Compile Include="Assets\Scripts\Module.cs" />
-     <Compile Include="Assets\Scripts\ModuleType.cs" />
-     <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
-     <Compile Include="Assets\Scripts\SpokeDirs.cs" />
-     <Compile Include="Assets\Scripts\TestYield.cs" />
-     <Compile Include="Assets\Scripts\VectorCircle.cs" />
+     <Compile Include="Assets\Plugins_not\VectrosityDemos\Image Effects (Pro Only)\PostEffectsBase.js" />
+     <Compile Include="Assets\Plugins_not\VectrosityDemos\Image Effects (Pro Only)\Quads.js" />
      <None Include="Assets\Shaders\noiseSimplex.cginc" />
+     <None Include="Assets\Plugins_not\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowConeTap.shader" />
      <None Include="Assets\Shaders\noise-simplex_v04.shader" />
+     <None Include="Assets\Plugins_not\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowCompose.shader" />
+     <None Include="Assets\Plugins_not\VectrosityDemos\Image Effects (Pro Only)\_Sources\Shaders\GlowEffectDownsample.shader" />
      <None Include="Assets\Shaders\noise-simplex_v03.shader" />
      <None Include="Assets\Shaders\noise-simplex_v05.shader" />
  <Reference Include="UnityEngine.UI">
@@ -100,6 +75,18 @@
  </Reference>
  <Reference Include="Vectrosity">
  <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins/Vectrosity.dll</HintPath>
+ </Reference>
+ <Reference Include="KopiLua">
+ <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins_not/KopiLua.dll</HintPath>
+ </Reference>
+ <Reference Include="KopiLuaDll">
+ <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins_not/KopiLuaDll.dll</HintPath>
+ </Reference>
+ <Reference Include="KopiLuaInterface">
+ <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins_not/KopiLuaInterface.dll</HintPath>
+ </Reference>
+ <Reference Include="Vectrosity">
+ <HintPath>/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Plugins_not/Vectrosity.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
