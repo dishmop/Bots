@@ -64,6 +64,7 @@
      <Compile Include="Assets\Scripts\EditorUI.cs" />
      <Compile Include="Assets\Scripts\Engine.cs" />
      <Compile Include="Assets\Scripts\FuelCell.cs" />
+     <Compile Include="Assets\Scripts\GenerateEffect.cs" />
      <Compile Include="Assets\Scripts\GridPaper.cs" />
      <Compile Include="Assets\Scripts\HomeBase.cs" />
      <Compile Include="Assets\Scripts\LuaBinding.cs" />

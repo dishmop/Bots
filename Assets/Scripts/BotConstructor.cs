@@ -30,10 +30,7 @@ public class BotConstructor : MonoBehaviour {
 			botBotGO.transform.position = transform.position + dist * fwDir;
 			botBotGO.transform.rotation = transform.rotation;
 			
-			
-			
-			
-			
+			botBotGO.GetComponent<GenerateEffect>().InitialiseEffect();
 	 		
 	 	}
 	

@@ -11,6 +11,8 @@ public class BotFactory : MonoBehaviour {
 	public GameObject botConstructorPrefab;
 	public GameObject botBotPrefab;
 	public GameObject botRodPrefab;
+	public GameObject generateEffectSpherePrefab;
+	public GameObject generateEffectRodPrefab;
 	
 	
 	
@@ -58,6 +60,7 @@ public class BotFactory : MonoBehaviour {
 				newRod.transform.SetParent(newBotBotGO.transform);
 				newRod.transform.position = rodPos;
 				newRod.transform.rotation = rodRotation;
+				newBotBot.RegisterRod(thisModule, newRod);
 				
 			
 			}
