@@ -7,7 +7,8 @@ public class Module{
 	public Module[]  modules = new Module[6];
 	public float energy;
 	public Guid guid;
-	
+	public float groundFriction = 1;
+	public float airResistance = 1;
 	
 	public Bot bot;
 	

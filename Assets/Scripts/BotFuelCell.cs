@@ -4,6 +4,8 @@ using System.Collections;
 public class BotFuelCell : MonoBehaviour {
 	public FuelCell fuelCell;
 	
+
+	
 	// Use this for initialization
 	void Start () {
 	

@@ -71,39 +71,51 @@ public class BotFactory : MonoBehaviour {
 		
 		// Work out its bounds
 		Bounds bounds = new Bounds();
-		foreach (Transform child in newBotBot.transform){
-			Renderer renderer = child.GetComponent<Renderer>();
-			if (renderer != null){
-				bounds.Encapsulate(renderer.bounds);
-			}
-		}
+		ProcessBounds(newBotBotGO.transform, ref bounds);
+		
+
 		newBotBot.bounds = bounds;
 		
 		return newBotBotGO;
 		
 	}
 	
+	void ProcessBounds(Transform thisTransform, ref Bounds bounds){
+		Renderer renderer = thisTransform.GetComponent<Renderer>();
+		if (renderer != null){
+			bounds.Encapsulate(renderer.bounds);
+		}
+		
+		foreach (Transform child in thisTransform){
+			ProcessBounds(child, ref bounds);
+
+		}
+	
+	}
+	
+	
 	public GameObject ConstructBotModule(Module module){
-		GameObject newModule = null;
+		GameObject newBotModule = null;
 		
 		switch (module.GetModuleType()){
 			case ModuleType.kFuelCell:{
-				newModule = GameObject.Instantiate(botFuelCellPrefab);
-				newModule.GetComponent<BotFuelCell>().fuelCell = module as FuelCell;
+				newBotModule = GameObject.Instantiate(botFuelCellPrefab);
+				newBotModule.GetComponent<BotFuelCell>().fuelCell = module as FuelCell;
 				break;
 			}
 			case ModuleType.kEngine:{
-				newModule = GameObject.Instantiate(botEnginePrefab);
-				newModule.GetComponent<BotEngine>().engine = module as Engine;
+				newBotModule = GameObject.Instantiate(botEnginePrefab);
+				newBotModule.GetComponent<BotEngine>().engine = module as Engine;
 				break;
 			}
 			case ModuleType.kConstructor:{
-				newModule = GameObject.Instantiate(botConstructorPrefab);
-				newModule.GetComponent<BotConstructor>().constructor = module as Constructor;
+				newBotModule = GameObject.Instantiate(botConstructorPrefab);
+				newBotModule.GetComponent<BotConstructor>().constructor = module as Constructor;
 				break;
 			}
 		}
-		return newModule;
+		newBotModule.GetComponent<BotModule>().module = module;
+		return newBotModule;
 	}
 
 	

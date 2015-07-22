@@ -4,9 +4,11 @@ using System.Collections;
 public class BotConstructor : MonoBehaviour {
 	public Constructor constructor;
 	
-	float spawnDuraction = 5;
+	float spawnDuraction = 1;
 	float spawnTime = 0;
 	bool spawnDone = false;
+	
+	
 	
 	// Use this for initialization
 	void Start () {

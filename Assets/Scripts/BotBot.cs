@@ -8,6 +8,7 @@ public class BotBot : MonoBehaviour {
 	public Bounds bounds;
 	public Dictionary<Guid, GameObject> modulesToModuleGOs = new Dictionary<Guid, GameObject>();
 	public Dictionary<Guid, GameObject> modulesToRodGOs = new Dictionary<Guid, GameObject>();
+	public float speed = 0;
 	
 	bool isBotVisible = true;
 	bool isBotActive = false;
@@ -28,14 +29,25 @@ public class BotBot : MonoBehaviour {
 		isBotVisible = visible;
 		HandleVisibility();
 	}
+	
+	void HandleVisibility(Transform thisTransform){
+		if (thisTransform.GetComponent<MeshRenderer>() != null){
+			thisTransform.GetComponent<MeshRenderer>().enabled = isBotVisible;
+		}
+		foreach (Transform child in thisTransform){
+			HandleVisibility(child);
+		}
+		
+	}
 
 
 	void HandleVisibility(){
 		foreach (GameObject go in modulesToModuleGOs.Values){
-			go.GetComponent<MeshRenderer>().enabled = isBotVisible;
+			HandleVisibility(go.transform);
+			
 		}
 		foreach (GameObject go in modulesToRodGOs.Values){
-			go.GetComponent<MeshRenderer>().enabled = isBotVisible;
+			HandleVisibility(go.transform);
 		}
 	}
 	
@@ -45,7 +57,10 @@ public class BotBot : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+	
+		speed = GetComponent<Rigidbody2D>().velocity.magnitude;
+	
 	
 	}
 }

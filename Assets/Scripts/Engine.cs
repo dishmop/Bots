@@ -4,6 +4,9 @@
 public class Engine : Module{
 //	int orient = 0;
 
+	// Runtime values
+	public float power = 0;
+
 	public Engine(Bot bot) : base(bot){
 	}
 	
