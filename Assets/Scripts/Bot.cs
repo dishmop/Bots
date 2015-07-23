@@ -12,7 +12,7 @@ public class Bot{
 	public float rodSize = 1.25f;
 	
 	public string runtimeScript;
-	public LuaBinding luaBinding;
+
 	
 	
 
@@ -126,21 +126,7 @@ public class Bot{
 		toModule.modules[SpokeDirs.CalcInverseSpoke(toSpoke)] = fromModule;
 	}
 	
-	public void FixedUpdate(){
-		if (runtimeScript != null && runtimeScript != ""){
-			luaBinding = new LuaBinding();
-			foreach (KeyValuePair<string, object> pair in luaObjectLookup){
-				luaBinding.lua[pair.Key] = pair.Value;
-			}
-			luaBinding.lua.DoFileASync(Application.streamingAssetsPath+"/" + runtimeScript + ".lua", 1);
-		}
-		
-		if (luaBinding != null){
-			if (!luaBinding.lua.isFinishedASync){
-				luaBinding.lua.ResumeAsync();
-			}
-		}
-	}
+
 
 	
 	

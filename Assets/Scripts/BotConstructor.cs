@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class BotConstructor : MonoBehaviour {
 	public Constructor constructor;
 	
-	float spawnDuraction = 1;
+	float spawnDuration = 2;
 	float spawnTime = 0;
 	bool spawnDone = false;
 	
@@ -14,16 +14,17 @@ public class BotConstructor : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		spawnTime = Time.time;
+		spawnTime = Time.fixedTime;
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (!spawnDone && Time.time > spawnTime + spawnDuraction){
-			spawnDone = true;
+	void FixedUpdate () {
+		if (!spawnDone && Time.fixedTime > spawnTime + spawnDuration){
+			//spawnDone = true;
+			spawnTime = Time.fixedTime;
 			LuaBinding binding = new LuaBinding();
-			Bot newBot = binding.ProcessLuaFile(Application.streamingAssetsPath+"/" + constructor.botDefinition + ".lua");
+			Bot newBot = binding.ProcessLuaFile(Application.streamingAssetsPath + "/" + constructor.botDefinition + ".lua");
 			
 			
 			GameObject botBotGO = BotFactory.singleton.ConstructBotBot(newBot);

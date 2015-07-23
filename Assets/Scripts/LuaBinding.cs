@@ -12,10 +12,10 @@ public class LuaBinding{
 	public Lua lua = new Lua();
 	
 
-		
+
 	public LuaBinding(){
 		var ver = System.Reflection.Assembly.GetAssembly(typeof(Lua)).GetName().Version;
-		Debug.Log ("Lua DLL version number" + ver.ToString());
+		LocalLog ("Lua DLL version number" + ver.ToString());
 	
 
 		
@@ -51,7 +51,7 @@ public class LuaBinding{
 		}
 		catch (KopiLua.Lua.LuaException ex)
 		{
-			Debug.Log(ex.StackTrace);
+			LocalLog(ex.StackTrace);
 		}
 
 		return bot;
@@ -115,7 +115,7 @@ public class LuaBinding{
 	
 	public Bot ConstructBot(){
 		bot  = new Bot();
-		Debug.Log ("Construct Bot");
+		LocalLog ("Construct Bot");
 		return bot;
 		
 	}
@@ -123,14 +123,14 @@ public class LuaBinding{
 	public FuelCell ConstructFuelCell(Bot bot){
 		FuelCell cell  = new FuelCell(bot);
 		bot.rootModule = cell;
-		Debug.Log ("Construct FuelCell");
+		LocalLog ("Construct FuelCell");
 		return cell;
 		
 	}
 	
 	public FuelCell ConstructAttachedFuelCell(Module parent, int spoke){
 		FuelCell cell  = new FuelCell(parent, spoke);
-		Debug.Log ("Construct attached FuelCell");
+		LocalLog ("Construct attached FuelCell");
 		return cell;
 		
 	}
@@ -139,14 +139,14 @@ public class LuaBinding{
 	public Engine ConstructEngine(Bot bot){
 		Engine engine = new Engine(bot);
 		bot.rootModule = engine;
-		Debug.Log ("Construct Engine");
+		LocalLog ("Construct Engine");
 		return engine;
 		
 	}
 	
 	public Engine ConstructAttachedEngine(Module parent, int spoke){
 		Engine engine = new Engine(parent, spoke);
-		Debug.Log ("Construct attached Engine");
+		LocalLog ("Construct attached Engine");
 		return engine;
 		
 	}
@@ -154,33 +154,37 @@ public class LuaBinding{
 	public Constructor ConstructConstructor(Bot bot, string botDefinition){
 		Constructor constructor = new Constructor(bot, botDefinition);
 		bot.rootModule = constructor;
-		Debug.Log ("Construct Constructor");
+		LocalLog ("Construct Constructor");
 		return constructor;
 		
 	}
 	
 	public Constructor ConstructAttachedConstructor(Module parent, int spoke, string botDefinition){
 		Constructor constructor = new Constructor(parent, spoke, botDefinition);
-		Debug.Log ("Construct attached Constructor");
+		LocalLog ("Construct attached Constructor");
 		return constructor;
 		
 	}
 	
 	public void BotLoadScript(Bot bot, string runtimeScript){
 		bot.runtimeScript = runtimeScript;
-		Debug.Log ("BotLoadScript: " + runtimeScript);
+		LocalLog ("BotLoadScript: " + runtimeScript);
 		
 		
 	}
 	
 	public void Log(string text){
-		Debug.Log ("Lua: " + text);
+		LocalLog ("Lua: " + text);
 	}
 	
 	// Runtime control
 	public void EngineSetPower(Engine engine, float power){
 		engine.power = Mathf.Clamp(power, -1, 1);
-		Debug.Log ("EngineSetPower: " + power);
+		LocalLog ("EngineSetPower: " + power);
+	}
+	
+	void LocalLog(string text){
+		//Debug.Log (text);
 	}
 	
 	

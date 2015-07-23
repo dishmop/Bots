@@ -28,6 +28,7 @@ public class GenerateEffect : MonoBehaviour {
 	public void InitialiseEffect(){
 		state = State.kInitialise;
 		GetComponent<BotBot>().SetBotVisible(false);
+		GetComponent<BotBot>().SetBotActive(false);
 		CreateEffectGeometry();
 		stateStartTime = Time.time;
 		state = State.kFadeEffectIn;

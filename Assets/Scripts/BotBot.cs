@@ -59,6 +59,8 @@ public class BotBot : MonoBehaviour {
 	}
 	
 	public void FixedUpdate(){
+		if (!isBotActive) return;
+		
 		if (bot.runtimeScript != null && bot.runtimeScript != "" && luaBinding == null){
 			luaBinding = new LuaBinding();
 			foreach (KeyValuePair<string, object> pair in bot.luaObjectLookup){
