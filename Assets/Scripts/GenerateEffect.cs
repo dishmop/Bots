@@ -80,6 +80,7 @@ public class GenerateEffect : MonoBehaviour {
 		switch (state){
 			case State.kFadeEffectIn:{
 				float alpha = (Time.time -  stateStartTime) / fadeInDuration;
+				alpha = Mathf.Pow(alpha, 3);
 				col1.a = alpha;
 				col2.a = alpha;
 				PropogateColors();
@@ -96,6 +97,7 @@ public class GenerateEffect : MonoBehaviour {
 			}
 			case State.kFadeEffectOut:{
 				float alpha = (Time.time -  stateStartTime) / fadeOutDuration;
+				alpha = Mathf.Pow(alpha, 3);
 				col1.a = 1 - alpha;
 				col2.a = 1 - alpha;
 				PropogateColors();

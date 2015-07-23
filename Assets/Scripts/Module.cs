@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Linq;
 using System;
 
@@ -81,7 +81,7 @@ public class Module{
 		
 		this.bot = bot;
 		if (bot != null){
-			bot.moduleLookup.Add (guid, this);
+			bot.guidModuleLookup.Add (guid, this);
 		}
 	}
 

@@ -7,8 +7,13 @@ using System.Linq;
 public class Bot{
 	public Module rootModule;
 	public string name; 
-	public Dictionary<Guid, Module> moduleLookup = new Dictionary<Guid, Module>();
+	public Dictionary<Guid, Module> guidModuleLookup = new Dictionary<Guid, Module>();
+	public Dictionary<string, object> luaObjectLookup = new Dictionary<string, object>();
 	public float rodSize = 1.25f;
+	
+	public string runtimeScript;
+	public LuaBinding luaBinding;
+	
 	
 
 	public Bot (){
@@ -25,16 +30,35 @@ public class Bot{
 		this.name = name;
 	}
 	
+	// if oure object is part of this bot, then store it in a list
+	public bool RegisterLuaName(string key, object obj){
+		if (obj == this){
+			luaObjectLookup.Add (key, obj);
+			return true;
+		}
+			
+		
+		foreach (Module module in guidModuleLookup.Values){
+			if (obj == module){
+				luaObjectLookup.Add (key, obj);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	
 	public Module FindModule(Guid guid){
 //		foreach (KeyValuePair<Guid, Module> entry in moduleLookup){
 //			Debug.Log ("key = " + entry.Key.ToString() + ", Value = " + entry.Value.ToString());
 //		}
-		if (!moduleLookup.ContainsKey(guid)) return null;
-		return moduleLookup[guid];
+		if (!guidModuleLookup.ContainsKey(guid)) return null;
+		return guidModuleLookup[guid];
 	}
 	
 	public void ClearVisitedFlags(){
-		foreach (Module module in moduleLookup.Values){
+		foreach (Module module in guidModuleLookup.Values){
 			module.visited = false;
 		}
 	}
@@ -80,7 +104,7 @@ public class Bot{
 				newModule.modules[i].modules[SpokeDirs.CalcInverseSpoke(i)] = newModule;
 			}
 		}
-		moduleLookup.Remove(discardedModule.guid);
+		guidModuleLookup.Remove(discardedModule.guid);
 		if (rootModule == discardedModule){
 			rootModule = newModule;
 		}
@@ -100,6 +124,22 @@ public class Bot{
 		}
 		fromModule.modules[toSpoke] = toModule;
 		toModule.modules[SpokeDirs.CalcInverseSpoke(toSpoke)] = fromModule;
+	}
+	
+	public void FixedUpdate(){
+		if (runtimeScript != null && runtimeScript != ""){
+			luaBinding = new LuaBinding();
+			foreach (KeyValuePair<string, object> pair in luaObjectLookup){
+				luaBinding.lua[pair.Key] = pair.Value;
+			}
+			luaBinding.lua.DoFileASync(Application.streamingAssetsPath+"/" + runtimeScript + ".lua", 1);
+		}
+		
+		if (luaBinding != null){
+			if (!luaBinding.lua.isFinishedASync){
+				luaBinding.lua.ResumeAsync();
+			}
+		}
 	}
 
 	

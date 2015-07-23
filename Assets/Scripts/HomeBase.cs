@@ -12,13 +12,9 @@ public class HomeBase : MonoBehaviour {
 		GameObject homeBotGO = BotFactory.singleton.ConstructBotBot(homeBot);
 		homeBotGO.transform.SetParent(transform);
 		homeBotGO.transform.localPosition = Vector3.zero;
-		TestYield.singleton.RestartLoop();
+
 		
 	}
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-		TestYield.singleton.CallLoop();
-	
-	}
+
 }

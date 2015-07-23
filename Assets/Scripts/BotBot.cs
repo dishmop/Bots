@@ -9,6 +9,8 @@ public class BotBot : MonoBehaviour {
 	public Dictionary<Guid, GameObject> modulesToModuleGOs = new Dictionary<Guid, GameObject>();
 	public Dictionary<Guid, GameObject> modulesToRodGOs = new Dictionary<Guid, GameObject>();
 	public float speed = 0;
+
+	LuaBinding luaBinding;
 	
 	bool isBotVisible = true;
 	bool isBotActive = false;
@@ -56,11 +58,20 @@ public class BotBot : MonoBehaviour {
 	
 	}
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-	
-		speed = GetComponent<Rigidbody2D>().velocity.magnitude;
-	
-	
+	public void FixedUpdate(){
+		if (bot.runtimeScript != null && bot.runtimeScript != "" && luaBinding == null){
+			luaBinding = new LuaBinding();
+			foreach (KeyValuePair<string, object> pair in bot.luaObjectLookup){
+				luaBinding.lua[pair.Key] = pair.Value;
+			}
+			luaBinding.lua.DoFileASync(Application.streamingAssetsPath  +"/" + bot.runtimeScript + ".lua", 1);
+			//luaBinding.lua.DoFile(Application.streamingAssetsPath + "/" + bot.runtimeScript + ".lua");
+		}
+		
+		if (luaBinding != null){
+			if (!luaBinding.lua.isFinishedASync){
+				luaBinding.lua.ResumeAsync();
+			}
+		}
 	}
 }

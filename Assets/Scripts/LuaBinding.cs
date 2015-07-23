@@ -10,6 +10,8 @@ using LuaInterface;
 public class LuaBinding{
 	public Bot bot; 
 	public Lua lua = new Lua();
+	
+
 		
 	public LuaBinding(){
 		var ver = System.Reflection.Assembly.GetAssembly(typeof(Lua)).GetName().Version;
@@ -17,7 +19,7 @@ public class LuaBinding{
 	
 
 		
-		// Do bindings
+		// Do construction bindings
 		lua.RegisterFunction("ConstructBot",this,this.GetType().GetMethod("ConstructBot"));
 		lua.RegisterFunction("ConstructFuelCell",this,this.GetType().GetMethod("ConstructFuelCell"));
 		lua.RegisterFunction("ConstructEngine",this,this.GetType().GetMethod("ConstructEngine"));
@@ -25,6 +27,12 @@ public class LuaBinding{
 		lua.RegisterFunction("ConstructAttachedFuelCell",this,this.GetType().GetMethod("ConstructAttachedFuelCell"));
 		lua.RegisterFunction("ConstructAttachedEngine",this,this.GetType().GetMethod("ConstructAttachedEngine"));
 		lua.RegisterFunction("ConstructAttachedConstructor",this,this.GetType().GetMethod("ConstructAttachedConstructor"));
+		lua.RegisterFunction("BotLoadScript",this,this.GetType().GetMethod("BotLoadScript"));
+		
+		
+		// Do runtime bindings
+		lua.RegisterFunction("EngineSetPower", this, this.GetType().GetMethod("EngineSetPower"));
+		
 		
 		lua.RegisterFunction("Log",this,this.GetType().GetMethod("Log"));
 	}
@@ -34,7 +42,11 @@ public class LuaBinding{
 		bot = null;
 		try
 		{
-			lua.DoFile(luaFilename);	
+			lua.DoFileASync(luaFilename, 1);
+			
+			while (!lua.isFinishedASync){
+				lua.ResumeAsync();
+			}
 			
 		}
 		catch (KopiLua.Lua.LuaException ex)
@@ -154,8 +166,21 @@ public class LuaBinding{
 		
 	}
 	
+	public void BotLoadScript(Bot bot, string runtimeScript){
+		bot.runtimeScript = runtimeScript;
+		Debug.Log ("BotLoadScript: " + runtimeScript);
+		
+		
+	}
+	
 	public void Log(string text){
 		Debug.Log ("Lua: " + text);
+	}
+	
+	// Runtime control
+	public void EngineSetPower(Engine engine, float power){
+		engine.power = Mathf.Clamp(power, -1, 1);
+		Debug.Log ("EngineSetPower: " + power);
 	}
 	
 	

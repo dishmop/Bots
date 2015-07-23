@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BotConstructor : MonoBehaviour {
 	public Constructor constructor;
@@ -7,6 +8,7 @@ public class BotConstructor : MonoBehaviour {
 	float spawnDuraction = 1;
 	float spawnTime = 0;
 	bool spawnDone = false;
+	
 	
 	
 	
@@ -22,6 +24,8 @@ public class BotConstructor : MonoBehaviour {
 			spawnDone = true;
 			LuaBinding binding = new LuaBinding();
 			Bot newBot = binding.ProcessLuaFile(Application.streamingAssetsPath+"/" + constructor.botDefinition + ".lua");
+			
+			
 			GameObject botBotGO = BotFactory.singleton.ConstructBotBot(newBot);
 			botBotGO.name = constructor.botDefinition;
 			
@@ -32,6 +36,18 @@ public class BotConstructor : MonoBehaviour {
 			botBotGO.transform.position = transform.position + dist * fwDir;
 			botBotGO.transform.rotation = transform.rotation;
 			
+			// Get a copy of the object names and their userdata so we can pass it to the runtime script
+			LuaInterface.LuaTable globals = binding.lua["_G"] as LuaInterface.LuaTable;
+			
+						
+			System.Collections.Specialized.ListDictionary dict = binding.lua.GetTableDict(globals);
+			
+			foreach (DictionaryEntry pair in dict)
+			{
+				newBot.RegisterLuaName(pair.Key.ToString(), pair.Value);
+				
+			}
+
 			botBotGO.GetComponent<GenerateEffect>().InitialiseEffect();
 	 		
 	 	}
