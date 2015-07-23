@@ -8,15 +8,19 @@ public class BotBot : MonoBehaviour {
 	public Bounds bounds;
 	public Dictionary<Guid, GameObject> modulesToModuleGOs = new Dictionary<Guid, GameObject>();
 	public Dictionary<Guid, GameObject> modulesToRodGOs = new Dictionary<Guid, GameObject>();
-	public float speed = 0;
-
+	public Dictionary<Guid, CircleCollider2D> guidToCollider = new Dictionary<Guid, CircleCollider2D>();
+	public bool isBotActive = false;
+	
 	LuaBinding luaBinding;
 	
 	bool isBotVisible = true;
-	bool isBotActive = false;
 	
 	public void SetBotActive(bool active){
 		isBotActive = active;
+	}
+	
+	public void RegisterCollider(Module module, CircleCollider2D circleCollider){
+		guidToCollider.Add (module.guid,circleCollider);
 	}
 	
 	public void RegisterModule(Module module, GameObject go){
@@ -59,6 +63,7 @@ public class BotBot : MonoBehaviour {
 	}
 	
 	public void FixedUpdate(){
+		GetComponent<Rigidbody2D>().isKinematic = !isBotActive;
 		if (!isBotActive) return;
 		
 		if (bot.runtimeScript != null && bot.runtimeScript != "" && luaBinding == null){

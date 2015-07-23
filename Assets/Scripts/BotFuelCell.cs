@@ -12,7 +12,9 @@ public class BotFuelCell : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate () {
+		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
+		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
+		
 	}
 }

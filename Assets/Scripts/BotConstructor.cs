@@ -20,6 +20,9 @@ public class BotConstructor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
+		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
+		
 		if (!spawnDone && Time.fixedTime > spawnTime + spawnDuration){
 			//spawnDone = true;
 			spawnTime = Time.fixedTime;

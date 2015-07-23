@@ -7,11 +7,15 @@ public class BotModule : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 	
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
+		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
+		
 		Rigidbody2D body = transform.parent.GetComponent<Rigidbody2D>();
 		
 		Vector2 vel = body.GetPointVelocity(transform.position);

@@ -12,6 +12,7 @@ public class HomeBase : MonoBehaviour {
 		GameObject homeBotGO = BotFactory.singleton.ConstructBotBot(homeBot);
 		homeBotGO.transform.SetParent(transform);
 		homeBotGO.transform.localPosition = Vector3.zero;
+		homeBotGO.GetComponent<BotBot>().SetBotActive(true);
 
 		
 	}
