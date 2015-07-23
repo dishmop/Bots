@@ -7,11 +7,11 @@ public class Engine : Module{
 	// Runtime values
 	public float power = 0;
 
-	public Engine(Bot bot) : base(bot){
+	public Engine(Bot bot, float size) : base(bot, size){
 	}
 	
 	
-	public Engine(Module parent, int spokeId) : base(parent, spokeId){
+	public Engine(Module parent, int spokeId, float size) : base(parent, spokeId, size){
 	}
 	
 	public override string GetTypeName(){

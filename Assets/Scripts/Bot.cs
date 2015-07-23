@@ -10,6 +10,7 @@ public class Bot{
 	public Dictionary<Guid, Module> guidModuleLookup = new Dictionary<Guid, Module>();
 	public Dictionary<string, object> luaObjectLookup = new Dictionary<string, object>();
 	public float rodSize = 1.25f;
+	public bool enableAnchor = false;
 	
 	public string runtimeScript;
 
@@ -46,6 +47,7 @@ public class Bot{
 		}
 		return false;
 	}
+	
 	
 	
 	
@@ -124,6 +126,12 @@ public class Bot{
 		}
 		fromModule.modules[toSpoke] = toModule;
 		toModule.modules[SpokeDirs.CalcInverseSpoke(toSpoke)] = fromModule;
+	}
+	
+	public string GenerateConstructor(string botName){
+		string text = botName + " = ConstructBot()" + "\n";
+		text += "";
+		return text;
 	}
 	
 

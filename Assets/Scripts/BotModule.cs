@@ -7,8 +7,16 @@ public class BotModule : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		HandleScale();
 	
+	}
+	
+	void Update(){
+		HandleScale();
+	}
+	
+	void HandleScale(){
+		transform.localScale = new Vector3(module.size, module.size, module.size);
 	}
 	
 	// Update is called once per frame
@@ -16,7 +24,10 @@ public class BotModule : MonoBehaviour {
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
+		
 		Rigidbody2D body = transform.parent.GetComponent<Rigidbody2D>();
+		
+		if (body.constraints == RigidbodyConstraints2D.FreezeAll) return;
 		
 		Vector2 vel = body.GetPointVelocity(transform.position);
 		Vector3 movementDir = vel.normalized;

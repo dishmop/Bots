@@ -27,7 +27,9 @@ public class LuaBinding{
 		lua.RegisterFunction("ConstructAttachedFuelCell",this,this.GetType().GetMethod("ConstructAttachedFuelCell"));
 		lua.RegisterFunction("ConstructAttachedEngine",this,this.GetType().GetMethod("ConstructAttachedEngine"));
 		lua.RegisterFunction("ConstructAttachedConstructor",this,this.GetType().GetMethod("ConstructAttachedConstructor"));
+		lua.RegisterFunction("ConstructorSetBotDefinition",this,this.GetType().GetMethod("ConstructorSetBotDefinition"));
 		lua.RegisterFunction("BotLoadScript",this,this.GetType().GetMethod("BotLoadScript"));
+		lua.RegisterFunction("BotEnableAnchor",this,this.GetType().GetMethod("BotEnableAnchor"));
 		
 		
 		// Do runtime bindings
@@ -69,7 +71,8 @@ public class LuaBinding{
 		int objNameCount = 0;
 		
 		StringBuilder builder = new StringBuilder();
-		builder.Append("bot = ConstructBot()\n");
+		string botName = "bot";
+		builder.Append(bot.GenerateConstructor(botName));
 		
 		if (bot.rootModule == null) return builder.ToString();
 		
@@ -88,12 +91,12 @@ public class LuaBinding{
 			
 			// If this is the first module
 			if (thisParentObjName == null){
-				builder.Append(thisObjName + " = " + thisModule.GenerateRootConstructor("bot"));
+				builder.Append(thisModule.GenerateRootConstructor(thisObjName, botName));
 				
 			}
 			// Otherwise parent it to the parent module
 			else{
-				builder.Append(thisObjName + " = " + thisModule.GenerateAttachConstructor(thisParentObjName, thisSpoke));
+				builder.Append(thisModule.GenerateAttachConstructor(thisObjName, thisParentObjName, thisSpoke));
 			}
 			for (int i = 0; i < 6; ++i){
 				if (thisModule.modules[i] != null && !thisModule.modules[i].visited){
@@ -120,55 +123,66 @@ public class LuaBinding{
 		
 	}
 	
-	public FuelCell ConstructFuelCell(Bot bot){
-		FuelCell cell  = new FuelCell(bot);
+	public FuelCell ConstructFuelCell(Bot bot, float size){
+		FuelCell cell  = new FuelCell(bot, size);
 		bot.rootModule = cell;
 		LocalLog ("Construct FuelCell");
 		return cell;
 		
 	}
 	
-	public FuelCell ConstructAttachedFuelCell(Module parent, int spoke){
-		FuelCell cell  = new FuelCell(parent, spoke);
+	public FuelCell ConstructAttachedFuelCell(Module parent, int spoke, float size){
+		FuelCell cell  = new FuelCell(parent, spoke, size);
 		LocalLog ("Construct attached FuelCell");
 		return cell;
 		
 	}
 	
 	
-	public Engine ConstructEngine(Bot bot){
-		Engine engine = new Engine(bot);
+	public Engine ConstructEngine(Bot bot, float size){
+		Engine engine = new Engine(bot, size);
 		bot.rootModule = engine;
 		LocalLog ("Construct Engine");
 		return engine;
 		
 	}
 	
-	public Engine ConstructAttachedEngine(Module parent, int spoke){
-		Engine engine = new Engine(parent, spoke);
+	public Engine ConstructAttachedEngine(Module parent, int spoke, float size){
+		Engine engine = new Engine(parent, spoke, size);
 		LocalLog ("Construct attached Engine");
 		return engine;
 		
 	}
 	
-	public Constructor ConstructConstructor(Bot bot, string botDefinition){
-		Constructor constructor = new Constructor(bot, botDefinition);
+	public Constructor ConstructConstructor(Bot bot, float size){
+		Constructor constructor = new Constructor(bot, size);
 		bot.rootModule = constructor;
 		LocalLog ("Construct Constructor");
 		return constructor;
 		
 	}
 	
-	public Constructor ConstructAttachedConstructor(Module parent, int spoke, string botDefinition){
-		Constructor constructor = new Constructor(parent, spoke, botDefinition);
+	public Constructor ConstructAttachedConstructor(Module parent, int spoke, float size){
+		Constructor constructor = new Constructor(parent, spoke, size);
 		LocalLog ("Construct attached Constructor");
 		return constructor;
 		
 	}
 	
+	public void ConstructorSetBotDefinition(Constructor constructor, string botDefinition){
+		constructor.SetBotDefinitiion(botDefinition);
+		LocalLog ("ConstructorSetBotDefinition: " + botDefinition);
+	}
+	
 	public void BotLoadScript(Bot bot, string runtimeScript){
 		bot.runtimeScript = runtimeScript;
 		LocalLog ("BotLoadScript: " + runtimeScript);
+		
+		
+	}
+	
+	public void BotEnableAnchor(Bot bot, bool enable){
+		bot.enableAnchor = enable;
 		
 		
 	}

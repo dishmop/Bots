@@ -9,17 +9,20 @@ public class Module{
 	public Guid guid;
 	public float groundFriction = 1;
 	public float airResistance = 1;
+	public float size = 1;
 	
 	public Bot bot;
 	
 	public bool visited;
 	
-	public Module (Bot bot){
+	public Module (Bot bot, float size){
+		this.size= size;
 		InitSetup(bot);
 	}
 	
 	// Parent and the spoke of the parent we are attaching to
-	public Module(Module parent, int spokeId){
+	public Module(Module parent, int spokeId, float size){
+		this.size= size;
 		InitSetup(parent.bot);
 		
 		
@@ -68,12 +71,12 @@ public class Module{
 		}
 	}
 	
-	public virtual string GenerateRootConstructor(string botName){
-		return "Construct" + GetTypeName() + "(" + botName + ")\n";
+	public virtual string GenerateRootConstructor(string thisName, string botName){
+		return thisName + " = Construct" + GetTypeName() + "(" + botName  +  ", " + size + ")\n";
 	}
 	
-	public virtual string GenerateAttachConstructor(string parentObjName, int spoke){
-		return "ConstructAttached" + GetTypeName() + "(" + parentObjName + ", " + spoke + ")\n";
+	public virtual string GenerateAttachConstructor(string thisName, string parentObjName, int spoke){
+		return thisName + " = ConstructAttached" + GetTypeName() + "(" + parentObjName + ", " + spoke  +  ", " + size + ")\n";
 	}
 	
 	void InitSetup(Bot bot){

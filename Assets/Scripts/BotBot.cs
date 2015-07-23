@@ -66,6 +66,10 @@ public class BotBot : MonoBehaviour {
 		GetComponent<Rigidbody2D>().isKinematic = !isBotActive;
 		if (!isBotActive) return;
 		
+		// Thiswould be beter done on a per module basis for slingshot kindof manourvrees
+		GetComponent<Rigidbody2D>().constraints = bot.enableAnchor ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;
+
+		
 		if (bot.runtimeScript != null && bot.runtimeScript != "" && luaBinding == null){
 			luaBinding = new LuaBinding();
 			foreach (KeyValuePair<string, object> pair in bot.luaObjectLookup){

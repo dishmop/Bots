@@ -1,7 +1,7 @@
 bot = ConstructBot()
-obj_0 = ConstructFuelCell(bot)
-obj_1 = ConstructAttachedEngine(obj_0, 2)
-obj_2 = ConstructAttachedEngine(obj_0, 4)
+obj_0 = ConstructFuelCell(bot, 2)
+obj_1 = ConstructAttachedConstructor(obj_0, 0, 1)
+ConstructorSetBotDefinition(obj_1, "missile")
+obj_2 = ConstructAttachedEngine(obj_1, 2, 1)
+obj_3 = ConstructAttachedEngine(obj_1, 4, 1)
 BotLoadScript(bot, "botRun")
-
-

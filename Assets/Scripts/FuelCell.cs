@@ -3,11 +3,11 @@
 
 public class FuelCell : Module{
 
-	public FuelCell(Bot bot) : base(bot){
+	public FuelCell(Bot bot, float size) : base(bot, size){
 	}
 	
 	
-	public FuelCell(Module parent, int spokeId) : base(parent, spokeId){
+	public FuelCell(Module parent, int spokeId, float size) : base(parent, spokeId, size){
 	}
 	
 	public override string GetTypeName(){

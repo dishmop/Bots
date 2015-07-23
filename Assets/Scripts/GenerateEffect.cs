@@ -8,6 +8,7 @@ public class GenerateEffect : MonoBehaviour {
 	public float fadeOutDuration = 0.5f;
 	public Color col1;
 	public Color col2;
+	public float magScale = 1.1f;
 	
 	enum State{
 		kInactive,
@@ -29,9 +30,7 @@ public class GenerateEffect : MonoBehaviour {
 		state = State.kInitialise;
 		GetComponent<BotBot>().SetBotVisible(false);
 		GetComponent<BotBot>().SetBotActive(false);
-		CreateEffectGeometry();
-		stateStartTime = Time.time;
-		state = State.kFadeEffectIn;
+
 	}
 	
 	void CreateEffectGeometry(){
@@ -41,6 +40,7 @@ public class GenerateEffect : MonoBehaviour {
 			effectSphere.transform.SetParent(transform);
 			effectSphere.transform.position = moduleGO.transform.position;
 			effectSphere.transform.rotation = moduleGO.transform.rotation;
+			effectSphere.transform.localScale = moduleGO.transform.localScale * magScale;
 			effectObjects.Add (effectSphere);
 		}
 		// Generate rods
@@ -79,7 +79,13 @@ public class GenerateEffect : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		switch (state){
-			case State.kFadeEffectIn:{
+		case State.kInitialise:{
+			CreateEffectGeometry();
+			stateStartTime = Time.time;
+			state = State.kFadeEffectIn;
+			break;
+		}
+		case State.kFadeEffectIn:{
 				float alpha = (Time.time -  stateStartTime) / fadeInDuration;
 				alpha = Mathf.Pow(alpha, 3);
 				col1.a = alpha;
@@ -110,7 +116,13 @@ public class GenerateEffect : MonoBehaviour {
 			}
 			case State.kFinaliseEffect:{
 				DestroyEffectGeometry();
+				if (transform.parent.parent.GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
+					GetComponent<Rigidbody2D>().velocity = transform.parent.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position);
+				}
+				transform.SetParent(null);
 				GetComponent<BotBot>().SetBotActive(true);
+				state = State.kInactive;
+			
 				break;
 			}
 		}

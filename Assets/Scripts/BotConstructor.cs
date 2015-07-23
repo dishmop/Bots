@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class BotConstructor : MonoBehaviour {
 	public Constructor constructor;
 	
-	float spawnDuration = 2;
+	float spawnDuration = Random.Range(2f, 3f);
 	float spawnTime = 0;
 	bool spawnDone = false;
 	
@@ -51,7 +51,7 @@ public class BotConstructor : MonoBehaviour {
 				newBot.RegisterLuaName(pair.Key.ToString(), pair.Value);
 				
 			}
-
+			botBotGO.transform.SetParent(transform);
 			botBotGO.GetComponent<GenerateEffect>().InitialiseEffect();
 	 		
 	 	}

@@ -2,13 +2,17 @@
 
 
 public class Constructor : Module{
-	public string botDefinition;
+	public string botDefinition = "missile";
 
-	public Constructor(Bot bot, string botDefinition) : base(bot){
-		this.botDefinition = botDefinition;
+	public Constructor(Bot bot, float size) : base(bot, size){
+
 	}
 	
-	public Constructor(Module parent, int spokeId, string botDefinition) : base(parent, spokeId){
+	public Constructor(Module parent, int spokeId, float size) : base(parent, spokeId, size){
+		
+	}
+	
+	public void SetBotDefinitiion(string botDefinition){
 		this.botDefinition = botDefinition;
 	}
 	
@@ -30,12 +34,17 @@ public class Constructor : Module{
 		return ModuleType.kConstructor;
 	}
 	
-	public override string GenerateRootConstructor(string botName){
-		return "Construct" + GetTypeName() + "(" + botName + ", \"" + botDefinition + "\")\n";
+	public override string GenerateRootConstructor(string thisName, string botName){
+		string text = base.GenerateRootConstructor(thisName, botName);
+		text += "ConstructorSetBotDefinition(" + thisName + ", \"" + botDefinition + "\")\n";
+		return text;
 	}
 	
-	public override string GenerateAttachConstructor(string parentObjName, int spoke){
-		return "ConstructAttached" + GetTypeName() + "(" + parentObjName + ", " + spoke + ", \"" + botDefinition + "\")\n";
+	public override string GenerateAttachConstructor(string thisName, string parentObjName, int spoke){
+		string text = base.GenerateAttachConstructor(thisName, parentObjName, spoke);
+		text += "ConstructorSetBotDefinition(" + thisName + ", \"" + botDefinition + "\")\n";
+		
+		return text;
 	}
 	
 	
