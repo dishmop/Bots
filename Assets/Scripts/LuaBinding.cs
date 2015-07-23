@@ -27,7 +27,11 @@ public class LuaBinding{
 		lua.RegisterFunction("ConstructAttachedFuelCell",this,this.GetType().GetMethod("ConstructAttachedFuelCell"));
 		lua.RegisterFunction("ConstructAttachedEngine",this,this.GetType().GetMethod("ConstructAttachedEngine"));
 		lua.RegisterFunction("ConstructAttachedConstructor",this,this.GetType().GetMethod("ConstructAttachedConstructor"));
+		
 		lua.RegisterFunction("ConstructorSetBotDefinition",this,this.GetType().GetMethod("ConstructorSetBotDefinition"));
+		lua.RegisterFunction("ConstructorEnableAutoRepeat",this,this.GetType().GetMethod("ConstructorEnableAutoRepeat"));
+		lua.RegisterFunction("ConstructorActivate",this,this.GetType().GetMethod("ConstructorActivate"));
+		
 		lua.RegisterFunction("BotLoadScript",this,this.GetType().GetMethod("BotLoadScript"));
 		lua.RegisterFunction("BotEnableAnchor",this,this.GetType().GetMethod("BotEnableAnchor"));
 		
@@ -170,16 +174,25 @@ public class LuaBinding{
 	}
 	
 	public void ConstructorSetBotDefinition(Constructor constructor, string botDefinition){
-		constructor.SetBotDefinitiion(botDefinition);
+		constructor.SetBotDefinition(botDefinition);
 		LocalLog ("ConstructorSetBotDefinition: " + botDefinition);
 	}
 	
 	public void BotLoadScript(Bot bot, string runtimeScript){
 		bot.runtimeScript = runtimeScript;
 		LocalLog ("BotLoadScript: " + runtimeScript);
-		
+	}
+	
+	public void ConstructorEnableAutoRepeat(Constructor constructor, bool enable){
+		constructor.EnableAutoRepeat(enable);
+
+	}
+	
+	public void ConstructorActivate(Constructor constructor, bool activate){
+		constructor.Activate(activate);
 		
 	}
+	
 	
 	public void BotEnableAnchor(Bot bot, bool enable){
 		bot.enableAnchor = enable;

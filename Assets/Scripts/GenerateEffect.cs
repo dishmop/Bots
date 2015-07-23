@@ -26,7 +26,9 @@ public class GenerateEffect : MonoBehaviour {
 	float stateStartTime = 0;
 	
 
-	public void InitialiseEffect(){
+	public void InitialiseEffect(float duration){
+		fadeInDuration = duration * 0.5f;
+		fadeOutDuration = duration * 0.5f;
 		state = State.kInitialise;
 		GetComponent<BotBot>().SetBotVisible(false);
 		GetComponent<BotBot>().SetBotActive(false);
@@ -119,6 +121,7 @@ public class GenerateEffect : MonoBehaviour {
 				if (transform.parent.parent.GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
 					GetComponent<Rigidbody2D>().velocity = transform.parent.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position);
 				}
+				transform.parent.GetComponent<BotConstructor>().OnSpawnDetach();
 				transform.SetParent(null);
 				GetComponent<BotBot>().SetBotActive(true);
 				state = State.kInactive;

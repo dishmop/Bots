@@ -25,6 +25,7 @@ public class BotModule : MonoBehaviour {
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
 		
+		
 		Rigidbody2D body = transform.parent.GetComponent<Rigidbody2D>();
 		
 		if (body.constraints == RigidbodyConstraints2D.FreezeAll) return;

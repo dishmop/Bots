@@ -4,17 +4,17 @@ using System.Collections.Generic;
 
 public class BotConstructor : MonoBehaviour {
 	public Constructor constructor;
-	
-	float spawnDuration = Random.Range(2f, 3f);
-	float spawnTime = 0;
-	bool spawnDone = false;
-	
-	
-	
+
+	GameObject childBotBotGO;
+
+	public void OnSpawnDetach(){
+		childBotBotGO = null;
+		constructor.OnCompleteConstruction();
+	}
 	
 	// Use this for initialization
 	void Start () {
-		spawnTime = Time.fixedTime;
+		
 	
 	}
 	
@@ -23,38 +23,59 @@ public class BotConstructor : MonoBehaviour {
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
-		if (!spawnDone && Time.fixedTime > spawnTime + spawnDuration){
-			//spawnDone = true;
-			spawnTime = Time.fixedTime;
-			LuaBinding binding = new LuaBinding();
-			Bot newBot = binding.ProcessLuaFile(Application.streamingAssetsPath + "/" + constructor.botDefinition + ".lua");
-			
-			
-			GameObject botBotGO = BotFactory.singleton.ConstructBotBot(newBot);
-			botBotGO.name = constructor.botDefinition;
-			
-			// Position it appropriately
-			BotBot botBot = botBotGO.GetComponent<BotBot>();
-			Vector3 fwDir = transform.rotation * new Vector3(0, 1, 0);
-			float dist =  botBot.bounds.extents.y  + GetComponent<Renderer>().bounds.extents.y;
-			botBotGO.transform.position = transform.position + dist * fwDir;
-			botBotGO.transform.rotation = transform.rotation;
-			
-			// Get a copy of the object names and their userdata so we can pass it to the runtime script
-			LuaInterface.LuaTable globals = binding.lua["_G"] as LuaInterface.LuaTable;
-			
-						
-			System.Collections.Specialized.ListDictionary dict = binding.lua.GetTableDict(globals);
-			
-			foreach (DictionaryEntry pair in dict)
-			{
-				newBot.RegisterLuaName(pair.Key.ToString(), pair.Value);
+		if (constructor.activated){
+			if (!IsConstructing()){
+				ConstructBot();
+			}
+
+		}
+		else{
+			// If not active and constructing, we need to cancel what we have done
+			if (IsConstructing()){
+				GameObject.Destroy(childBotBotGO);
 				
 			}
-			botBotGO.transform.SetParent(transform);
-			botBotGO.GetComponent<GenerateEffect>().InitialiseEffect();
-	 		
-	 	}
+		}
+	}
 	
+	bool IsConstructing(){
+		return (childBotBotGO != null);
+	}
+	
+
+	
+
+	
+	GameObject ConstructBot(){
+		LuaBinding binding = new LuaBinding();
+		Bot newBot = binding.ProcessLuaFile(Application.streamingAssetsPath + "/" + constructor.botDefinition + ".lua");
+		
+		
+		childBotBotGO = BotFactory.singleton.ConstructBotBot(newBot);
+		childBotBotGO.name = constructor.botDefinition;
+		
+		// Position it appropriately
+		BotBot botBot = childBotBotGO.GetComponent<BotBot>();
+		Vector3 fwDir = transform.rotation * new Vector3(0, 1, 0);
+		float dist =  botBot.bounds.extents.y  + GetComponent<Renderer>().bounds.extents.y;
+		childBotBotGO.transform.position = transform.position + dist * fwDir;
+		childBotBotGO.transform.rotation = transform.rotation;
+		
+		// Get a copy of the object names and their userdata so we can pass it to the runtime script
+		LuaInterface.LuaTable globals = binding.lua["_G"] as LuaInterface.LuaTable;
+		
+					
+		System.Collections.Specialized.ListDictionary dict = binding.lua.GetTableDict(globals);
+		
+		foreach (DictionaryEntry pair in dict)
+		{
+			newBot.RegisterLuaName(pair.Key.ToString(), pair.Value);
+			
+		}
+		float constructionDuration = childBotBotGO.GetComponent<Rigidbody2D>().mass;
+		childBotBotGO.transform.SetParent(transform);
+		childBotBotGO.GetComponent<GenerateEffect>().InitialiseEffect(constructionDuration);
+		return childBotBotGO;
+ 		
 	}
 }

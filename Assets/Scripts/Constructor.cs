@@ -3,6 +3,8 @@
 
 public class Constructor : Module{
 	public string botDefinition = "missile";
+	public bool activated = false;
+	public bool enableAutoRepeat = false;
 
 	public Constructor(Bot bot, float size) : base(bot, size){
 
@@ -12,8 +14,21 @@ public class Constructor : Module{
 		
 	}
 	
-	public void SetBotDefinitiion(string botDefinition){
+	public void SetBotDefinition(string botDefinition){
 		this.botDefinition = botDefinition;
+	}
+	
+	public void EnableAutoRepeat(bool enable){
+
+		enableAutoRepeat = enable;
+	}
+	
+	public void Activate(bool activate){
+		activated = activate;
+	}
+	
+	public void OnCompleteConstruction(){
+		if (!enableAutoRepeat) activated = false;
 	}
 	
 	public override string GetTypeName(){
@@ -35,16 +50,22 @@ public class Constructor : Module{
 	}
 	
 	public override string GenerateRootConstructor(string thisName, string botName){
-		string text = base.GenerateRootConstructor(thisName, botName);
-		text += "ConstructorSetBotDefinition(" + thisName + ", \"" + botDefinition + "\")\n";
-		return text;
+		return base.GenerateRootConstructor(thisName, botName) + GeneratePropertiesString(thisName);
+
 	}
 	
 	public override string GenerateAttachConstructor(string thisName, string parentObjName, int spoke){
-		string text = base.GenerateAttachConstructor(thisName, parentObjName, spoke);
+		return  base.GenerateAttachConstructor(thisName, parentObjName, spoke) + GeneratePropertiesString(thisName);
+
+	}
+	
+	string GeneratePropertiesString(string thisName){
+		string text = "";
 		text += "ConstructorSetBotDefinition(" + thisName + ", \"" + botDefinition + "\")\n";
-		
+		text += "EnableAutoRepeat(" + thisName + ", " + enableAutoRepeat.ToString() + ")\n";
+		text += "ActivateConstructor(" + thisName + ", " + activated.ToString() + ")\n";
 		return text;
+		
 	}
 	
 	
