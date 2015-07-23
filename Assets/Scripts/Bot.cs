@@ -134,7 +134,73 @@ public class Bot{
 		return text;
 	}
 	
+	public float CalcMinRodSize(){
+		float maxSize = 0;
+		foreach (Module module in guidModuleLookup.Values){
+			maxSize = Mathf.Max (maxSize, module.size);
+		}
+		float maxRodLen = 2.1f * maxSize;
+		float minRodLen = 0;
+		while (maxRodLen - minRodLen > 0.01f){
+			float midRodLen = 0.5f * (maxRodLen + minRodLen);
+			if (TestIsOverlap(midRodLen)){
+				minRodLen = midRodLen;
+			}
+			else{
+				maxRodLen = midRodLen;
+			}
+		}
+		return maxRodLen;
+	}
+	
 
+	bool TestIsOverlap(float rodLen){
+		int numCircles = guidModuleLookup.Count ();
+		Vector2[] circleCentres = new Vector2[numCircles];
+		float[] circleRadii = new float[numCircles];
+		
+		Queue<Module> moduleQueue = new Queue<Module>();
+		Queue<Vector2> posQueue = new Queue<Vector2>();
+		
+		moduleQueue.Enqueue(rootModule);
+		posQueue.Enqueue(Vector2.zero);
+		
+		// Create the circles
+		ClearVisitedFlags();
+		int count= 0;
+		while (moduleQueue.Count() != 0){
+			Module thisModule = moduleQueue.Dequeue();
+
+			Vector2 thisPos = posQueue.Dequeue();
+			
+			for (int i = 0;i < 6; ++i){
+				if (thisModule.modules[i] != null && !thisModule.modules[i].visited){
+					moduleQueue.Enqueue(thisModule.modules[i]);
+
+					posQueue.Enqueue(thisPos + rodLen * SpokeDirs.GetDirVector2D(i));
+				}
+			}
+			circleCentres[count] = thisPos;
+			circleRadii[count] =  Mathf.Sqrt (thisModule.size);
+			count++;
+			
+			thisModule.visited = true;
+		}
+		
+		for (int i = 0; i < numCircles - 1; ++i){
+			for (int j = i + 1; j < numCircles; ++j){
+				float sumRadii = circleRadii[i] + circleRadii[j];
+				float distSq = (circleCentres[i] - circleCentres[j]).sqrMagnitude;
+				if (distSq < sumRadii * sumRadii){
+					return true;
+				}
+			}
+		}
+		return false;
+		
+		
+	}
+			
 
 	
 	

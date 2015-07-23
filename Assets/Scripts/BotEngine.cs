@@ -14,7 +14,7 @@ public class BotEngine : MonoBehaviour {
 	void FixedUpdate () {
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
-		readPower = engine.power * 10;
+		readPower = engine.power * 50 * engine.size;
 		Vector3 force = transform.rotation * new Vector3(0, readPower);
 		transform.parent.GetComponent<Rigidbody2D>().AddForceAtPosition(force, transform.position);
 	

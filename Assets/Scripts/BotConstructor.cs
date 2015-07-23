@@ -14,6 +14,9 @@ public class BotConstructor : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+	
+		// Heck must sort the scale out first
+		GetComponent<BotModule>().HandleScale();
 		
 	
 	}
@@ -72,7 +75,7 @@ public class BotConstructor : MonoBehaviour {
 			newBot.RegisterLuaName(pair.Key.ToString(), pair.Value);
 			
 		}
-		float constructionDuration = childBotBotGO.GetComponent<Rigidbody2D>().mass;
+		float constructionDuration = childBotBotGO.GetComponent<Rigidbody2D>().mass / constructor.size;
 		childBotBotGO.transform.SetParent(transform);
 		childBotBotGO.GetComponent<GenerateEffect>().InitialiseEffect(constructionDuration);
 		return childBotBotGO;

@@ -4,6 +4,7 @@ using System.Collections;
 public class BotModule : MonoBehaviour {
 
 	public Module module;
+	public float editSize= -1;
 
 	// Use this for initialization
 	void Start () {
@@ -15,8 +16,9 @@ public class BotModule : MonoBehaviour {
 		HandleScale();
 	}
 	
-	void HandleScale(){
-		transform.localScale = new Vector3(module.size, module.size, module.size);
+	public void HandleScale(){
+		// use 2 x because moduleis radisu 0.5
+		transform.localScale = 2 * Mathf.Sqrt (module.size) * new Vector3(1, 1, 1);
 	}
 	
 	// Update is called once per frame
@@ -24,7 +26,14 @@ public class BotModule : MonoBehaviour {
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
+		if (editSize < 0){
+			editSize = module.size;
+		}
+		else{
+			module.size = editSize;
 		
+		}
+		    
 		
 		Rigidbody2D body = transform.parent.GetComponent<Rigidbody2D>();
 		

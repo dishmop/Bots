@@ -120,6 +120,7 @@ public class GenerateEffect : MonoBehaviour {
 				DestroyEffectGeometry();
 				if (transform.parent.parent.GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
 					GetComponent<Rigidbody2D>().velocity = transform.parent.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position);
+					GetComponent<Rigidbody2D>().angularVelocity = transform.parent.parent.GetComponent<Rigidbody2D>().angularVelocity;
 				}
 				transform.parent.GetComponent<BotConstructor>().OnSpawnDetach();
 				transform.SetParent(null);

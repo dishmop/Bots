@@ -58,8 +58,9 @@ public class BotFactory : MonoBehaviour {
 				Quaternion rodRotation = SpokeDirs.GetDirRotation(thisSpokeToParent);
 				GameObject newRod = GameObject.Instantiate(botRodPrefab);
 				newRod.transform.SetParent(newBotBotGO.transform);
-				newRod.transform.position = rodPos;
-				newRod.transform.rotation = rodRotation;
+				newRod.transform.localPosition = rodPos;
+				newRod.transform.localRotation = rodRotation;
+				newRod.transform.localScale = bot.rodSize * botRodPrefab.transform.localScale;
 				newBotBot.RegisterRod(thisModule, newRod);
 				
 			

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class BotBot : MonoBehaviour {
 	public Bot bot;
@@ -34,6 +35,51 @@ public class BotBot : MonoBehaviour {
 	public void SetBotVisible(bool visible){
 		isBotVisible = visible;
 		HandleVisibility();
+	}
+	
+	public void OnChangeRodSize(){
+		Queue<Module> moduleQueue = new Queue<Module>();
+		Queue<Module> parentModuleQueue = new Queue<Module>();
+		Queue<int> spokeQueue = new Queue<int>();
+		Queue<Vector3> posQueue = new Queue<Vector3>();
+		
+		moduleQueue.Enqueue(bot.rootModule);
+		parentModuleQueue.Enqueue(null);
+		spokeQueue.Enqueue(-1);
+		posQueue.Enqueue(Vector3.zero);
+		
+		// Create the circles
+		bot.ClearVisitedFlags();
+		while (moduleQueue.Count() != 0){
+			Module thisModule = moduleQueue.Dequeue();
+			Module thisParentModule = parentModuleQueue.Dequeue();
+			int thisSpoke = spokeQueue.Dequeue();
+			Vector3 thisPos = posQueue.Dequeue();
+			
+			for (int i = 0;i < 6; ++i){
+				if (thisModule.modules[i] != null && !thisModule.modules[i].visited){
+					moduleQueue.Enqueue(thisModule.modules[i]);
+					parentModuleQueue.Enqueue(thisModule);
+					spokeQueue.Enqueue(i);
+					posQueue.Enqueue(thisPos + bot.rodSize * SpokeDirs.GetDirVector(i));
+				}
+			}
+			// Set the BotModule position
+			modulesToModuleGOs[thisModule.guid].transform.localPosition = thisPos;
+			thisModule.visited = true;
+			
+			// DO the rod
+			if (thisSpoke != -1){
+				Vector3 parentPos = modulesToModuleGOs[thisParentModule.guid].transform.localPosition;
+				Vector3 rodPos = 0.5f * (parentPos + thisPos);
+				Quaternion rodOrient = SpokeDirs.GetDirRotation(thisSpoke);
+				GameObject rodGO = modulesToRodGOs[thisModule.guid];
+				rodGO.transform.localPosition = rodPos;
+				rodGO.transform.localRotation = rodOrient;
+				rodGO.transform.localScale = bot.rodSize * BotFactory.singleton.botRodPrefab.transform.localScale;
+			}
+		}
+	
 	}
 	
 	void HandleVisibility(Transform thisTransform){
@@ -69,7 +115,17 @@ public class BotBot : MonoBehaviour {
 		// Thiswould be beter done on a per module basis for slingshot kindof manourvrees
 		GetComponent<Rigidbody2D>().constraints = bot.enableAnchor ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;
 		
-		
+		// Caluclate the mass
+		float mass = 0;
+		foreach(Module module in bot.guidModuleLookup.Values){
+			mass += module.size;
+		}
+		GetComponent<Rigidbody2D>().mass = mass;
+		bot.rodSize = Mathf.Lerp (bot.rodSize, bot.CalcMinRodSize(), 0.2f);
+		OnChangeRodSize();
+
+			
+
 		
 
 		
