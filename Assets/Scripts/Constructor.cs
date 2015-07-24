@@ -39,6 +39,16 @@ public class Constructor : Module{
 		return "C";
 	}
 
+	public override float GetPowerRequirements(){
+		return activated ? size : 0;
+	}
+	
+	// Called if there is not enough power to cope with requirements
+	public override void OnPowerShortage(){
+		activated = false;
+	}
+	
+	
 	
 	public override void DebugPrint(){
 		Debug.Log("Type = Constructor");
@@ -62,8 +72,8 @@ public class Constructor : Module{
 	string GeneratePropertiesString(string thisName){
 		string text = "";
 		text += "ConstructorSetBotDefinition(" + thisName + ", \"" + botDefinition + "\")\n";
-		text += "EnableAutoRepeat(" + thisName + ", " + enableAutoRepeat.ToString() + ")\n";
-		text += "ActivateConstructor(" + thisName + ", " + activated.ToString() + ")\n";
+		text += "ConstructorEnableAutoRepeat(" + thisName + ", " + enableAutoRepeat.ToString() + ")\n";
+		text += "ConstructorActivate(" + thisName + ", " + activated.ToString() + ")\n";
 		return text;
 		
 	}

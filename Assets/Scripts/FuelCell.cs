@@ -4,10 +4,13 @@
 public class FuelCell : Module{
 
 	public FuelCell(Bot bot, float size) : base(bot, size){
+		enableConsumable = true;
+		
 	}
 	
 	
 	public FuelCell(Module parent, int spokeId, float size) : base(parent, spokeId, size){
+		enableConsumable = true;
 	}
 	
 	public override string GetTypeName(){

@@ -10,6 +10,7 @@ public class Module{
 	public float groundFriction = 1;
 	public float airResistance = 1;
 	public float size = 1;
+	public bool enableConsumable = false;
 	
 	public Bot bot;
 	
@@ -71,12 +72,36 @@ public class Module{
 		}
 	}
 	
+	public virtual float GetPowerRequirements(){
+		return 0;
+	}
+	
+	// Called if there is not enough power to cope with requirements
+	public virtual void OnPowerShortage(){
+	}
+	
 	public virtual string GenerateRootConstructor(string thisName, string botName){
-		return thisName + " = Construct" + GetTypeName() + "(" + botName  +  ", " + size + ")\n";
+		string text = "";
+		text += thisName + " = Construct" + GetTypeName() + "(" + botName  +  ", " + size + ")\n";
+		text += GeneratePropertiesString(thisName);
+		return text;
 	}
 	
 	public virtual string GenerateAttachConstructor(string thisName, string parentObjName, int spoke){
-		return thisName + " = ConstructAttached" + GetTypeName() + "(" + parentObjName + ", " + spoke  +  ", " + size + ")\n";
+		string text = "";
+		text += thisName + " = ConstructAttached" + GetTypeName() + "(" + parentObjName + ", " + spoke  +  ", " + size + ")\n";
+		text += GeneratePropertiesString(thisName);
+		return text;
+	}
+	
+	string GeneratePropertiesString(string thisName){
+		string text = "";
+		// If not the default value, then set it
+		if (enableConsumable == true){
+			text += "ModuleEnableConsumable(" + thisName + ", " + enableConsumable.ToString() + ")\n";
+		}
+		return text;
+		
 	}
 	
 	void InitSetup(Bot bot){

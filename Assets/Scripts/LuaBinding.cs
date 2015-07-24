@@ -31,7 +31,9 @@ public class LuaBinding{
 		lua.RegisterFunction("ConstructorSetBotDefinition",this,this.GetType().GetMethod("ConstructorSetBotDefinition"));
 		lua.RegisterFunction("ConstructorEnableAutoRepeat",this,this.GetType().GetMethod("ConstructorEnableAutoRepeat"));
 		lua.RegisterFunction("ConstructorActivate",this,this.GetType().GetMethod("ConstructorActivate"));
-		
+		lua.RegisterFunction("ModuleEnableConsumable",this,this.GetType().GetMethod("ModuleEnableConsumable"));
+
+				
 		lua.RegisterFunction("BotLoadScript",this,this.GetType().GetMethod("BotLoadScript"));
 		lua.RegisterFunction("BotEnableAnchor",this,this.GetType().GetMethod("BotEnableAnchor"));
 		
@@ -193,6 +195,10 @@ public class LuaBinding{
 		
 	}
 	
+	public void ModuleEnableConsumable(Module module, bool enable){
+		module.enableConsumable = enable;
+		
+	}	
 	
 	public void BotEnableAnchor(Bot bot, bool enable){
 		bot.enableAnchor = enable;
@@ -206,7 +212,7 @@ public class LuaBinding{
 	
 	// Runtime control
 	public void EngineSetPower(Engine engine, float power){
-		engine.power = Mathf.Clamp(power, -1, 1);
+		engine.desPower = Mathf.Clamp(power, -1, 1);
 		LocalLog ("EngineSetPower: " + power);
 	}
 	

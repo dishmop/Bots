@@ -1,6 +1,6 @@
 bot = ConstructBot()
-obj_0 = ConstructFuelCell(bot, 0.1)
-obj_1 = ConstructAttachedConstructor(obj_0, 0, 5)
+obj_0 = ConstructFuelCell(bot, 2)
+obj_1 = ConstructAttachedConstructor(obj_0, 0, 3)
 ConstructorSetBotDefinition(obj_1, "missile")
 ConstructorActivate(obj_1, true)
 ConstructorEnableAutoRepeat(obj_1, true)
