@@ -1,28 +1,28 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BotConstructor.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Constructor.cs">
     <Files>
-      <File FileName="Assets/Scripts/LuaBinding.cs" Line="12" Column="29" />
-      <File FileName="Assets/Scripts/BotEngine.cs" Line="17" Column="3" />
-      <File FileName="Assets/Scripts/BotFuelCell.cs" Line="16" Column="26" />
-      <File FileName="Assets/Scripts/Constructor.cs" Line="63" Column="20" />
-      <File FileName="Assets/Scripts/BotModule.cs" Line="19" Column="9" />
+      <File FileName="Assets/Scripts/LuaBinding.cs" Line="33" Column="44" />
+      <File FileName="Assets/Scripts/BotEngine.cs" Line="19" Column="1" />
+      <File FileName="Assets/Scripts/BotFuelCell.cs" Line="10" Column="1" />
+      <File FileName="Assets/Scripts/Constructor.cs" Line="77" Column="1" />
+      <File FileName="Assets/Scripts/BotModule.cs" Line="21" Column="59" />
       <File FileName="Assets/Scripts/Editor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/TestYield.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/HomeBase.cs" Line="10" Column="17" />
       <File FileName="Assets/Scripts/EditorFactory.cs" Line="98" Column="71" />
       <File FileName="Assets/Scripts/GenerateEffect.cs" Line="105" Column="11" />
-      <File FileName="Assets/Scripts/Bot.cs" Line="142" Column="25" />
-      <File FileName="Assets/Scripts/BotConstructor.cs" Line="78" Column="97" />
-      <File FileName="Assets/Scripts/Module.cs" Line="74" Column="65" />
-      <File FileName="Assets/Scripts/Engine.cs" Line="14" Column="86" />
-      <File FileName="Assets/Scripts/FuelCell.cs" Line="10" Column="88" />
+      <File FileName="Assets/Scripts/Bot.cs" Line="16" Column="1" />
+      <File FileName="Assets/Scripts/BotConstructor.cs" Line="28" Column="3" />
+      <File FileName="Assets/Scripts/Module.cs" Line="100" Column="3" />
+      <File FileName="Assets/Scripts/Engine.cs" Line="31" Column="2" />
+      <File FileName="Assets/Scripts/FuelCell.cs" Line="14" Column="1" />
       <File FileName="Assets/Scripts/EditorUI.cs" Line="492" Column="1" />
       <File FileName="Assets/Scripts/EditorModulePicture.cs" Line="107" Column="1" />
       <File FileName="Assets/Scripts/EditorButton.cs" Line="63" Column="1" />
       <File FileName="Assets/Scripts/GridPaper.cs" Line="279" Column="1" />
       <File FileName="Assets/Scripts/DrawnBox.cs" Line="35" Column="1" />
-      <File FileName="Assets/Scripts/BotBot.cs" Line="64" Column="65" />
+      <File FileName="Assets/Scripts/BotBot.cs" Line="170" Column="5" />
       <File FileName="Assets/Scripts/SpokeDirs.cs" Line="25" Column="23" />
       <File FileName="Assets/Scripts/BotFactory.cs" Line="59" Column="25" />
     </Files>
@@ -31,7 +31,7 @@
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="BotConstructor.cs" selected="True" />
+              <Node name="Constructor.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -46,8 +46,6 @@
       <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaObject.cs" line="227" />
       <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="115" />
       <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/lua_src/LuaParser.cs" line="215" />
-      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/FuelCell.cs" line="5" />
-      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/FuelCell.cs" line="9" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
