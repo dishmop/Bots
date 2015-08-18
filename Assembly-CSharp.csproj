@@ -67,6 +67,7 @@
      <Compile Include="Assets\Scripts\Engine.cs" />
      <Compile Include="Assets\Scripts\FuelCell.cs" />
      <Compile Include="Assets\Scripts\GenerateEffect.cs" />
+     <Compile Include="Assets\Scripts\Global.cs" />
      <Compile Include="Assets\Scripts\GridPaper.cs" />
      <Compile Include="Assets\Scripts\HomeBase.cs" />
      <Compile Include="Assets\Scripts\LuaBinding.cs" />
@@ -78,8 +79,6 @@
      <Compile Include="Assets\Scripts\TestYield.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
      <None Include="Assets\Shaders\noiseSimplex.cginc" />
-     <None Include="Assets\Shaders\noise-simplex_v04.shader" />
-     <None Include="Assets\Shaders\noise-simplex_v03.shader" />
      <None Include="Assets\Shaders\noise-simplex_v05.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

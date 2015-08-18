@@ -14,7 +14,8 @@ SubShader {
 		Blend SrcAlpha OneMinusSrcAlpha
 		//Blend SrcAlpha One // additive blending
 	Pass {
-		Tags { "RenderType" = "Transparent" }
+		Tags {"Queue"="Transparent"}
+		 ZWrite On
 		CGPROGRAM
 		
 		#pragma target 3.0
