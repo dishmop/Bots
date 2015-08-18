@@ -11,7 +11,6 @@ public class BotBot : MonoBehaviour {
 	public Dictionary<Guid, GameObject> modulesToRodGOs = new Dictionary<Guid, GameObject>();
 	public Dictionary<Guid, CircleCollider2D> guidToCollider = new Dictionary<Guid, CircleCollider2D>();
 	public bool isBotActive = false;
-	const float massToEngergyFactor = 10;
 	
 	LuaBinding luaBinding;
 	
@@ -119,7 +118,7 @@ public class BotBot : MonoBehaviour {
 		// Caluclate the mass
 		float mass = 0;
 		foreach(Module module in bot.guidModuleLookup.Values){
-			mass += module.size;
+			mass += module.volume * module.GetDensity();
 		}
 		GetComponent<Rigidbody2D>().mass = mass;
 		bot.rodSize = Mathf.Lerp (bot.rodSize, bot.CalcMinRodSize(), 0.2f);
@@ -155,21 +154,22 @@ public class BotBot : MonoBehaviour {
 		float fuelRequiredThisFrame = powerRequirements * Time.fixedDeltaTime;
 		
 		// See how mcuh fuel we have in total
-		float fuelSize = 0;
+		float fuelAvailable = 0;
 		foreach(Module module in bot.guidModuleLookup.Values){
 			if (module.enableConsumable){
-				fuelSize += module.size * massToEngergyFactor;
+				fuelAvailable += module.volume * module.GetEnergyDensity();
 			}
 		}
 		bool shortage = false;
-		float sizeMul = (fuelSize - fuelRequiredThisFrame)  / fuelSize;
-		if (sizeMul < 0){
-			sizeMul = 0;
+		// What proportion of fuel must be left
+		float fuelProp = (fuelAvailable - fuelRequiredThisFrame)  / fuelAvailable;
+		if (fuelProp < 0){
+			fuelProp = 0;
 			shortage = true;
 		}
 		foreach(Module module in bot.guidModuleLookup.Values){
 			if (module.enableConsumable){
-				module.size *= sizeMul;
+				module.volume *= fuelProp;
 			}
 			if (shortage){
 				module.OnPowerShortage();

@@ -137,7 +137,7 @@ public class Bot{
 	public float CalcMinRodSize(){
 		float maxSize = 0;
 		foreach (Module module in guidModuleLookup.Values){
-			maxSize = Mathf.Max (maxSize, module.size);
+			maxSize = Mathf.Max (maxSize, module.volume);
 		}
 		float maxRodLen = 2.1f * maxSize;
 		float minRodLen = 0;
@@ -181,7 +181,7 @@ public class Bot{
 				}
 			}
 			circleCentres[count] = thisPos;
-			circleRadii[count] =  Mathf.Sqrt (thisModule.size);
+			circleRadii[count] =  Balancing.singleton.ConvertModuleSizeToRadius(thisModule.volume);
 			count++;
 			
 			thisModule.visited = true;

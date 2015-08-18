@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\AppHelper.cs" />
+     <Compile Include="Assets\Scripts\Balancing.cs" />
      <Compile Include="Assets\Scripts\Bot.cs" />
      <Compile Include="Assets\Scripts\BotBot.cs" />
      <Compile Include="Assets\Scripts\BotConstructor.cs" />

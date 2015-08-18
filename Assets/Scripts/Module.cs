@@ -9,7 +9,7 @@ public class Module{
 	public Guid guid;
 	public float groundFriction = 1;
 	public float airResistance = 1;
-	public float size = 1;
+	public float volume = 1;
 	public bool enableConsumable = false;
 	
 	public Bot bot;
@@ -17,13 +17,13 @@ public class Module{
 	public bool visited;
 	
 	public Module (Bot bot, float size){
-		this.size= size;
+		this.volume= size;
 		InitSetup(bot);
 	}
 	
 	// Parent and the spoke of the parent we are attaching to
 	public Module(Module parent, int spokeId, float size){
-		this.size= size;
+		this.volume= size;
 		InitSetup(parent.bot);
 		
 		
@@ -82,18 +82,29 @@ public class Module{
 	
 	public virtual string GenerateRootConstructor(string thisName, string botName){
 		string text = "";
-		text += thisName + " = Construct" + GetTypeName() + "(" + botName  +  ", " + size + ")\n";
+		text += thisName + " = Construct" + GetTypeName() + "(" + botName  +  ", " + volume + ")\n";
 		text += GeneratePropertiesString(thisName);
 		return text;
 	}
 	
 	public virtual string GenerateAttachConstructor(string thisName, string parentObjName, int spoke){
 		string text = "";
-		text += thisName + " = ConstructAttached" + GetTypeName() + "(" + parentObjName + ", " + spoke  +  ", " + size + ")\n";
+		text += thisName + " = ConstructAttached" + GetTypeName() + "(" + parentObjName + ", " + spoke  +  ", " + volume + ")\n";
 		text += GeneratePropertiesString(thisName);
 		return text;
 	}
 	
+	// kg per unit of volume
+	public virtual float GetDensity(){
+		return 1;
+	}
+	
+	// Joules per unit of volume
+	public virtual float GetEnergyDensity(){
+		return 10;
+	}
+	
+
 	string GeneratePropertiesString(string thisName){
 		string text = "";
 		// If not the default value, then set it

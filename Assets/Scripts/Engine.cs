@@ -6,7 +6,7 @@ public class Engine : Module{
 
 	// Runtime values
 	public float desPower = 0;
-	public float powerMultiplied = 1;
+	public float powerMultiplier = 1;
 
 	public Engine(Bot bot, float size) : base(bot, size){
 	}
@@ -34,12 +34,12 @@ public class Engine : Module{
 	}
 	
 	public override float GetPowerRequirements(){
-		return powerMultiplied * Mathf.Abs(desPower) * size;
+		return powerMultiplier * Mathf.Abs(desPower) * volume;
 	}
 	
 	// Called if there is not enough power to cope with requirements
 	public override void OnPowerShortage(){
-		powerMultiplied = Mathf.Lerp (powerMultiplied, 0, 0.1f);
+		powerMultiplier = Mathf.Lerp (powerMultiplier, 0, 0.1f);
 	}
 	
 	

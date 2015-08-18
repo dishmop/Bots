@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -75,7 +75,7 @@ public class BotConstructor : MonoBehaviour {
 			newBot.RegisterLuaName(pair.Key.ToString(), pair.Value);
 			
 		}
-		float constructionDuration = childBotBotGO.GetComponent<Rigidbody2D>().mass / constructor.size;
+		float constructionDuration = childBotBotGO.GetComponent<Rigidbody2D>().mass / constructor.volume;
 		childBotBotGO.transform.SetParent(transform);
 		childBotBotGO.GetComponent<GenerateEffect>().InitialiseEffect(constructionDuration);
 		return childBotBotGO;

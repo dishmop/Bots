@@ -18,7 +18,7 @@ public class BotEngine : MonoBehaviour {
 		Vector3 force = transform.rotation * new Vector3(0, readPower);
 		transform.parent.GetComponent<Rigidbody2D>().AddForceAtPosition(force, transform.position);
 		
-		engine.powerMultiplied = Mathf.Lerp (engine.powerMultiplied, 1, 0.001f);
+		engine.powerMultiplier = Mathf.Lerp (engine.powerMultiplier, 1, 0.001f);
 	
 	}
 }

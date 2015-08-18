@@ -17,8 +17,8 @@ public class BotModule : MonoBehaviour {
 	}
 	
 	public void HandleScale(){
-		// use 2 x because moduleis radisu 0.5
-		transform.localScale = 2 * Mathf.Sqrt (module.size+0.01f) * new Vector3(1, 1, 1);
+		// use 2 x because module is radius 0.5
+		transform.localScale = 2 * Balancing.singleton.ConvertModuleSizeToRadius(module.volume) * new Vector3(1, 1, 1);
 	}
 	
 	// Update is called once per frame

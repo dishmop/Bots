@@ -40,7 +40,7 @@ public class Constructor : Module{
 	}
 
 	public override float GetPowerRequirements(){
-		return activated ? size : 0;
+		return activated ? volume : 0;
 	}
 	
 	// Called if there is not enough power to cope with requirements
