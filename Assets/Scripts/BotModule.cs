@@ -4,7 +4,7 @@ using System.Collections;
 public class BotModule : MonoBehaviour {
 
 	public Module module;
-	public float editSize= -1;
+	//public float editSize= -1;
 
 	// Use this for initialization
 	void Start () {
@@ -26,13 +26,7 @@ public class BotModule : MonoBehaviour {
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
-		if (editSize < 0){
-			editSize = module.size;
-		}
-		else{
-			module.size = editSize;
-		
-		}
+
 		    
 		
 		Rigidbody2D body = transform.parent.GetComponent<Rigidbody2D>();

@@ -152,7 +152,7 @@ public class BotBot : MonoBehaviour {
 		foreach(Module module in bot.guidModuleLookup.Values){
 			powerRequirements += module.GetPowerRequirements();
 		}
-		float fuelRequiredThisFrame = powerRequirements * Time.fixedTime;
+		float fuelRequiredThisFrame = powerRequirements * Time.fixedDeltaTime;
 		
 		// See how mcuh fuel we have in total
 		float fuelSize = 0;
@@ -167,13 +167,13 @@ public class BotBot : MonoBehaviour {
 			sizeMul = 0;
 			shortage = true;
 		}
-//		foreach(Module module in bot.guidModuleLookup.Values){
-//			if (module.enableConsumable){
-//				module.size *= sizeMul;
-//			}
-//			if (shortage){
-//				module.OnPowerShortage();
-//			}
-//		}
+		foreach(Module module in bot.guidModuleLookup.Values){
+			if (module.enableConsumable){
+				module.size *= sizeMul;
+			}
+			if (shortage){
+				module.OnPowerShortage();
+			}
+		}
 	}
 }
