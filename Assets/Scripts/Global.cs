@@ -5,7 +5,7 @@ public class Global : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Time.timeScale = 0.5f;
+		Time.timeScale = 0.2f;
 	
 	}
 	

@@ -11,6 +11,7 @@ public class Module{
 	public float airResistance = 1;
 	public float volume = 1;
 	public bool enableConsumable = false;
+	public float heatEnergy = 0;
 	
 	public Bot bot;
 	
@@ -102,6 +103,14 @@ public class Module{
 	// Joules per unit of volume
 	public virtual float GetEnergyDensity(){
 		return 10;
+	}
+	
+	public virtual float GetVolumetricHeatCapacity(){
+		return 100;
+	}
+	
+	public virtual float GetMaxKelvin(){
+		return 100;
 	}
 	
 

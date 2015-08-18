@@ -4,11 +4,19 @@ using System.Collections;
 public class BotModule : MonoBehaviour {
 
 	public Module module;
+	public float temperature = 0;
+	
 	//public float editSize= -1;
 
 	// Use this for initialization
 	void Start () {
 		HandleScale();
+		if (GetComponent<Renderer>() != null){
+			GetComponent<Renderer>().material.EnableKeyword ("_EMISSION");
+		}
+		else{
+			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.EnableKeyword ("_EMISSION");
+		}
 	
 	}
 	
@@ -21,13 +29,29 @@ public class BotModule : MonoBehaviour {
 		transform.localScale = 2 * Balancing.singleton.ConvertModuleSizeToRadius(module.volume) * new Vector3(1, 1, 1);
 	}
 	
+	public void HandleHeat(){
+		/// Calc temperature
+		temperature = module.heatEnergy / (module.volume * module.GetVolumetricHeatCapacity());
+		
+		float normalisedTemp = temperature / module.GetMaxKelvin();
+		
+		Color heatGlow = Color.Lerp(Color.black, Color.red, normalisedTemp);
+		if (GetComponent<Renderer>() != null){
+			GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
+		}
+		else{
+			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
+		}
+	}
+	
 	// Update is called once per frame
 	void FixedUpdate () {
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
 
-		    
+		HandleHeat();
+		
 		
 		Rigidbody2D body = transform.parent.GetComponent<Rigidbody2D>();
 		

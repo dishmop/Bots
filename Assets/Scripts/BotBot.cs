@@ -12,6 +12,8 @@ public class BotBot : MonoBehaviour {
 	public Dictionary<Guid, CircleCollider2D> guidToCollider = new Dictionary<Guid, CircleCollider2D>();
 	public bool isBotActive = false;
 	
+	float kineticEnergy;
+	
 	LuaBinding luaBinding;
 	
 	bool isBotVisible = true;
@@ -108,6 +110,7 @@ public class BotBot : MonoBehaviour {
 	
 	}
 	
+	
 	public void FixedUpdate(){
 		GetComponent<Rigidbody2D>().isKinematic = !isBotActive;
 		if (!isBotActive) return;
@@ -124,9 +127,6 @@ public class BotBot : MonoBehaviour {
 		bot.rodSize = Mathf.Lerp (bot.rodSize, bot.CalcMinRodSize(), 0.2f);
 		OnChangeRodSize();
 
-			
-
-		
 
 		
 		if (bot.runtimeScript != null && bot.runtimeScript != "" && luaBinding == null){
@@ -175,5 +175,43 @@ public class BotBot : MonoBehaviour {
 				module.OnPowerShortage();
 			}
 		}
+		
+		kineticEnergy = CalcKineticEngergy();
+		
+		//Debug.Log(Time.fixedTime + ": FixedUpdate, speed = " + GetComponent<Rigidbody2D>().velocity.magnitude);
+	}
+	
+	float CalcKineticEngergy(){
+		float linSpeed = GetComponent<Rigidbody2D>().GetRelativePointVelocity(GetComponent<Rigidbody2D>().centerOfMass).magnitude;
+		float linearKineticEnergy = 0.5f * GetComponent<Rigidbody2D>().mass * linSpeed * linSpeed;
+		float angVel = GetComponent<Rigidbody2D>().angularVelocity;
+		float rotationalKinecticEnergy = 0.5f * GetComponent<Rigidbody2D>().inertia * angVel * angVel;
+		return linearKineticEnergy + rotationalKinecticEnergy;
+	}
+	
+	
+	// NOte - we may want to register colliisons continuous for (if we have friction) sliding along a wall
+	// and creating sparks and heat and noise!
+	void OnCollisionEnter2D(Collision2D collision){
+		float newKineticEnergy = CalcKineticEngergy();
+		float kineticEnergyDelta = kineticEnergy - newKineticEnergy;
+		BotModule otherModule = collision.contacts[0].collider.gameObject.GetComponent<BotModule>();
+		BotModule thisModule = collision.contacts[0].otherCollider.gameObject.GetComponent<BotModule>();
+		
+		if (collision.contacts.Count() > 1){
+			Debug.Log ("Multiple contact poiints in collision not handled properly");
+		}
+		
+		Debug.Log(Time.fixedTime + ": Collision with " + collision.collider.gameObject.name + ", Loss in energy = " + kineticEnergyDelta);
+		
+		// If we collided with another module, spread our heat between us and them
+		if (otherModule != null){
+			thisModule.module.heatEnergy += 0.5f * kineticEnergyDelta;
+			otherModule.module.heatEnergy += 0.5f * kineticEnergyDelta;
+		}
+		else{
+			thisModule.module.heatEnergy += kineticEnergyDelta;
+		}
+		kineticEnergy = newKineticEnergy;
 	}
 }
