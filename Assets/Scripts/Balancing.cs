@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Balancing : MonoBehaviour {
 	public static Balancing singleton = null;
+	
+	public float enginePowerToForceMultiplier = 50;
 
 	//
 	public enum ModuleShape{

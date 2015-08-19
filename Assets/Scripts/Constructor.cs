@@ -39,15 +39,12 @@ public class Constructor : Module{
 		return "C";
 	}
 
-	public override float GetPowerRequirements(){
-		return activated ? volume : 0;
+	// assumed to be on full power
+	public float CalcPowerRequirements(){
+		return volume;
 	}
 	
-	// Called if there is not enough power to cope with requirements
-	public override void OnPowerShortage(){
-		activated = false;
-	}
-	
+
 	
 	
 	public override void DebugPrint(){

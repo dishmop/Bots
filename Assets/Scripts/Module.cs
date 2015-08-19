@@ -72,14 +72,7 @@ public class Module{
 			}
 		}
 	}
-	
-	public virtual float GetPowerRequirements(){
-		return 0;
-	}
-	
-	// Called if there is not enough power to cope with requirements
-	public virtual void OnPowerShortage(){
-	}
+
 	
 	public virtual string GenerateRootConstructor(string thisName, string botName){
 		string text = "";

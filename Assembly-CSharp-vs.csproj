@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
      <Compile Include="Assets\Scripts\TestYield.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
+     <Compile Include="Assets\TestTrigger.cs" />
      <None Include="Assets\Shaders\noiseSimplex.cginc" />
      <None Include="Assets\Shaders\noise-simplex_v05.shader" />
  <Reference Include="UnityEngine.UI">

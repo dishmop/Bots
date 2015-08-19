@@ -15,8 +15,7 @@ public class BotBot : MonoBehaviour {
 	public Vector2 centreOfMass = Vector2.zero;
 	public float momentOfInteria;
 	public bool isOverlapTriggering = true;
-	
-	bool isOverlapTriggeringThisFrame = true;
+//	bool isOverlapTriggeringThisFrame = true;
 	
 	float kineticEnergy;
 
@@ -174,7 +173,7 @@ public class BotBot : MonoBehaviour {
 		GetComponent<Rigidbody2D>().gravityScale = 0;
 		GetComponent<Rigidbody2D>().drag = 0;
 		GetComponent<Rigidbody2D>().angularDrag = 5f;
-		
+		GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;	// temp test
 	}
 	
 	// Sets all the colliders to be non-triggers
@@ -228,35 +227,11 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		
-		// Deal with fuel usage
-		// First work out fuel usage
-		float powerRequirements = 0;
-		foreach(Module module in bot.guidModuleLookup.Values){
-			powerRequirements += module.GetPowerRequirements();
-		}
-		float fuelRequiredThisFrame = powerRequirements * Time.fixedDeltaTime;
-		
-		// See how mcuh fuel we have in total
-		float fuelAvailable = 0;
-		foreach(Module module in bot.guidModuleLookup.Values){
-			if (module.enableConsumable){
-				fuelAvailable += module.volume * module.GetEnergyDensity();
-			}
-		}
-		bool shortage = false;
-		// What proportion of fuel must be left
-		float fuelProp = (fuelAvailable - fuelRequiredThisFrame)  / fuelAvailable;
-		if (fuelProp < 0){
-			fuelProp = 0;
-			shortage = true;
-		}
-		foreach(Module module in bot.guidModuleLookup.Values){
-			if (module.enableConsumable){
-				module.volume *= fuelProp;
-			}
-			if (shortage){
-				module.OnPowerShortage();
-			}
+
+		// Preupdate modules
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			go.GetComponent<BotModule>().PreGameUpdate();
+			
 		}
 		
 		// Update modules
@@ -265,6 +240,70 @@ public class BotBot : MonoBehaviour {
 			
 		}
 		
+		// Do the fuel usage calculation
+
+		// First work out how much power has been requested
+		float powerRequirements = 0;
+		foreach(GameObject go in modulesToModuleGOs.Values){
+			BotModule botModule = go.GetComponent<BotModule>();
+			
+			powerRequirements += botModule.requestedPower;
+		}
+		float fuelRequestedThisFrame = powerRequirements * Time.fixedDeltaTime;
+		
+		// See how mcuh fuel we have in total
+		float totalFuelAvailable = 0;
+		foreach(Module module in bot.guidModuleLookup.Values){
+			if (module.enableConsumable){
+				totalFuelAvailable += module.volume * module.GetEnergyDensity();
+			}
+		}
+		
+		// What proportion of the fuel requested can we supply?
+		float availableFuelRequested = Mathf.Min (totalFuelAvailable, fuelRequestedThisFrame);
+		float proportionAvailable = fuelRequestedThisFrame == 0 ? 1 : (availableFuelRequested / fuelRequestedThisFrame);
+		
+		
+
+		
+		// Inform each module how much power is available to them
+		foreach(GameObject go in modulesToModuleGOs.Values){
+			BotModule botModule = go.GetComponent<BotModule>();
+			
+			botModule.availablePower = botModule.requestedPower * proportionAvailable;
+		}
+		
+		
+		// Now update each module according to how much fuel is available
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			go.GetComponent<BotModule>().GameUpdatePostPowerCalc();
+			
+		}
+		
+		// How much fuel has actually been used
+		float totalPowerUsed = 0;
+		foreach(GameObject go in modulesToModuleGOs.Values){
+			BotModule botModule = go.GetComponent<BotModule>();
+			
+			totalPowerUsed += botModule.usedPower;
+		}
+		
+		float totalFuelUsed = totalPowerUsed * Time.fixedDeltaTime;
+		
+		if (totalFuelAvailable != 0){
+			float fuelProp = (totalFuelAvailable - totalFuelUsed) / totalFuelAvailable;
+		
+		
+			// Reduce the size of the consumable modules accordingly
+			foreach(Module module in bot.guidModuleLookup.Values){
+				if (module.enableConsumable){
+					module.volume *= fuelProp;
+				}
+			}
+		}
+		
+
+
 		
 		//Debug.Log(Time.fixedTime + ": FixedUpdate, speed = " + GetComponent<Rigidbody2D>().velocity.magnitude);
 	}
@@ -276,9 +315,14 @@ public class BotBot : MonoBehaviour {
 		DebugDrawBounds();
 		
 		// If we survived since last fixd update without getting any overlap triggers - then we have no overlaps
-		isOverlapTriggering = isOverlapTriggeringThisFrame;
+		isOverlapTriggering = false;
 		
-		isOverlapTriggeringThisFrame = false;
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			BotModule botModule = go.GetComponent<BotModule>();
+			isOverlapTriggering = isOverlapTriggering || botModule.isOverlapTriggering;
+		}
+		
+	//	Debug.Log (Time.fixedTime + ": " + gameObject.name + ": isOverlapTriggering = " + isOverlapTriggering);
 		
 	}
 	
@@ -322,13 +366,13 @@ public class BotBot : MonoBehaviour {
 		Debug.DrawLine (transform.TransformPoint(bottomRight), transform.TransformPoint(bottomLeft), Color.blue);
 	}
 	
-	void OnTriggerEnter2D(Collider2D collider){
-		HandleTrigger(collider);
-	}
-	
-	void OnTriggerStay2D(Collider2D collider){
-		HandleTrigger(collider);
-	}
+//	void OnTriggerEnter2D(Collider2D collider){
+//		HandleTrigger(collider);
+//	}
+//	
+//	void OnTriggerStay2D(Collider2D collider){
+//		HandleTrigger(collider);
+//	}
 	
 	void OnCollisionEnter2D(Collision2D collision){
 		HandleCollision(collision);
@@ -340,10 +384,15 @@ public class BotBot : MonoBehaviour {
 
 	
 	
-	
-	void HandleTrigger(Collider2D collider){
-		isOverlapTriggeringThisFrame = true;
-	}
+//	
+//	void HandleTrigger(Collider2D collider){
+//		isOverlapTriggeringThisFrame = true;
+//
+//		if (gameObject.name == "missile_2"){
+//			Debug.Log ("HandleTrigger - overlappingName = " + collider.gameObject.name);
+//			
+//		}
+//	}
 	
 	
 	// NOte - we may want to register colliisons continuous for (if we have friction) sliding along a wall

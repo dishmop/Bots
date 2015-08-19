@@ -6,6 +6,14 @@ public class BotModule : MonoBehaviour {
 	public Module module;
 	public float temperature = 0;
 	
+	public float requestedPower;
+	public float availablePower;
+	public float usedPower;
+	
+	public bool isOverlapTriggering = true;
+	bool isOverlapTriggeringThisFrame = true;
+	
+		
 	//public float editSize= -1;
 
 	// Use this for initialization
@@ -26,6 +34,9 @@ public class BotModule : MonoBehaviour {
 	
 	public void HandleScale(){
 		// use 2 x because module is radius 0.5
+		if (float.IsNaN(module.volume)){
+			Debug.Log ("error");
+		}
 		transform.localScale = 2 * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume) * new Vector3(1, 1, 1);
 	}
 	
@@ -42,6 +53,12 @@ public class BotModule : MonoBehaviour {
 		else{
 			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
 		}
+	}
+	
+	public void PreGameUpdate(){
+		requestedPower = 0;
+		availablePower = 0;
+		usedPower = 0;
 	}
 	
 	// Update is called once per frame
@@ -73,7 +90,38 @@ public class BotModule : MonoBehaviour {
 		
 		// Apply air resistance
 		body.AddForceAtPosition(module.airResistance * speed * groundFrictionDir, transform.position);
-		
-	
 	}
+	
+	public virtual void GameUpdatePostPowerCalc(){
+	}
+	
+	public virtual void FixedUpdate(){
+//		if (transform.parent.name == "missile_2" || transform.parent.name == "missile_1"){
+//			Debug.Log("<color=blue>" + Time.fixedTime + ": " + transform.parent.name + "." + gameObject.name + ": FixedUpdate() </color>");
+//		}
+		isOverlapTriggering = isOverlapTriggeringThisFrame;
+		isOverlapTriggeringThisFrame = false;
+		
+		
+	}
+	
+	void OnTriggerEnter2D(Collider2D collider){
+		HandleTrigger(collider);
+	}
+	
+	void OnTriggerStay2D(Collider2D collider){
+		HandleTrigger(collider);
+	}
+	
+	
+	void HandleTrigger(Collider2D collider){
+//		if (transform.parent.name == "missile_2" || transform.parent.name == "missile_1"){
+//			Debug.Log("<color=green>" + Time.fixedTime + ": " + transform.parent.name + "." + gameObject.name + ": HandleTrigger() </color>");
+//		}
+		
+		isOverlapTriggeringThisFrame = true;
+		
+
+	}
+	
 }

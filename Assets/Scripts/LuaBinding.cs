@@ -212,7 +212,7 @@ public class LuaBinding{
 	
 	// Runtime control
 	public void EngineSetPower(Engine engine, float power){
-		engine.desPower = Mathf.Clamp(power, -1, 1);
+		engine.desAmount = Mathf.Clamp(power, -1, 1);
 		LocalLog ("EngineSetPower: " + power);
 	}
 	

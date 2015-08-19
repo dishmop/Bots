@@ -11,16 +11,26 @@ public class BotEngine : BotModule {
 	public override void GameUpdate () {
 		base.GameUpdate();
 		
-	
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
-		readPower = 50 * engine.GetPowerRequirements();
-		propForce = transform.rotation * new Vector3(0, readPower);
+		requestedPower = engine.CalcPowerRequirements(engine.desAmount);
 		
-		engine.powerMultiplier = Mathf.Lerp (engine.powerMultiplier, 1, 0.001f);
 	
 	}
-	void FixedUpdate(){
+	
+	public override void GameUpdatePostPowerCalc ()
+	{
+		if (float.IsNaN(availablePower)){
+			Debug.Log ("Error");
+		}
+		readPower = availablePower * Balancing.singleton.enginePowerToForceMultiplier;
+		propForce = transform.rotation * new Vector3(0, readPower);
+		usedPower = availablePower;
+	}
+	
+	
+	public override void FixedUpdate(){
+		base.FixedUpdate();
 		if (transform.parent.GetComponent<Rigidbody2D>() != null){
 			transform.parent.GetComponent<Rigidbody2D>().AddForceAtPosition(propForce, transform.position);
 		}

@@ -10,6 +10,7 @@ public class GenerateEffect : MonoBehaviour {
 	public Color col2;
 	public float magScale = 1.1f;
 	
+	
 	enum State{
 		kInactive,
 		kInitialise,
@@ -26,6 +27,9 @@ public class GenerateEffect : MonoBehaviour {
 	
 	float stateStartTime = 0;
 	
+	public bool IsConstructing(){
+		return state != State.kWaitForSpace && state != State.kInactive && state != State.kInitialise;
+	}
 
 	public void InitialiseEffect(float duration){
 		fadeInDuration = duration * 0.5f;
@@ -91,8 +95,13 @@ public class GenerateEffect : MonoBehaviour {
 		}
 		case State.kWaitForSpace:{
 			if (!GetComponent<BotBot>().isOverlapTriggering){
+				
 				GetComponent<BotBot>().SolidifyColliders();
 				state = State.kFadeEffectIn;
+			//	Debug.Log ("<color=red>" + Time.fixedTime + ": " + gameObject.name + ": state = State.kFadeEffectIn </color>");
+			}
+			else{
+			//	Debug.Log (Time.fixedTime + ": " + gameObject.name + ": Waiting for space");
 			}
 			break;
 		
