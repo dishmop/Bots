@@ -181,7 +181,7 @@ public class Bot{
 				}
 			}
 			circleCentres[count] = thisPos;
-			circleRadii[count] =  Balancing.singleton.ConvertModuleSizeToRadius(thisModule.volume);
+			circleRadii[count] =  Balancing.singleton.ConvertModuleVolumeToRadius(thisModule.volume);
 			count++;
 			
 			thisModule.visited = true;

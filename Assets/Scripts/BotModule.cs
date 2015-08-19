@@ -9,7 +9,7 @@ public class BotModule : MonoBehaviour {
 	//public float editSize= -1;
 
 	// Use this for initialization
-	void Start () {
+	virtual public void Start () {
 		HandleScale();
 		if (GetComponent<Renderer>() != null){
 			GetComponent<Renderer>().material.EnableKeyword ("_EMISSION");
@@ -20,13 +20,13 @@ public class BotModule : MonoBehaviour {
 	
 	}
 	
-	void Update(){
+	virtual public void Update(){
 		HandleScale();
 	}
 	
 	public void HandleScale(){
 		// use 2 x because module is radius 0.5
-		transform.localScale = 2 * Balancing.singleton.ConvertModuleSizeToRadius(module.volume) * new Vector3(1, 1, 1);
+		transform.localScale = 2 * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume) * new Vector3(1, 1, 1);
 	}
 	
 	public void HandleHeat(){
@@ -45,12 +45,13 @@ public class BotModule : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	public virtual void GameUpdate () {
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
 
 		HandleHeat();
+
 		
 		
 		Rigidbody2D body = transform.parent.GetComponent<Rigidbody2D>();

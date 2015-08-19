@@ -14,6 +14,8 @@ public class HomeBase : MonoBehaviour {
 		homeBotGO.transform.localPosition = Vector3.zero;
 		homeBotGO.transform.localRotation = Quaternion.identity;
 		homeBotGO.GetComponent<BotBot>().SetBotActive(true);
+		homeBotGO.AddComponent<Rigidbody2D>();
+		
 		
 		transform.FindChild("Placeholder").gameObject.SetActive(false);
 

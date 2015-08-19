@@ -11,10 +11,15 @@ public class BotBot : MonoBehaviour {
 	public Dictionary<Guid, GameObject> modulesToRodGOs = new Dictionary<Guid, GameObject>();
 	public Dictionary<Guid, CircleCollider2D> guidToCollider = new Dictionary<Guid, CircleCollider2D>();
 	public bool isBotActive = false;
+	public float mass;
+	public Vector2 centreOfMass = Vector2.zero;
+	public float momentOfInteria;
+	public bool isOverlapTriggering = true;
+	
+	bool isOverlapTriggeringThisFrame = true;
 	
 	float kineticEnergy;
-	float tempLineSpeed;
-	float tempAngVel;
+
 	
 	LuaBinding luaBinding;
 	
@@ -86,6 +91,7 @@ public class BotBot : MonoBehaviour {
 	
 	}
 	
+	
 	void HandleVisibility(Transform thisTransform){
 		if (thisTransform.GetComponent<MeshRenderer>() != null){
 			thisTransform.GetComponent<MeshRenderer>().enabled = isBotVisible;
@@ -113,20 +119,94 @@ public class BotBot : MonoBehaviour {
 	
 	}
 	
+	public void RecalcMass(){
+		mass = 0;
+		
+		foreach(Module module in bot.guidModuleLookup.Values){
+			float moduleMass = module.volume * module.GetDensity();
+			mass += moduleMass;
+		}
+	}
+	
+	public void RecalcCentreOfMass(){
+		centreOfMass = Vector2.zero;
+		momentOfInteria = 0;
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			Module module = go.GetComponent<BotModule>().module;
+			
+			Vector3 moduleCentre = go.transform.localPosition;
+			float moduleMass = module.volume * module.GetDensity();
+			centreOfMass += new Vector2(moduleCentre.x, moduleCentre.y) * moduleMass; 
+		}
+		
+		centreOfMass *= 1f/ mass;
+	
+	}
+	
+	public void RecalcMomentOfInertia(){
+		momentOfInteria = 0;
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			Module module = go.GetComponent<BotModule>().module;
+			Vector3 moduleCentre = go.transform.localPosition;
+			float moduleMomentOfInertia = Balancing.singleton.ConvertVolumeToUnitMomentOfInertia(module.volume) * module.GetDensity();
+			float moduleMass = module.volume * module.GetDensity();
+			float moduleDistSq = (moduleCentre - new Vector3(centreOfMass.x, centreOfMass.y, moduleCentre.z)).sqrMagnitude;
+			momentOfInteria += moduleMomentOfInertia + moduleDistSq * moduleMass;
+		}
+		
+	}
+	
+	public void CreateRigidBody(){
+		gameObject.AddComponent<Rigidbody2D>();
+		RecalcRigidBodyParams();
+		
+	}
+	
+	void RecalcRigidBodyParams(){
+		// Ensure the rigid body is set up correctly
+		RecalcMass ();
+		RecalcCentreOfMass();
+		RecalcMomentOfInertia();
+		
+		GetComponent<Rigidbody2D>().mass = mass;
+		GetComponent<Rigidbody2D>().centerOfMass = centreOfMass;
+		GetComponent<Rigidbody2D>().inertia = momentOfInteria;
+		GetComponent<Rigidbody2D>().gravityScale = 0;
+		GetComponent<Rigidbody2D>().drag = 0;
+		GetComponent<Rigidbody2D>().angularDrag = 5f;
+		
+	}
+	
+	// Sets all the colliders to be non-triggers
+	public void SolidifyColliders(){
+		SolidifyColliders(transform);
+		
+	}
+	
+	void SolidifyColliders(Transform useTransform){
+		if (useTransform.GetComponent<Collider2D>() != null){
+			useTransform.GetComponent<Collider2D>().isTrigger = false;
+		}
+		foreach (Transform child in useTransform){
+			SolidifyColliders(child);
+		}
+		
+	}
+	
+	
 	
 	public void GameUpdate(){
-		GetComponent<Rigidbody2D>().isKinematic = !isBotActive;
+		if (GetComponent<Rigidbody2D>()){
+			GetComponent<Rigidbody2D>().isKinematic = !isBotActive;
+		}
 		if (!isBotActive) return;
 		
 		// Thiswould be beter done on a per module basis for slingshot kindof manourvrees
 		GetComponent<Rigidbody2D>().constraints = bot.enableAnchor ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;
 		
-		// Caluclate the mass
-		float mass = 0;
-		foreach(Module module in bot.guidModuleLookup.Values){
-			mass += module.volume * module.GetDensity();
-		}
-		GetComponent<Rigidbody2D>().mass = mass;
+		RecalcRigidBodyParams();
+		
+		
 		bot.rodSize = Mathf.Lerp (bot.rodSize, bot.CalcMinRodSize(), 0.2f);
 		OnChangeRodSize();
 
@@ -179,15 +259,30 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		
+		// Update modules
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			go.GetComponent<BotModule>().GameUpdate();
+			
+		}
+		
 		
 		//Debug.Log(Time.fixedTime + ": FixedUpdate, speed = " + GetComponent<Rigidbody2D>().velocity.magnitude);
 	}
 	
 	void FixedUpdate(){
-		kineticEnergy = CalcKineticEngergy(out tempLineSpeed, out tempAngVel);
+		if (GetComponent<Rigidbody2D>() != null){
+			kineticEnergy = CalcKineticEngergy();
+		}
+		DebugDrawBounds();
+		
+		// If we survived since last fixd update without getting any overlap triggers - then we have no overlaps
+		isOverlapTriggering = isOverlapTriggeringThisFrame;
+		
+		isOverlapTriggeringThisFrame = false;
 		
 	}
 	
+	// Debug version
 	float CalcKineticEngergy(out float linSpeed, out float angVel){
 		linSpeed = GetComponent<Rigidbody2D>().GetRelativePointVelocity(GetComponent<Rigidbody2D>().centerOfMass).magnitude;
 		float linearKineticEnergy = 0.5f * GetComponent<Rigidbody2D>().mass * linSpeed * linSpeed;
@@ -196,12 +291,58 @@ public class BotBot : MonoBehaviour {
 		return linearKineticEnergy + rotationalKinecticEnergy;
 	}
 	
-	void OnCollisionStay2D(Collision2D collision){
-		HandleCollision(collision);
+	float CalcKineticEngergy(){
+		float linSpeed;
+		float angVel;
+		linSpeed = GetComponent<Rigidbody2D>().GetRelativePointVelocity(GetComponent<Rigidbody2D>().centerOfMass).magnitude;
+		float linearKineticEnergy = 0.5f * GetComponent<Rigidbody2D>().mass * linSpeed * linSpeed;
+		angVel = Mathf.Deg2Rad * GetComponent<Rigidbody2D>().angularVelocity;
+		float rotationalKinecticEnergy = 0.5f * GetComponent<Rigidbody2D>().inertia * angVel * angVel;
+		return linearKineticEnergy + rotationalKinecticEnergy;
+	}
+	
+	
+	// Degbug. draw bounds
+	void DebugDrawBounds(){
+		float zVal= -1;
+		
+		Vector3 bottomLeft = bounds.min;
+		Vector3 topRight = bounds.max;
+		Vector3 topLeft = new Vector3(bottomLeft.x, topRight.y, bottomLeft.z);
+		Vector3 bottomRight = new Vector3(topRight.x, bottomLeft.y, topRight.z);
+		
+		bottomLeft.z = zVal;
+		topRight.z = zVal;
+		topLeft.z = zVal;
+		bottomRight.z = zVal;
+		
+		Debug.DrawLine (transform.TransformPoint(bottomLeft), transform.TransformPoint(topLeft), Color.blue);
+		Debug.DrawLine (transform.TransformPoint(topLeft), transform.TransformPoint(topRight), Color.blue);
+		Debug.DrawLine (transform.TransformPoint(topRight), transform.TransformPoint(bottomRight), Color.blue);
+		Debug.DrawLine (transform.TransformPoint(bottomRight), transform.TransformPoint(bottomLeft), Color.blue);
+	}
+	
+	void OnTriggerEnter2D(Collider2D collider){
+		HandleTrigger(collider);
+	}
+	
+	void OnTriggerStay2D(Collider2D collider){
+		HandleTrigger(collider);
 	}
 	
 	void OnCollisionEnter2D(Collision2D collision){
 		HandleCollision(collision);
+	}
+	
+	void OnCollisionStay2D(Collision2D collision){
+		HandleCollision(collision);
+	}
+
+	
+	
+	
+	void HandleTrigger(Collider2D collider){
+		isOverlapTriggeringThisFrame = true;
 	}
 	
 	
@@ -219,7 +360,7 @@ public class BotBot : MonoBehaviour {
 			Debug.Log ("Multiple contact poiints in collision not handled properly");
 		}
 		
-		Debug.Log(Time.fixedTime + ": Collision with " + collision.collider.gameObject.name + ", Loss in energy = " + kineticEnergyDelta + ", old linSpeed = " + tempLineSpeed + ", old AngVel = " + tempAngVel + ", newLinSpeed = " + newLinSpeed + ", new angVel = " + newAngVel);
+		//Debug.Log(Time.fixedTime + ": Collision with " + collision.collider.gameObject.name + ", Loss in energy = " + kineticEnergyDelta + ", old linSpeed = " + tempLineSpeed + ", old AngVel = " + tempAngVel + ", newLinSpeed = " + newLinSpeed + ", new angVel = " + newAngVel);
 		
 		// If we collided with another module, spread our heat between us and them
 		if (otherModule != null){
@@ -232,7 +373,9 @@ public class BotBot : MonoBehaviour {
 		kineticEnergy = newKineticEnergy;
 	}
 	
+
+	
 	void OnDestroy(){
-		Simulation.singleton.UnregisterBot(gameObject);
+		if (Simulation.singleton != null) Simulation.singleton.UnregisterBot(gameObject);
 	}
 }

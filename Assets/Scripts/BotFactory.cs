@@ -21,6 +21,9 @@ public class BotFactory : MonoBehaviour {
 		GameObject newBotBotGO = GameObject.Instantiate(botBotPrefab);
 		BotBot newBotBot = newBotBotGO.GetComponent<BotBot>();
 		newBotBot.bot = bot;
+		newBotBot.RecalcMass();
+		
+		bot.rodSize = bot.CalcMinRodSize();
 		
 		Queue<Module> moduleQueue = new Queue<Module>();
 		Queue<int> spokeToParent = new Queue<int>();
@@ -46,7 +49,7 @@ public class BotFactory : MonoBehaviour {
 			GameObject newModuleGO = ConstructBotModule(thisModule);
 			newModuleGO.transform.SetParent(newBotBotGO.transform);
 			newModuleGO.transform.localPosition = thisPos;
-			newModuleGO.transform.localScale = new Vector3(1f, 1f, 1f);
+			newModuleGO.GetComponent<BotModule>().HandleScale();
 			newBotBot.RegisterModule(thisModule, newModuleGO);
 			
 			// Make the rod conecting them (if there is one)

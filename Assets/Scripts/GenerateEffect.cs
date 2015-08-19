@@ -13,6 +13,7 @@ public class GenerateEffect : MonoBehaviour {
 	enum State{
 		kInactive,
 		kInitialise,
+		kWaitForSpace,
 		kFadeEffectIn,
 		kShowBot,
 		kFadeEffectOut,
@@ -51,6 +52,7 @@ public class GenerateEffect : MonoBehaviour {
 			effectRod.transform.SetParent(transform);
 			effectRod.transform.position = moduleGO.transform.position;
 			effectRod.transform.rotation = moduleGO.transform.rotation;
+			effectRod.transform.localScale = moduleGO.transform.localScale * magScale;
 			effectObjects.Add (effectRod);
 		}
 		
@@ -84,8 +86,16 @@ public class GenerateEffect : MonoBehaviour {
 		case State.kInitialise:{
 			CreateEffectGeometry();
 			stateStartTime = Time.time;
-			state = State.kFadeEffectIn;
+			state = State.kWaitForSpace;
 			break;
+		}
+		case State.kWaitForSpace:{
+			if (!GetComponent<BotBot>().isOverlapTriggering){
+				GetComponent<BotBot>().SolidifyColliders();
+				state = State.kFadeEffectIn;
+			}
+			break;
+		
 		}
 		case State.kFadeEffectIn:{
 				float alpha = (Time.time -  stateStartTime) / fadeInDuration;
@@ -118,11 +128,13 @@ public class GenerateEffect : MonoBehaviour {
 			}
 			case State.kFinaliseEffect:{
 				DestroyEffectGeometry();
+				transform.parent.GetComponent<BotConstructor>().OnSpawnDetach();
+				GetComponent<BotBot>().CreateRigidBody();
 				if (transform.parent.parent.GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
 					GetComponent<Rigidbody2D>().velocity = transform.parent.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position);
 					GetComponent<Rigidbody2D>().angularVelocity = transform.parent.parent.GetComponent<Rigidbody2D>().angularVelocity;
 				}
-				transform.parent.GetComponent<BotConstructor>().OnSpawnDetach();
+
 				transform.SetParent(null);
 				GetComponent<BotBot>().SetBotActive(true);
 				state = State.kInactive;

@@ -2,18 +2,26 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BotConstructor : MonoBehaviour {
+public class BotConstructor : BotModule {
 	public Constructor constructor;
+	public static int botCount = 0;
+
 
 	GameObject childBotBotGO;
 
 	public void OnSpawnDetach(){
+		BotBot childBot = childBotBotGO.GetComponent<BotBot>();
 		childBotBotGO = null;
+		childBot.GameUpdate();
 		constructor.OnCompleteConstruction();
+		
+		
+		
 	}
 	
 	// Use this for initialization
-	void Start () {
+	public override void Start () {
+		base.Start();
 	
 		// Heck must sort the scale out first
 		GetComponent<BotModule>().HandleScale();
@@ -22,7 +30,10 @@ public class BotConstructor : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	public override void GameUpdate () {
+		base.GameUpdate();
+		
+
 		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
@@ -39,6 +50,7 @@ public class BotConstructor : MonoBehaviour {
 				
 			}
 		}
+		
 	}
 	
 	bool IsConstructing(){
@@ -55,7 +67,7 @@ public class BotConstructor : MonoBehaviour {
 		
 		
 		childBotBotGO = BotFactory.singleton.ConstructBotBot(newBot);
-		childBotBotGO.name = constructor.botDefinition;
+		childBotBotGO.name = constructor.botDefinition + "_" + botCount++;
 		
 		// Position it appropriately
 		BotBot botBot = childBotBotGO.GetComponent<BotBot>();
@@ -63,6 +75,7 @@ public class BotConstructor : MonoBehaviour {
 		float dist =  botBot.bounds.extents.y  + GetComponent<Renderer>().bounds.extents.y;
 		childBotBotGO.transform.position = transform.position + dist * fwDir;
 		childBotBotGO.transform.rotation = transform.rotation;
+		
 		
 		// Get a copy of the object names and their userdata so we can pass it to the runtime script
 		LuaInterface.LuaTable globals = binding.lua["_G"] as LuaInterface.LuaTable;
@@ -75,7 +88,7 @@ public class BotConstructor : MonoBehaviour {
 			newBot.RegisterLuaName(pair.Key.ToString(), pair.Value);
 			
 		}
-		float constructionDuration = childBotBotGO.GetComponent<Rigidbody2D>().mass / constructor.volume;
+		float constructionDuration = botBot.mass / constructor.volume;
 		childBotBotGO.transform.SetParent(transform);
 		childBotBotGO.GetComponent<GenerateEffect>().InitialiseEffect(constructionDuration);
 		return childBotBotGO;
