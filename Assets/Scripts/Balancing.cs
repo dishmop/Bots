@@ -24,8 +24,6 @@ public class Balancing : MonoBehaviour {
 		return 0f;
 	}
 
-
-
 	
 	
 	void Awake(){
@@ -35,8 +33,6 @@ public class Balancing : MonoBehaviour {
 		
 		
 	}
-	
-	
 	
 	void OnDestroy(){
 		singleton = null;

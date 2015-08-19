@@ -109,11 +109,12 @@ public class BotBot : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		Simulation.singleton.RegisterBot(gameObject);
 	
 	}
 	
 	
-	public void FixedUpdate(){
+	public void GameUpdate(){
 		GetComponent<Rigidbody2D>().isKinematic = !isBotActive;
 		if (!isBotActive) return;
 		
@@ -178,9 +179,13 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		
-		kineticEnergy = CalcKineticEngergy(out tempLineSpeed, out tempAngVel);
 		
 		//Debug.Log(Time.fixedTime + ": FixedUpdate, speed = " + GetComponent<Rigidbody2D>().velocity.magnitude);
+	}
+	
+	void FixedUpdate(){
+		kineticEnergy = CalcKineticEngergy(out tempLineSpeed, out tempAngVel);
+		
 	}
 	
 	float CalcKineticEngergy(out float linSpeed, out float angVel){
@@ -191,10 +196,18 @@ public class BotBot : MonoBehaviour {
 		return linearKineticEnergy + rotationalKinecticEnergy;
 	}
 	
+	void OnCollisionStay2D(Collision2D collision){
+		HandleCollision(collision);
+	}
+	
+	void OnCollisionEnter2D(Collision2D collision){
+		HandleCollision(collision);
+	}
+	
 	
 	// NOte - we may want to register colliisons continuous for (if we have friction) sliding along a wall
 	// and creating sparks and heat and noise!
-	void OnCollisionEnter2D(Collision2D collision){
+	void HandleCollision(Collision2D collision){
 		float newLinSpeed;
 		float newAngVel;
 		float newKineticEnergy = CalcKineticEngergy(out newLinSpeed, out newAngVel);
@@ -217,5 +230,9 @@ public class BotBot : MonoBehaviour {
 			thisModule.module.heatEnergy += kineticEnergyDelta;
 		}
 		kineticEnergy = newKineticEnergy;
+	}
+	
+	void OnDestroy(){
+		Simulation.singleton.UnregisterBot(gameObject);
 	}
 }

@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\Module.cs" />
      <Compile Include="Assets\Scripts\ModuleType.cs" />
      <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
+     <Compile Include="Assets\Scripts\Simulation.cs" />
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
      <Compile Include="Assets\Scripts\TestYield.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
