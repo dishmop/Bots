@@ -13,6 +13,8 @@ public class BotBot : MonoBehaviour {
 	public bool isBotActive = false;
 	
 	float kineticEnergy;
+	float tempLineSpeed;
+	float tempAngVel;
 	
 	LuaBinding luaBinding;
 	
@@ -176,15 +178,15 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		
-		kineticEnergy = CalcKineticEngergy();
+		kineticEnergy = CalcKineticEngergy(out tempLineSpeed, out tempAngVel);
 		
 		//Debug.Log(Time.fixedTime + ": FixedUpdate, speed = " + GetComponent<Rigidbody2D>().velocity.magnitude);
 	}
 	
-	float CalcKineticEngergy(){
-		float linSpeed = GetComponent<Rigidbody2D>().GetRelativePointVelocity(GetComponent<Rigidbody2D>().centerOfMass).magnitude;
+	float CalcKineticEngergy(out float linSpeed, out float angVel){
+		linSpeed = GetComponent<Rigidbody2D>().GetRelativePointVelocity(GetComponent<Rigidbody2D>().centerOfMass).magnitude;
 		float linearKineticEnergy = 0.5f * GetComponent<Rigidbody2D>().mass * linSpeed * linSpeed;
-		float angVel = GetComponent<Rigidbody2D>().angularVelocity;
+		angVel = Mathf.Deg2Rad * GetComponent<Rigidbody2D>().angularVelocity;
 		float rotationalKinecticEnergy = 0.5f * GetComponent<Rigidbody2D>().inertia * angVel * angVel;
 		return linearKineticEnergy + rotationalKinecticEnergy;
 	}
@@ -193,7 +195,9 @@ public class BotBot : MonoBehaviour {
 	// NOte - we may want to register colliisons continuous for (if we have friction) sliding along a wall
 	// and creating sparks and heat and noise!
 	void OnCollisionEnter2D(Collision2D collision){
-		float newKineticEnergy = CalcKineticEngergy();
+		float newLinSpeed;
+		float newAngVel;
+		float newKineticEnergy = CalcKineticEngergy(out newLinSpeed, out newAngVel);
 		float kineticEnergyDelta = kineticEnergy - newKineticEnergy;
 		BotModule otherModule = collision.contacts[0].collider.gameObject.GetComponent<BotModule>();
 		BotModule thisModule = collision.contacts[0].otherCollider.gameObject.GetComponent<BotModule>();
@@ -202,7 +206,7 @@ public class BotBot : MonoBehaviour {
 			Debug.Log ("Multiple contact poiints in collision not handled properly");
 		}
 		
-		Debug.Log(Time.fixedTime + ": Collision with " + collision.collider.gameObject.name + ", Loss in energy = " + kineticEnergyDelta);
+		Debug.Log(Time.fixedTime + ": Collision with " + collision.collider.gameObject.name + ", Loss in energy = " + kineticEnergyDelta + ", old linSpeed = " + tempLineSpeed + ", old AngVel = " + tempAngVel + ", newLinSpeed = " + newLinSpeed + ", new angVel = " + newAngVel);
 		
 		// If we collided with another module, spread our heat between us and them
 		if (otherModule != null){
