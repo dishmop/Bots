@@ -11,11 +11,12 @@ Properties {
 SubShader {
        ZTest Less
        Cull Off
-		Blend SrcAlpha OneMinusSrcAlpha
+	   Blend SrcAlpha OneMinusSrcAlpha
 		//Blend SrcAlpha One // additive blending
+		Tags {"Queue"="Transparent+1"}
 	Pass {
-		Tags {"Queue"="Transparent"}
-		 ZWrite On
+		
+		// ZWrite Off
 		CGPROGRAM
 		
 		#pragma target 3.0

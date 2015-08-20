@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GenerateEffect : MonoBehaviour {
 
@@ -42,12 +43,16 @@ public class GenerateEffect : MonoBehaviour {
 	
 	void CreateEffectGeometry(){
 		// Create spheres
+		string useName = "effectSphere";
+		int count = 0;
 		foreach (GameObject moduleGO in GetComponent<BotBot>().modulesToModuleGOs.Values){
 			GameObject effectSphere = GameObject.Instantiate(BotFactory.singleton.generateEffectSpherePrefab);
+			effectSphere.name = useName + "_" + count++;
 			effectSphere.transform.SetParent(transform);
 			effectSphere.transform.position = moduleGO.transform.position;
 			effectSphere.transform.rotation = moduleGO.transform.rotation;
 			effectSphere.transform.localScale = moduleGO.transform.localScale * magScale;
+			
 			effectObjects.Add (effectSphere);
 		}
 		// Generate rods
@@ -59,7 +64,14 @@ public class GenerateEffect : MonoBehaviour {
 			effectRod.transform.localScale = moduleGO.transform.localScale * magScale;
 			effectObjects.Add (effectRod);
 		}
-		
+		SetRenderQueue(Balancing.singleton.effectRenderQueueNum);
+	}
+	
+	void SetRenderQueue(int queueNum){
+		foreach (GameObject go in effectObjects){
+			//go.GetComponent<Renderer>().material.renderQueue = queueNum;
+			Debug.Log (go.name + ": " + go.GetComponent<Renderer>().material.renderQueue);
+		}
 	}
 	
 	void PropogateColors(){
@@ -86,6 +98,7 @@ public class GenerateEffect : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//SetRenderQueue(Balancing.singleton.effectRenderQueueNum);
 		switch (state){
 		case State.kInitialise:{
 			CreateEffectGeometry();
@@ -101,7 +114,7 @@ public class GenerateEffect : MonoBehaviour {
 			//	Debug.Log ("<color=red>" + Time.fixedTime + ": " + gameObject.name + ": state = State.kFadeEffectIn </color>");
 			}
 			else{
-			//	Debug.Log (Time.fixedTime + ": " + gameObject.name + ": Waiting for space");
+				Debug.Log (Time.fixedTime + ": " + gameObject.name + ": Waiting for space");
 			}
 			break;
 		

@@ -5,6 +5,7 @@ public class Balancing : MonoBehaviour {
 	public static Balancing singleton = null;
 	
 	public float enginePowerToForceMultiplier = 50;
+	public int effectRenderQueueNum = 3000;
 
 	//
 	public enum ModuleShape{
