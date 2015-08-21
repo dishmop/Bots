@@ -1,9 +1,13 @@
 ﻿Shader "Custom noise/Aether_01" {
 Properties {
-	_RawData ("RawData", 2D) = "defaulttexture" {}
+	_RawData01 ("RawData01", 2D) = "defaulttexture" {}
+	_RawData02 ("RawData02", 2D) = "defaulttexture" {}
+	_RawData02 ("RawData03", 2D) = "defaulttexture" {}
+	
 	_Width ("Width", int) = 0
 	_Height ("Height", int) = 0
 	_SpringConst ("SprintConst", float) = 0
+	_Drag ("Drag", float) = 0
 }
 
 SubShader {
@@ -30,7 +34,9 @@ SubShader {
 //			float3 srcPos1 : TEXCOORD1;
 		};
 		
-		uniform sampler2D _RawData;
+		uniform sampler2D _RawData01;
+		uniform sampler2D _RawData02;
+		uniform sampler2D _RawData03;
 		uniform float _Width;
 		uniform float _Height;
 				
@@ -54,35 +60,12 @@ SubShader {
 			return o;
 		}
 		
-
-		
 		float4 frag(v2f i) : COLOR
 		{
-				float deltaX = 1f/_Width;
-				float deltaY = 1f/_Height;
-				
-				float4 c = tex2D(_RawData, float2(i.uv.x, i.uv.y));
-				float4 t = tex2D(_RawData, float2(i.uv.x, i.uv.y + deltaY));
-				float4 b = tex2D(_RawData, float2(i.uv.x, i.uv.y - deltaY));
-				float4 l = tex2D(_RawData, float2(i.uv.x - deltaX, i.uv.y));
-				float4 r = tex2D(_RawData, float2(i.uv.x + deltaX, i.uv.y));
-				
-//				float diagX = 0.707106781186548 * deltaX;
-//				float diagY = 0.707106781186548 * deltaY;
-
-				float diagX = deltaX;
-				float diagY = deltaY;
-				
-				float4 tr = tex2D(_RawData, float2(i.uv.x + diagX, i.uv.y + diagY));
-				float4 br = tex2D(_RawData, float2(i.uv.x + diagX, i.uv.y - diagY));
-				float4 tl = tex2D(_RawData, float2(i.uv.x - diagX, i.uv.y + diagY));
-				float4 bl = tex2D(_RawData, float2(i.uv.x - diagX, i.uv.y - diagY));
-				
-				
-			  	return  (2 * c + t + b + l + r + tr + br + tl + bl) / 10f;
+			return float4(0, 1, 1, 0);
+		}
 		
 
-		}
 		
 		ENDCG
 	}
