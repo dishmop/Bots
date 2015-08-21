@@ -1,10 +1,23 @@
 fileFormatVersion: 2
 guid: 676eac56fe67c43ffb98386d926dfa53
-timeCreated: 1440075081
+timeCreated: 1440170462
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - simSetup: {fileID: 4800000, guid: df59ec1d36640456ea4d305ac58b07d2, type: 3}
+  - simScatter: {fileID: 4800000, guid: 070fd74b9ed924e87848b68156bd2cfb, type: 3}
+  - simPropagate: {fileID: 4800000, guid: f3b4913801c3945728e06570e7c5a441, type: 3}
+  - renderShader: {fileID: 4800000, guid: 148e23f25be654d51a0a2305b57ae278, type: 3}
+  - renderPowerShader: {fileID: 4800000, guid: 6024b618888284093bedeb0bc224d054, type: 3}
+  - sourceShader: {fileID: 4800000, guid: c5e6224fa088e4e0294e64fa897ea4a0, type: 3}
+  - quadGO: {instanceID: 0}
+  - renderCamera: {instanceID: 0}
+  - sourceCamera: {instanceID: 0}
+  - tex1: {instanceID: 0}
+  - tex2: {instanceID: 0}
+  - tex3: {instanceID: 0}
+  - renderTex: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

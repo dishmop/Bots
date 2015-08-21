@@ -1,21 +1,26 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Shaders/AetherScatter_01.shader">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Shaders/Aether_01.shader">
     <Files>
       <File FileName="Assets/Scripts/Aether.cs" Line="1" Column="1" />
-      <File FileName="Assets/Shaders/AetherScatter_01.shader" Line="79" Column="20" />
-      <File FileName="Assets/Shaders/Aether_01.shader" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/AetherScatter_01.shader" Line="41" Column="1" />
       <File FileName="Assets/Shaders/AetherSetup_01.shader" Line="63" Column="15" />
       <File FileName="Assets/Shaders/AetherPropagate_01.shader" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/AetherSimCamera.cs" Line="40" Column="74" />
-      <File FileName="Assets/Shaders/AetherRender_01.shader" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotBot.cs" Line="125" Column="17" />
-      <File FileName="Assets/Scripts/AetherRenderCamera.cs" Line="12" Column="1" />
+      <File FileName="Assets/Scripts/AetherSimCamera.cs" Line="48" Column="12" />
+      <File FileName="Assets/Scripts/BotBot.cs" Line="416" Column="37" />
       <File FileName="Assets/Shaders/AetherHeat_01.shader" Line="14" Column="47" />
-      <File FileName="Assets/AetherSourceCamera.cs" Line="9" Column="3" />
-      <File FileName="Assets/Shaders/noise-simplex_v05.shader" Line="5" Column="45" />
-      <File FileName="Assets/Scripts/BotModule.cs" Line="54" Column="62" />
-      <File FileName="Assets/Scripts/BotConstructor.cs" Line="70" Column="1" />
+      <File FileName="Assets/AetherSourceCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/noise-simplex_v05.shader" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotModule.cs" Line="65" Column="29" />
+      <File FileName="Assets/Scripts/BotConstructor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/AetherRenderInter_01.shader" Line="59" Column="13" />
+      <File FileName="Assets/Scripts/AppHelper.cs" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/AetherRenderPower_01.shader" Line="93" Column="13" />
+      <File FileName="Assets/Shaders/Aether_01.shader" Line="42" Column="3" />
+      <File FileName="Assets/Scripts/BotEngine.cs" Line="27" Column="61" />
+      <File FileName="Assets/Scripts/Balancing.cs" Line="19" Column="24" />
+      <File FileName="Assets/Scripts/BotFuelCell.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Engine.cs" Line="37" Column="36" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -23,7 +28,7 @@
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True" />
             <Node name="Shaders" expanded="True">
-              <Node name="AetherScatter_01.shader" selected="True" />
+              <Node name="AetherHeat_01.shader" selected="True" />
             </Node>
           </Node>
         </State>

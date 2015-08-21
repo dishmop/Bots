@@ -48,7 +48,6 @@
   <ItemGroup>
      <Compile Include="Assets\AetherSourceCamera.cs" />
      <Compile Include="Assets\Scripts\Aether.cs" />
-     <Compile Include="Assets\Scripts\AetherRenderCamera.cs" />
      <Compile Include="Assets\Scripts\AetherSimCamera.cs" />
      <Compile Include="Assets\Scripts\AppHelper.cs" />
      <Compile Include="Assets\Scripts\Balancing.cs" />
@@ -84,7 +83,10 @@
      <Compile Include="Assets\Scripts\TestYield.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
      <None Include="Assets\Shaders\noiseSimplex.cginc" />
+     <None Include="Assets\Shaders\AetherSink_01.shader" />
+     <None Include="Assets\Shaders\AetherRenderInter_01.shader" />
      <None Include="Assets\Shaders\AetherRender_01.shader" />
+     <None Include="Assets\Shaders\AetherRenderPower_01.shader" />
      <None Include="Assets\Shaders\AetherPropagate_01.shader" />
      <None Include="Assets\Shaders\Aether_01.shader" />
      <None Include="Assets\Shaders\AetherScatter_01.shader" />

@@ -172,7 +172,7 @@ public class BotBot : MonoBehaviour {
 		GetComponent<Rigidbody2D>().inertia = momentOfInteria;
 		GetComponent<Rigidbody2D>().gravityScale = 0;
 		GetComponent<Rigidbody2D>().drag = 0;
-		GetComponent<Rigidbody2D>().angularDrag = 5f;
+		GetComponent<Rigidbody2D>().angularDrag = 1;//5f;
 		GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;	// temp test
 	}
 	
@@ -413,8 +413,8 @@ public class BotBot : MonoBehaviour {
 		
 		// If we collided with another module, spread our heat between us and them
 		if (otherModule != null){
-			thisModule.module.heatEnergy += 0.5f * kineticEnergyDelta;
-			otherModule.module.heatEnergy += 0.5f * kineticEnergyDelta;
+			thisModule.module.heatEnergy += 20 * 0.5f * kineticEnergyDelta;
+			otherModule.module.heatEnergy += 20 * 0.5f * kineticEnergyDelta;
 		}
 		else{
 			thisModule.module.heatEnergy += kineticEnergyDelta;

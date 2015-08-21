@@ -60,6 +60,10 @@ public class BotModule : MonoBehaviour {
 		else{
 			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
 		}
+		
+		// Reduce the heater according to the sruface area (line actually) of the modukle
+		float heatToRemove =  0.005f * module.heatEnergy * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume);
+		module.heatEnergy -= heatToRemove;
 	}
 	
 	public void PreGameUpdate(){

@@ -2,14 +2,186 @@ Base path: /Applications/Unity/Unity.app/Contents
 Pipe name: \\.\pipe\UnityShaderCompiler-64bit-1-1900049168
 Cmd: getPlatforms
 Cmd: preprocess
-  insize=2482 outsize=574 ok=1
+  insize=2417 outsize=1675 ok=1
 Cmd: compileSnippet
-  api=0 type=0 insize=2209 outsize=1154 kw= ok=1
+  api=0 type=0 insize=1041 outsize=273 kw= ok=1
 Cmd: compileSnippet
-  api=0 type=1 insize=2209 outsize=6 kw= ok=1
+  api=0 type=1 insize=1041 outsize=6 kw= ok=1
 Cmd: preprocess
-  insize=2485 outsize=574 ok=1
+  insize=3053 outsize=2313 ok=1
 Cmd: compileSnippet
-  api=0 type=0 insize=2212 outsize=1157 kw= ok=1
+  api=0 type=0 insize=1041 outsize=273 kw= ok=1
 Cmd: compileSnippet
-  api=0 type=1 insize=2212 outsize=6 kw= ok=1
+  api=0 type=1 insize=1041 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=3099 outsize=2359 ok=1
+Cmd: preprocess
+  insize=3117 outsize=2377 ok=1
+Cmd: preprocess
+  insize=1462 outsize=547 ok=1
+Cmd: preprocess
+  insize=4352 outsize=2279 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at (139): ']' : syntax error syntax error\nCompiling Vertex program
+  api=0 type=0 insize=2374 outsize=0 kw= ok=0
+Cmd: preprocess
+  insize=3122 outsize=2354 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=1069 outsize=273 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=1069 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4354 outsize=2279 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=2376 outsize=347 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=2376 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4481 outsize=2279 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at (140): 'switch' : Reserved word. 'switch' : syntax error syntax error\nCompiling Vertex program
+  api=0 type=0 insize=2503 outsize=0 kw= ok=0
+Cmd: preprocess
+  insize=4453 outsize=2279 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at (142): 'incoming' : redefinition\nCompiling Vertex program
+  api=0 type=0 insize=2475 outsize=0 kw= ok=0
+Cmd: preprocess
+  insize=4389 outsize=2279 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=2411 outsize=455 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=2411 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=5176 outsize=2279 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=3198 outsize=2003 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=3198 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=7139 outsize=2278 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=5161 outsize=8550 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=5161 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4179 outsize=2354 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=2126 outsize=273 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=2126 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=7185 outsize=2279 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=5207 outsize=8940 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=5207 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=7185 outsize=2279 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=5207 outsize=8940 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=5207 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=7187 outsize=2279 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at (176): 'd' : undeclared identifier\nCompiling Vertex program
+  error: 2 plat 0 at (177): '}' : syntax error syntax error\nCompiling Vertex program
+  api=0 type=0 insize=5209 outsize=0 kw= ok=0
+Cmd: preprocess
+  insize=7186 outsize=2279 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=5208 outsize=8940 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=5208 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=2484 outsize=574 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=2211 outsize=1156 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=2211 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=2462 outsize=1296 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=1467 outsize=273 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=1467 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4340 outsize=1219 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=3422 outsize=2680 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=3422 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=3681 outsize=1219 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=2763 outsize=2680 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=2763 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4368 outsize=1219 ok=1
+Cmd: compileSnippet
+  error: 2 plat 0 at (110): ')' : syntax error syntax error\nCompiling Vertex program
+  api=0 type=0 insize=3450 outsize=0 kw= ok=0
+Cmd: preprocess
+  insize=4367 outsize=1219 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=3449 outsize=1213 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=3449 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4369 outsize=1221 ok=1
+Cmd: preprocess
+  insize=4453 outsize=1221 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=3533 outsize=1338 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=3533 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4470 outsize=1221 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=3550 outsize=1485 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=3550 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4486 outsize=1221 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=3566 outsize=1488 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=3566 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=4539 outsize=1220 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=3619 outsize=1573 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=3619 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=3073 outsize=626 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=2748 outsize=1156 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=2748 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=3073 outsize=626 ok=1
+Cmd: preprocess
+  insize=2546 outsize=1348 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=1499 outsize=273 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=1499 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=1020 outsize=395 ok=1
+Cmd: preprocess
+  insize=1020 outsize=395 ok=1
+Cmd: preprocess
+  insize=988 outsize=379 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=908 outsize=276 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=908 outsize=6 kw= ok=1
+Cmd: preprocess
+  insize=2806 outsize=626 ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=2481 outsize=1481 kw= ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=2481 outsize=6 kw= ok=1

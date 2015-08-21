@@ -3,12 +3,29 @@ Properties {
 	_RawData01 ("RawData01", 2D) = "defaulttexture" {}
 	_RawData02 ("RawData02", 2D) = "defaulttexture" {}
 	_RawData03 ("RawData03", 2D) = "defaulttexture" {}
+	_RawData04 ("RawData04", 2D) = "defaulttexture" {}
+	
+	_History_0 ("History_0", 2D) = "defaulttexture" {}
+	_History_1 ("History_1", 2D) = "defaulttexture" {}
+	_History_2 ("History_2", 2D) = "defaulttexture" {}
+	_History_3 ("History_3", 2D) = "defaulttexture" {}
+	_History_4 ("History_4", 2D) = "defaulttexture" {}
+	_History_5 ("History_5", 2D) = "defaulttexture" {}
+	_History_6 ("History_6", 2D) = "defaulttexture" {}
+	_History_7 ("History_7", 2D) = "defaulttexture" {}
+	_History_8 ("History_8", 2D) = "defaulttexture" {}
+	_History_9 ("History_9", 2D) = "defaulttexture" {}
+	_History_10 ("History_10", 2D) = "defaulttexture" {}
+	_History_11 ("History_11", 2D) = "defaulttexture" {}
+	
 	
 	_Width ("Width", int) = 0
 	_Height ("Height", int) = 0
 	_SpringConst ("SprintConst", float) = 0
 	_Drag ("Drag", float) = 0
 	_IntTime ("IntTime", int) = 0
+	_BufferIndex ("BufferIndex", int) = 0
+	
 }
 
 SubShader {
@@ -38,9 +55,27 @@ SubShader {
 		uniform sampler2D _RawData01;
 		uniform sampler2D _RawData02;
 		uniform sampler2D _RawData03;
+		uniform sampler2D _RawData04;
+		
+		
+		uniform sampler2D _History_0;
+		uniform sampler2D _History_1;
+		uniform sampler2D _History_2;
+		uniform sampler2D _History_3;
+		uniform sampler2D _History_4;
+		uniform sampler2D _History_5;
+		uniform sampler2D _History_6;
+		uniform sampler2D _History_7;
+		uniform sampler2D _History_8;
+		uniform sampler2D _History_9;
+		uniform sampler2D _History_10;
+		uniform sampler2D _History_11;
+
+				
 		uniform float _Width;
 		uniform float _Height;
 		uniform int _IntTime;
+		uniform int _BufferIndex;
 				
 
 			
