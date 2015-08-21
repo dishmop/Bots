@@ -2,12 +2,13 @@
 Properties {
 	_RawData01 ("RawData01", 2D) = "defaulttexture" {}
 	_RawData02 ("RawData02", 2D) = "defaulttexture" {}
-	_RawData02 ("RawData03", 2D) = "defaulttexture" {}
+	_RawData03 ("RawData03", 2D) = "defaulttexture" {}
 	
 	_Width ("Width", int) = 0
 	_Height ("Height", int) = 0
 	_SpringConst ("SprintConst", float) = 0
 	_Drag ("Drag", float) = 0
+	_IntTime ("IntTime", int) = 0
 }
 
 SubShader {
@@ -39,6 +40,7 @@ SubShader {
 		uniform sampler2D _RawData03;
 		uniform float _Width;
 		uniform float _Height;
+		uniform int _IntTime;
 				
 
 			

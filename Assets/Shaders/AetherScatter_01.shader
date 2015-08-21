@@ -2,9 +2,10 @@
 Properties {
 	_RawData01 ("RawData01", 2D) = "defaulttexture" {}
 	_RawData02 ("RawData02", 2D) = "defaulttexture" {}
+	_RawData03 ("RawData03", 2D) = "defaulttexture" {}
 	_Width ("Width", int) = 0
 	_Height ("Height", int) = 0
-	_Drag ("Drag", float) = 0
+	_IntTime ("IntTime", int) = 0
 }
 
 SubShader {
@@ -35,10 +36,12 @@ SubShader {
 		
 		uniform sampler2D _RawData01;
 		uniform sampler2D _RawData02;
+		uniform sampler2D _RawData03;
 		uniform float _Width;
 		uniform float _Height;
 		uniform float _SpringConst;
 		uniform float _Drag;
+		uniform int _IntTime;
 				
 
 			
@@ -70,6 +73,27 @@ SubShader {
 			return incoming;
 
 		}
+		
+		float4 addSources(float4 uv){
+			// samples per wavelength
+			float freqB = 8;
+			float freqG = 16;
+			float freqR = 32;
+			
+			float PI = 3.14159;
+			
+			float floatTime = _IntTime;
+			
+			float4 source = tex2D(_RawData03, uv);
+			float value = 
+				0.25 * source.r * sin(2 * PI * floatTime / freqR) + 
+				0.25 * source.g * sin(2 * PI * floatTime / freqG) + 
+				0.25 * source.b * sin(2 * PI * floatTime / freqB);
+			//float value = source;
+			
+			return float4(value, value, value, value);
+			
+		}
 
 		
 		float4 frag(v2f i) : COLOR
@@ -83,7 +107,7 @@ SubShader {
 				0.5 * (-incoming[0] + incoming[1] + incoming[2] + incoming[3]),
 				0.5 * ( incoming[0] - incoming[1] + incoming[2] + incoming[3]),
 				0.5 * ( incoming[0] + incoming[1] - incoming[2] + incoming[3]),
-				0.5 * ( incoming[0] + incoming[1] + incoming[2] - incoming[3]));
+				0.5 * ( incoming[0] + incoming[1] + incoming[2] - incoming[3])) +  addSources(i.uv);
 
 		}
 		

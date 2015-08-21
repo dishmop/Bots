@@ -51,9 +51,16 @@ SubShader {
 			return o;
 		}
 		
-		
-		
 		float4 frag(v2f i) : COLOR
+		{
+			return float4(0, 0, 0, 0); 
+		
+
+		}
+		
+		
+		
+		float4 frag2(v2f i) : COLOR
 		{
 			float deltaX = 1f/_Width;
 			float deltaY = 1f/_Height;
@@ -61,7 +68,7 @@ SubShader {
 			float xx = i.uv.x - 0.5;
 			float yy = i.uv.y - 0.5;
 			
-			float radius = 40 * deltaX;
+			float radius = 2 * deltaX;
 			
 			float dist = sqrt(xx*xx + yy*yy);
 			if (dist > radius){
@@ -70,19 +77,10 @@ SubShader {
 			else{
 				//float height = (radius - dist) / radius;
 				float height = 1 * (0.5 + 0.5 * cos(3.14 * dist / radius));
+				height =1;
 				return float4(height, height, height, height);
 			}
-			
-		
-//			if (i.uv.x < 0.55 && i.uv.x > 0.45 && i.uv.y < 0.55 && i.uv.y > 0.45){
-//				return float4(1, 0, 0, 1);
-//			}
-//			else{
-//				return float4(0.5, 0, 0, 1);
-//			}
-	
-		
-			//return float4(i.uv.x, i.uv.y, 0, 0);
+
 		}
 		
 		ENDCG

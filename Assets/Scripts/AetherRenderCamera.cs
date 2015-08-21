@@ -9,4 +9,6 @@ public class AetherRenderCamera : MonoBehaviour {
 		GetComponent<Camera>().enabled = false;
 	}
 	
+
+	
 }

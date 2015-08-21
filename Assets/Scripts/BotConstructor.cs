@@ -67,6 +67,7 @@ public class BotConstructor : BotModule {
 			}
 			usedPower = 0;
 		}
+
 		
 		// Also, if the effect is in waiting mode - then don't use any power
 		// HMM this woul be much better if it did use power but all the power went to heating up the thing that is in the way

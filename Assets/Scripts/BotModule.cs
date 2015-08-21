@@ -40,13 +40,20 @@ public class BotModule : MonoBehaviour {
 		transform.localScale = 2 * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume) * new Vector3(1, 1, 1);
 	}
 	
+	public Color CalcHeatGlow(float normalisedTemp){
+		float redMul = Mathf.Pow (normalisedTemp, 1);
+		float greenMul = Mathf.Pow (normalisedTemp, 2);
+		float blueMul = Mathf.Pow (normalisedTemp, 3);
+		return new Color(redMul, greenMul, blueMul);
+	}
+	
 	public void HandleHeat(){
 		/// Calc temperature
 		temperature = module.heatEnergy / (module.volume * module.GetVolumetricHeatCapacity());
 		
 		float normalisedTemp = temperature / module.GetMaxKelvin();
 		
-		Color heatGlow = Color.Lerp(Color.black, Color.red, normalisedTemp);
+		Color heatGlow = CalcHeatGlow(normalisedTemp);
 		if (GetComponent<Renderer>() != null){
 			GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
 		}

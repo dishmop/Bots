@@ -53,3 +53,6 @@ Cmd: compileSnippet
   api=0 type=1 insize=816 outsize=6 kw=DIRECTIONAL_COOKIE SHADOWS_SCREEN _ALPHAPREMULTIPLY_ON ok=1
 Cmd: compileSnippet
   api=0 type=1 insize=600 outsize=6 kw=SHADOWS_CUBE _ALPHAPREMULTIPLY_ON ok=1
+End of pipe
+
+Quitting shader compiler process

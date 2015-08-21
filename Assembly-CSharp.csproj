@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AetherSourceCamera.cs" />
      <Compile Include="Assets\Scripts\Aether.cs" />
      <Compile Include="Assets\Scripts\AetherRenderCamera.cs" />
      <Compile Include="Assets\Scripts\AetherSimCamera.cs" />
@@ -86,10 +87,10 @@
      <None Include="Assets\Shaders\AetherRender_01.shader" />
      <None Include="Assets\Shaders\AetherPropagate_01.shader" />
      <None Include="Assets\Shaders\Aether_01.shader" />
-     <None Include="Assets\Shaders\AetherApplySources_01.shader" />
      <None Include="Assets\Shaders\AetherScatter_01.shader" />
      <None Include="Assets\Shaders\noise-simplex_v05.shader" />
      <None Include="Assets\Shaders\AetherSetup_01.shader" />
+     <None Include="Assets\Shaders\AetherHeat_01.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
