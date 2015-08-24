@@ -20,7 +20,7 @@ public class BotBot : MonoBehaviour {
 	float kineticEnergy;
 
 	
-	LuaBinding luaBinding;
+
 	
 	bool isBotVisible = true;
 	
@@ -172,7 +172,7 @@ public class BotBot : MonoBehaviour {
 		GetComponent<Rigidbody2D>().inertia = momentOfInteria;
 		GetComponent<Rigidbody2D>().gravityScale = 0;
 		GetComponent<Rigidbody2D>().drag = 0;
-		GetComponent<Rigidbody2D>().angularDrag = 1;//5f;
+		GetComponent<Rigidbody2D>().angularDrag = 5;//1f;
 		GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;	// temp test
 	}
 	
@@ -211,21 +211,7 @@ public class BotBot : MonoBehaviour {
 
 
 		
-		if (bot.runtimeScript != null && bot.runtimeScript != "" && luaBinding == null){
-			luaBinding = new LuaBinding();
-			foreach (KeyValuePair<string, object> pair in bot.luaObjectLookup){
-				luaBinding.lua[pair.Key] = pair.Value;
-			}
-			luaBinding.lua.DoFileASync(Application.streamingAssetsPath  +"/" + bot.runtimeScript + ".lua", 1);
-			//luaBinding.lua.DoFile(Application.streamingAssetsPath + "/" + bot.runtimeScript + ".lua");
-		}
-		
-		
-		if (luaBinding != null){
-			if (!luaBinding.lua.isFinishedASync){
-				luaBinding.lua.ResumeAsync();
-			}
-		}
+
 		
 
 		// Preupdate modules

@@ -95,7 +95,7 @@ public class Module{
 	
 	// Joules per unit of volume
 	public virtual float GetEnergyDensity(){
-		return 10;
+		return 100;
 	}
 	
 	public virtual float GetVolumetricHeatCapacity(){

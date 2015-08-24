@@ -34,6 +34,6 @@ public class BotEngine : BotModule {
 		if (transform.parent.GetComponent<Rigidbody2D>() != null){
 			transform.parent.GetComponent<Rigidbody2D>().AddForceAtPosition(propForce, transform.position);
 		}
-		Debug.DrawLine(transform.position,  transform.position + 0.1f * propForce, Color.red);
+		//Debug.DrawLine(transform.position,  transform.position + 0.1f * propForce, Color.red);
 	}
 }

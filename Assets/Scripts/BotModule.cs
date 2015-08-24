@@ -113,7 +113,11 @@ public class BotModule : MonoBehaviour {
 	
 	// Update is called once per frame
 	public virtual void GameUpdate () {
-		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
+		Collider2D temp = GetComponent<Collider2D>();
+		
+		if (GetComponent<Collider2D>().enabled != transform.parent.GetComponent<BotBot>().isBotActive){
+			GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
+		}
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
 

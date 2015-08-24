@@ -46,12 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AI.cs" />
      <Compile Include="Assets\Scripts\Aether.cs" />
      <Compile Include="Assets\Scripts\AetherSimCamera.cs" />
      <Compile Include="Assets\Scripts\AetherSourceCamera.cs" />
      <Compile Include="Assets\Scripts\AppHelper.cs" />
      <Compile Include="Assets\Scripts\Balancing.cs" />
      <Compile Include="Assets\Scripts\Bot.cs" />
+     <Compile Include="Assets\Scripts\BotAI.cs" />
      <Compile Include="Assets\Scripts\BotBot.cs" />
      <Compile Include="Assets\Scripts\BotConstructor.cs" />
      <Compile Include="Assets\Scripts\BotEngine.cs" />

@@ -24,17 +24,24 @@ public class LuaBinding{
 		lua.RegisterFunction("ConstructFuelCell",this,this.GetType().GetMethod("ConstructFuelCell"));
 		lua.RegisterFunction("ConstructEngine",this,this.GetType().GetMethod("ConstructEngine"));
 		lua.RegisterFunction("ConstructConstructor",this,this.GetType().GetMethod("ConstructConstructor"));
+		lua.RegisterFunction("ConstructAI",this,this.GetType().GetMethod("ConstructAI"));
+		
 		lua.RegisterFunction("ConstructAttachedFuelCell",this,this.GetType().GetMethod("ConstructAttachedFuelCell"));
 		lua.RegisterFunction("ConstructAttachedEngine",this,this.GetType().GetMethod("ConstructAttachedEngine"));
 		lua.RegisterFunction("ConstructAttachedConstructor",this,this.GetType().GetMethod("ConstructAttachedConstructor"));
+		lua.RegisterFunction("ConstructAttachedAI",this,this.GetType().GetMethod("ConstructAttachedAI"));
 		
 		lua.RegisterFunction("ConstructorSetBotDefinition",this,this.GetType().GetMethod("ConstructorSetBotDefinition"));
+		lua.RegisterFunction("AISetRuntimeScript",this,this.GetType().GetMethod("AISetRuntimeScript"));
+		
+		
+		
 		lua.RegisterFunction("ConstructorEnableAutoRepeat",this,this.GetType().GetMethod("ConstructorEnableAutoRepeat"));
 		lua.RegisterFunction("ConstructorActivate",this,this.GetType().GetMethod("ConstructorActivate"));
 		lua.RegisterFunction("ModuleEnableConsumable",this,this.GetType().GetMethod("ModuleEnableConsumable"));
 
 				
-		lua.RegisterFunction("BotLoadScript",this,this.GetType().GetMethod("BotLoadScript"));
+//		lua.RegisterFunction("BotLoadScript",this,this.GetType().GetMethod("BotLoadScript"));
 		lua.RegisterFunction("BotEnableAnchor",this,this.GetType().GetMethod("BotEnableAnchor"));
 		
 		
@@ -175,15 +182,36 @@ public class LuaBinding{
 		
 	}
 	
+	
+	public AI ConstructAI(Bot bot, float size){
+		AI ai = new AI(bot, size);
+		bot.rootModule = ai;
+		LocalLog ("Construct AI");
+		return ai;
+		
+	}
+	
+	public AI ConstructAttachedAI(Module parent, int spoke, float size){
+		AI ai = new AI(parent, spoke, size);
+		LocalLog ("Construct attached AI");
+		return ai;
+		
+	}
+	
 	public void ConstructorSetBotDefinition(Constructor constructor, string botDefinition){
 		constructor.SetBotDefinition(botDefinition);
 		LocalLog ("ConstructorSetBotDefinition: " + botDefinition);
 	}
 	
-	public void BotLoadScript(Bot bot, string runtimeScript){
-		bot.runtimeScript = runtimeScript;
-		LocalLog ("BotLoadScript: " + runtimeScript);
+	public void AISetRuntimeScript(AI ai, string scriptName){
+		ai.SetScript(scriptName);
+		LocalLog ("AISetRuntimeScript: " + scriptName);
 	}
+	
+//	public void BotLoadScript(Bot bot, string runtimeScript){
+//		bot.runtimeScript = runtimeScript;
+//		LocalLog ("BotLoadScript: " + runtimeScript);
+//	}
 	
 	public void ConstructorEnableAutoRepeat(Constructor constructor, bool enable){
 		constructor.EnableAutoRepeat(enable);

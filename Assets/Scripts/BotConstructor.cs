@@ -34,7 +34,6 @@ public class BotConstructor : BotModule {
 		base.GameUpdate();
 		
 
-		GetComponent<Collider2D>().enabled = transform.parent.GetComponent<BotBot>().isBotActive;
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
 		if (constructor.activated){

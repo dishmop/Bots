@@ -114,7 +114,7 @@ public class GenerateEffect : MonoBehaviour {
 			//	Debug.Log ("<color=red>" + Time.fixedTime + ": " + gameObject.name + ": state = State.kFadeEffectIn </color>");
 			}
 			else{
-//				Debug.Log (Time.fixedTime + ": " + gameObject.name + ": Waiting for space");
+				Debug.Log (Time.fixedTime + ": " + gameObject.name + ": Waiting for space");
 			}
 			break;
 		

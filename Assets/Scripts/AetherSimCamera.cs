@@ -48,6 +48,9 @@ public class AetherSimCamera : MonoBehaviour {
 		GetComponent<Camera>().targetTexture = tex3;
 		GetComponent<Camera>().RenderWithShader(simSetup, "");
 		
+		GetComponent<Camera>().targetTexture = tex3;
+		GetComponent<Camera>().RenderWithShader(simSetup, "");
+		
 		circularBuffer = new RenderTexture[numHistoryFrames];
 		for (int i = 0; i < numHistoryFrames; ++i){
 			circularBuffer[i] = new RenderTexture(tex1.width, tex1.height, 0, RenderTextureFormat.ARGBFloat);

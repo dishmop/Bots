@@ -56,6 +56,9 @@ public class EditorFactory : MonoBehaviour {
 			case ModuleType.kConstructor:{
 				return new Constructor(bot, 1);
 			}
+			case ModuleType.kAI:{
+				return new AI(bot, 1);
+			}
 		}
 		return null;
 	}
@@ -70,6 +73,9 @@ public class EditorFactory : MonoBehaviour {
 			}
 			case ModuleType.kConstructor:{
 				return new Constructor(parent, spokeId, 1);
+			}
+			case ModuleType.kAI:{
+				return new AI(parent, spokeId, 1);
 			}
 		}
 		return null;

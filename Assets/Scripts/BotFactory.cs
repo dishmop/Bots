@@ -9,6 +9,7 @@ public class BotFactory : MonoBehaviour {
 	public GameObject botEnginePrefab;
 	public GameObject botFuelCellPrefab;
 	public GameObject botConstructorPrefab;
+	public GameObject botAIPrefab;
 	public GameObject botBotPrefab;
 	public GameObject botRodPrefab;
 	public GameObject generateEffectSpherePrefab;
@@ -115,6 +116,11 @@ public class BotFactory : MonoBehaviour {
 			case ModuleType.kConstructor:{
 				newBotModule = GameObject.Instantiate(botConstructorPrefab);
 				newBotModule.GetComponent<BotConstructor>().constructor = module as Constructor;
+				break;
+			}
+			case ModuleType.kAI:{
+				newBotModule = GameObject.Instantiate(botAIPrefab);
+				newBotModule.GetComponent<BotAI>().ai = module as AI;
 				break;
 			}
 		}
