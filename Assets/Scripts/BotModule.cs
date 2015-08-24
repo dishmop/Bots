@@ -62,7 +62,7 @@ public class BotModule : MonoBehaviour {
 		}
 		
 		// Reduce the heater according to the sruface area (line actually) of the modukle
-		float heatToRemove =  0.005f * module.heatEnergy * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume);
+		float heatToRemove =  0.02f * module.heatEnergy * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume);
 		module.heatEnergy -= heatToRemove;
 	}
 	

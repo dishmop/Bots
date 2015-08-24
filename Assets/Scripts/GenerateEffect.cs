@@ -64,7 +64,7 @@ public class GenerateEffect : MonoBehaviour {
 			effectRod.transform.localScale = moduleGO.transform.localScale * magScale;
 			effectObjects.Add (effectRod);
 		}
-		SetRenderQueue(Balancing.singleton.effectRenderQueueNum);
+		//SetRenderQueue(Balancing.singleton.effectRenderQueueNum);
 	}
 	
 	void SetRenderQueue(int queueNum){
@@ -114,7 +114,7 @@ public class GenerateEffect : MonoBehaviour {
 			//	Debug.Log ("<color=red>" + Time.fixedTime + ": " + gameObject.name + ": state = State.kFadeEffectIn </color>");
 			}
 			else{
-				Debug.Log (Time.fixedTime + ": " + gameObject.name + ": Waiting for space");
+//				Debug.Log (Time.fixedTime + ": " + gameObject.name + ": Waiting for space");
 			}
 			break;
 		

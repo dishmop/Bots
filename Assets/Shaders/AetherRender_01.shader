@@ -64,7 +64,7 @@ SubShader {
 		float4 frag(v2f i) : COLOR
 		{
 				float4 incoming = tex2D(_RawData01, float2(i.uv.x, i.uv.y));
-				float pressure = 0.5 *(incoming[0] + incoming[1] + incoming[2] + incoming[3]);
+				float pressure = 5 *(incoming[0] + incoming[1] + incoming[2] + incoming[3]);
 				return float4(pressure, pressure, pressure, 1);
 //		
 

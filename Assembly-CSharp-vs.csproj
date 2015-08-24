@@ -46,9 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AetherSourceCamera.cs" />
      <Compile Include="Assets\Scripts\Aether.cs" />
      <Compile Include="Assets\Scripts\AetherSimCamera.cs" />
+     <Compile Include="Assets\Scripts\AetherSourceCamera.cs" />
      <Compile Include="Assets\Scripts\AppHelper.cs" />
      <Compile Include="Assets\Scripts\Balancing.cs" />
      <Compile Include="Assets\Scripts\Bot.cs" />
@@ -80,18 +80,25 @@
      <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
      <Compile Include="Assets\Scripts\Simulation.cs" />
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
+     <Compile Include="Assets\Scripts\Sun.cs" />
      <Compile Include="Assets\Scripts\TestYield.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
      <None Include="Assets\Shaders\noiseSimplex.cginc" />
+     <None Include="Assets\Shaders\AetherBlur_01.shader" />
      <None Include="Assets\Shaders\AetherSink_01.shader" />
      <None Include="Assets\Shaders\AetherRenderInter_01.shader" />
      <None Include="Assets\Shaders\AetherRender_01.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Shaders\AetherRenderPower_01.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
      <None Include="Assets\Shaders\AetherPropagate_01.shader" />
+     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Shaders\Aether_01.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
      <None Include="Assets\Shaders\AetherScatter_01.shader" />
      <None Include="Assets\Shaders\noise-simplex_v05.shader" />
      <None Include="Assets\Shaders\AetherSetup_01.shader" />
+     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
      <None Include="Assets\Shaders\AetherHeat_01.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
@@ -117,6 +124,10 @@
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
+      <Project>{957D3F3B-251F-8BF6-D49D-C20B7372F1E3}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

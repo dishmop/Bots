@@ -77,15 +77,66 @@ SubShader {
 
 		}
 		
-		float4 addSources(float4 uv){
+		float4 addSources3(float4 uv){
+			
+			float4 source = tex2D(_RawData03, uv)[0];
+			
+			float value = source.r * source.g;
+			
+			return float4(value, value, value, value);
+			
+		}
+		
+		float4 addSources4(float4 uv){
 			// samples per wavelength
-			float freqB = 5;
-			float freqG = 8;
+			float freqB = 8;
+			float freqG = 10;
 			float freqR = 12;
 			
 			float PI = 3.14159;
 			
 			float floatTime = _IntTime;
+			
+			
+			float4 source = tex2D(_RawData03, uv);
+			float waveValue = sin(2 * PI * floatTime * source.g + uv.x*1000);
+			
+			float value = source.r * waveValue;
+			//float value = source;
+			
+			return float4(value, value, value, value);
+			
+		}
+		
+		
+		float4 addSources(float4 uv){
+			// samples per wavelength
+			float freqR = 12;
+			
+			float PI = 3.14159;
+			
+			float floatTime = _IntTime + 100 * sin(cos(_IntTime) * 100*sin(uv.x * 100 + uv.y));
+			
+			
+			float4 source = tex2D(_RawData03, uv);
+			float value = 
+				0.25 * source.r * sin(2 * PI * floatTime / freqR);
+			//float value = source;
+			
+			return float4(value, value, value, value);
+			
+		}
+		
+		float4 addSources2(float4 uv){
+			// samples per wavelength
+			float freqB = 8;
+			float freqG = 10;
+			float freqR = 12;
+			
+			float PI = 3.14159;
+			
+			float floatTime = _IntTime;
+			
 			
 			float4 source = tex2D(_RawData03, uv);
 			float value = 
@@ -117,6 +168,14 @@ SubShader {
 		
 		float4 frag(v2f i) : COLOR
 		{
+		
+//			float deltaX = 1/_Width;
+//			float deltaY = 1/_Height;
+//			
+//			float border = 20;
+//			if (i.uv.x < border * deltaX || i.uv.x > 1 - border * deltaX || i.uv.y < border * deltaY || i.uv.y > 1 - border * deltaY){
+//				return float4(0, 0, 0, 0);
+//			}
 
 			// North, east, south, west
 			float4 incoming = tex2D(_RawData01, float2(i.uv.x, i.uv.y));
