@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class AetherSimCamera : MonoBehaviour {
+
+	public static AetherSimCamera singleton = null;
+	
 	public Shader simSetup;
 	public Shader simScatter;
 	public Shader simPropagate;
@@ -13,6 +16,7 @@ public class AetherSimCamera : MonoBehaviour {
 	public GameObject quadGO;
 	public GameObject renderCamera;
 	public GameObject sourceCamera;
+	public GameObject finalQuad;
 	public RenderTexture tex1;
 	public RenderTexture tex2;
 	public RenderTexture tex3;
@@ -55,6 +59,7 @@ public class AetherSimCamera : MonoBehaviour {
 		}
 		
 		resultPicture = new Texture2D(tex1.width, tex1.height, TextureFormat.ARGB32, false);
+		aetherRenderPlane.GetComponent<Renderer>().material.SetTexture("_EmissionMap", resultPicture);
 
 	}
 
@@ -97,8 +102,21 @@ public class AetherSimCamera : MonoBehaviour {
 		
 		resultPicture.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
 		resultPicture.Apply();
-		//RenderTexture.active = null; // added to avoid errors 
+		RenderTexture.active = null; // added to avoid errors 
 		
-		aetherRenderPlane.GetComponent<Renderer>().material.SetTexture("_EmissionMap", resultPicture);
+
 	}
+	
+	void Awake(){
+		// Singleton
+		if (singleton != null) Debug.LogError ("Error assigning singleton");
+		singleton = this;
+		
+		
+	}
+	
+	void OnDestroy(){
+		singleton = null;
+	}
+	
 }

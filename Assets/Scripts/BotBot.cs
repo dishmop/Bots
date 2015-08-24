@@ -255,7 +255,7 @@ public class BotBot : MonoBehaviour {
 		float totalFuelAvailable = 0;
 		foreach(Module module in bot.guidModuleLookup.Values){
 			if (module.enableConsumable){
-				totalFuelAvailable += Mathf.Max (module.volume,0.001f) * module.GetEnergyDensity();
+				totalFuelAvailable += Mathf.Max (module.volume - 0.1f, 0f) * module.GetEnergyDensity();
 			}
 		}
 		

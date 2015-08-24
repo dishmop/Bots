@@ -1,7 +1,7 @@
 ﻿Shader "Custom noise/AetherHeat_01" {
 Properties {
 	_EmissionColor ("EmissionColor", Color) =  (0.0, 0.0, 0.0)
-
+	_Color ("Color", Color) =  (0.0, 0.0, 0.0)
 	
 }
 
@@ -30,6 +30,7 @@ SubShader {
 		};
 		
 		uniform float4 _EmissionColor;
+		uniform float4 _Color;
 			
 
 
@@ -54,7 +55,9 @@ SubShader {
 		
 		float4 frag(v2f i) : COLOR
 		{
-			return _EmissionColor;
+
+			return float4(_Color.a, _Color.a, _Color.a, _Color.a);
+			//return _EmissionColor ;
 		}
 		
 		ENDCG

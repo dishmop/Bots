@@ -49,21 +49,60 @@ public class BotModule : MonoBehaviour {
 	
 	public void HandleHeat(){
 		/// Calc temperature
-		temperature = module.heatEnergy / (module.volume * module.GetVolumetricHeatCapacity());
+		temperature = Balancing.singleton.heatToTempMul * module.heatEnergy / (module.volume * module.GetVolumetricHeatCapacity());
+		
+		
+		// Set temperature visualisation to be distributed around circumference - because this is the energy that must get transfered
+		// into the aether
+		//float normalisedTemp = 200f * temperature * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume) / module.GetMaxKelvin();
 		
 		float normalisedTemp = temperature / module.GetMaxKelvin();
+		
+		// Multiply temp by circumference (t get total energy givenout) then divide by area (as this is how much energy will get inputed to the field)
+		float surfaceRadiation = Balancing.singleton.heatToTempMulSurf * normalisedTemp / Balancing.singleton.ConvertModuleVolumeToRadius(module.volume) ;
 		
 		Color heatGlow = CalcHeatGlow(normalisedTemp);
 		if (GetComponent<Renderer>() != null){
 			GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
+			Color col = GetComponent<Renderer>().material.GetColor("_Color");
+			col.a = Balancing.singleton.SurfToFieldMul * surfaceRadiation;
+			GetComponent<Renderer>().material.SetColor("_Color", col);
 		}
 		else{
 			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
+			
+			Color col = transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.GetColor("_Color");
+			col.a = Balancing.singleton.SurfToFieldMul * surfaceRadiation;
+			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.SetColor("_Color", col);
 		}
 		
 		// Reduce the heater according to the sruface area (line actually) of the modukle
-		float heatToRemove =  0.02f * module.heatEnergy * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume);
+		float heatToRemove =  Balancing.singleton.heatToRemoveProp * surfaceRadiation * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume);
 		module.heatEnergy -= heatToRemove;
+	}
+	
+	// In most cases this just ups the temperature
+	public void HandleRadiation(){
+		Texture2D texture = AetherSimCamera.singleton.resultPicture;
+		
+		int numSamplePoints = (int)( Balancing.singleton.ConvertModuleVolumeToRadius(module.volume) * 16);
+		float localRad = 0.51f;
+		float heat = 0;
+		for (int i = 0; i < numSamplePoints; ++i){
+			Vector3 samplePosLocal = new Vector3(localRad * Mathf.Sin(i * 2 * Mathf.PI / numSamplePoints), localRad * Mathf.Cos(i * 2 * Mathf.PI / numSamplePoints), 0);
+			Vector3 samplePosWorld = transform.TransformPoint(samplePosLocal);
+			// Convert to texture space
+			Vector3 samplePosQuad = AetherSimCamera.singleton.finalQuad.transform.InverseTransformPoint(samplePosWorld) + new Vector3(0.5f, 0.5f, 0 );
+			int xPos = (int)(samplePosQuad.x * texture.width);
+			int yPos = (int)(samplePosQuad.y * texture.height);
+			heat += texture.GetPixel(xPos, yPos).r;
+			//Debug.Log ("xPos = " + xPos + " + yPos = " + yPos);
+			
+		}
+		
+		module.heatEnergy += heat * Balancing.singleton.heatFromFieldMul;
+		
+	
 	}
 	
 	public void PreGameUpdate(){
@@ -78,6 +117,7 @@ public class BotModule : MonoBehaviour {
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
 
+		HandleRadiation();
 		HandleHeat();
 
 		

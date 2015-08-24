@@ -6,6 +6,11 @@ public class Balancing : MonoBehaviour {
 	
 	public float enginePowerToForceMultiplier = 50;
 	public int effectRenderQueueNum = 3000;
+	public float heatFromFieldMul = 0;
+	public float heatToRemoveProp = 0;
+	public float heatToTempMul = 2;
+	public float heatToTempMulSurf = 0;
+	public float SurfToFieldMul = 1;
 
 	//
 	public enum ModuleShape{
