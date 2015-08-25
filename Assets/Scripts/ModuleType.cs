@@ -6,6 +6,7 @@ public enum ModuleType{
 	kAI,
 	kRadio,
 	kPlasma,
+	kSolarCell,
 	kNumTypes,
 	kError
 

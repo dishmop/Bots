@@ -60,6 +60,9 @@
      <Compile Include="Assets\Scripts\BotFactory.cs" />
      <Compile Include="Assets\Scripts\BotFuelCell.cs" />
      <Compile Include="Assets\Scripts\BotModule.cs" />
+     <Compile Include="Assets\Scripts\BotPlasma.cs" />
+     <Compile Include="Assets\Scripts\BotRadio.cs" />
+     <Compile Include="Assets\Scripts\BotSolarCell.cs" />
      <Compile Include="Assets\Scripts\Constructor.cs" />
      <Compile Include="Assets\Scripts\DebugUtils.cs" />
      <Compile Include="Assets\Scripts\DrawnBox.cs" />
@@ -79,8 +82,11 @@
      <Compile Include="Assets\Scripts\MathUtils.cs" />
      <Compile Include="Assets\Scripts\Module.cs" />
      <Compile Include="Assets\Scripts\ModuleType.cs" />
+     <Compile Include="Assets\Scripts\Plasma.cs" />
      <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
+     <Compile Include="Assets\Scripts\Radio.cs" />
      <Compile Include="Assets\Scripts\Simulation.cs" />
+     <Compile Include="Assets\Scripts\SolarCell.cs" />
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
      <Compile Include="Assets\Scripts\Sun.cs" />
      <Compile Include="Assets\Scripts\TestYield.cs" />

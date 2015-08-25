@@ -59,6 +59,15 @@ public class EditorFactory : MonoBehaviour {
 			case ModuleType.kAI:{
 				return new AI(bot, 1);
 			}
+			case ModuleType.kRadio:{
+				return new Radio(bot, 1);
+			}
+			case ModuleType.kPlasma:{
+				return new Plasma(bot, 1);
+			}
+			case ModuleType.kSolarCell:{
+				return new SolarCell(bot, 1);
+			}
 		}
 		return null;
 	}
@@ -76,6 +85,15 @@ public class EditorFactory : MonoBehaviour {
 			}
 			case ModuleType.kAI:{
 				return new AI(parent, spokeId, 1);
+			}
+			case ModuleType.kRadio:{
+				return new Radio(parent, spokeId, 1);
+			}
+			case ModuleType.kPlasma:{
+				return new Plasma(parent, spokeId, 1);
+			}
+			case ModuleType.kSolarCell:{
+				return new SolarCell(parent, spokeId, 1);
 			}
 		}
 		return null;

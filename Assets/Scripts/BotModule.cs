@@ -10,6 +10,10 @@ public class BotModule : MonoBehaviour {
 	public float availablePower;
 	public float usedPower;
 	
+	public float availableGiftedFuel;
+	public float acceptableGiftedFuel;
+	
+	
 	public bool isOverlapTriggering = true;
 	bool isOverlapTriggeringThisFrame = true;
 	
@@ -23,7 +27,7 @@ public class BotModule : MonoBehaviour {
 			GetComponent<Renderer>().material.EnableKeyword ("_EMISSION");
 		}
 		else{
-			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.EnableKeyword ("_EMISSION");
+			transform.FindChild("Model").GetComponent<Renderer>().material.EnableKeyword ("_EMISSION");
 		}
 	
 	}
@@ -47,7 +51,7 @@ public class BotModule : MonoBehaviour {
 		return new Color(redMul, greenMul, blueMul);
 	}
 	
-	public void HandleHeat(){
+	public virtual void HandleHeat(){
 		/// Calc temperature
 		temperature = Balancing.singleton.heatToTempMul * module.heatEnergy / (module.volume * module.GetVolumetricHeatCapacity());
 		
@@ -69,11 +73,11 @@ public class BotModule : MonoBehaviour {
 			GetComponent<Renderer>().material.SetColor("_Color", col);
 		}
 		else{
-			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
+			transform.FindChild("Model").GetComponent<Renderer>().material.SetColor("_EmissionColor", heatGlow);
 			
-			Color col = transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.GetColor("_Color");
+			Color col = transform.FindChild("Model").GetComponent<Renderer>().material.GetColor("_Color");
 			col.a = Balancing.singleton.SurfToFieldMul * surfaceRadiation;
-			transform.FindChild("BotEngine_Model").GetComponent<Renderer>().material.SetColor("_Color", col);
+			transform.FindChild("Model").GetComponent<Renderer>().material.SetColor("_Color", col);
 		}
 		
 		// Reduce the heater according to the sruface area (line actually) of the modukle
@@ -82,33 +86,45 @@ public class BotModule : MonoBehaviour {
 	}
 	
 	// In most cases this just ups the temperature
-	public void HandleRadiation(){
+	public virtual void HandleRadiation(){
 		Texture2D texture = AetherSimCamera.singleton.resultPicture;
+		
+		// Which transform to use?
+		Transform useTransform = transform.FindChild("Model") != null ? transform.FindChild("Model") : transform;
 		
 		int numSamplePoints = (int)( Balancing.singleton.ConvertModuleVolumeToRadius(module.volume) * 16);
 		float localRad = 0.51f;
 		float heat = 0;
 		for (int i = 0; i < numSamplePoints; ++i){
 			Vector3 samplePosLocal = new Vector3(localRad * Mathf.Sin(i * 2 * Mathf.PI / numSamplePoints), localRad * Mathf.Cos(i * 2 * Mathf.PI / numSamplePoints), 0);
-			Vector3 samplePosWorld = transform.TransformPoint(samplePosLocal);
+			Vector3 samplePosWorld = useTransform.TransformPoint(samplePosLocal);
 			// Convert to texture space
 			Vector3 samplePosQuad = AetherSimCamera.singleton.finalQuad.transform.InverseTransformPoint(samplePosWorld) + new Vector3(0.5f, 0.5f, 0 );
 			int xPos = (int)(samplePosQuad.x * texture.width);
 			int yPos = (int)(samplePosQuad.y * texture.height);
+//			texture.SetPixel(xPos, yPos, Color.blue);
 			heat += texture.GetPixel(xPos, yPos).r;
 			//Debug.Log ("xPos = " + xPos + " + yPos = " + yPos);
 			
 		}
 		
-		module.heatEnergy += heat * Balancing.singleton.heatFromFieldMul;
+		ApplyRadiation(heat);
+		
+		
 		
 	
+	}
+	
+	public virtual void ApplyRadiation(float energy){
+		module.heatEnergy += energy * Balancing.singleton.heatFromFieldMul;
 	}
 	
 	public void PreGameUpdate(){
 		requestedPower = 0;
 		availablePower = 0;
 		usedPower = 0;
+		availableGiftedFuel = 0;
+		acceptableGiftedFuel = 0;
 	}
 	
 	// Update is called once per frame

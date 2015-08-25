@@ -25,12 +25,20 @@ public class LuaBinding{
 		lua.RegisterFunction("ConstructEngine",this,this.GetType().GetMethod("ConstructEngine"));
 		lua.RegisterFunction("ConstructConstructor",this,this.GetType().GetMethod("ConstructConstructor"));
 		lua.RegisterFunction("ConstructAI",this,this.GetType().GetMethod("ConstructAI"));
+
+		lua.RegisterFunction("ConstructRadio",this,this.GetType().GetMethod("ConstructRadio"));
+		lua.RegisterFunction("ConstructPlasma",this,this.GetType().GetMethod("ConstructPlasma"));
+		lua.RegisterFunction("ConstructSolarCell",this,this.GetType().GetMethod("ConstructSolarCell"));
 		
 		lua.RegisterFunction("ConstructAttachedFuelCell",this,this.GetType().GetMethod("ConstructAttachedFuelCell"));
 		lua.RegisterFunction("ConstructAttachedEngine",this,this.GetType().GetMethod("ConstructAttachedEngine"));
 		lua.RegisterFunction("ConstructAttachedConstructor",this,this.GetType().GetMethod("ConstructAttachedConstructor"));
 		lua.RegisterFunction("ConstructAttachedAI",this,this.GetType().GetMethod("ConstructAttachedAI"));
 		
+		lua.RegisterFunction("ConstructAttachedRadio",this,this.GetType().GetMethod("ConstructAttachedRadio"));
+		lua.RegisterFunction("ConstructAttachedPlasma",this,this.GetType().GetMethod("ConstructAttachedPlasma"));
+		lua.RegisterFunction("ConstructAttachedSolarCell",this,this.GetType().GetMethod("ConstructAttachedSolarCell"));
+						
 		lua.RegisterFunction("ConstructorSetBotDefinition",this,this.GetType().GetMethod("ConstructorSetBotDefinition"));
 		lua.RegisterFunction("AISetRuntimeScript",this,this.GetType().GetMethod("AISetRuntimeScript"));
 		
@@ -197,6 +205,55 @@ public class LuaBinding{
 		return ai;
 		
 	}
+	
+	public Radio ConstructRadio(Bot bot, float size){
+		Radio radio = new Radio(bot, size);
+		bot.rootModule = radio;
+		LocalLog ("Construct Radio");
+		return radio;
+		
+	}
+	
+	public Radio ConstructAttachedRadio(Module parent, int spoke, float size){
+		Radio radio = new Radio(parent, spoke, size);
+		LocalLog ("Construct attached Radio");
+		return radio;
+		
+	}
+	
+	
+	public Plasma ConstructPlasma(Bot bot, float size){
+		Plasma plasma = new Plasma(bot, size);
+		bot.rootModule = plasma;
+		LocalLog ("Construct Plasma");
+		return plasma;
+		
+	}
+	
+	public Plasma ConstructAttachedPlasma(Module parent, int spoke, float size){
+		Plasma plasma = new Plasma(parent, spoke, size);
+		LocalLog ("Construct attached Plasma");
+		return plasma;
+		
+	}
+	
+	
+	public SolarCell ConstructSolarCell(Bot bot, float size){
+		SolarCell solarCell = new SolarCell(bot, size);
+		bot.rootModule = solarCell;
+		LocalLog ("Construct SolarCell");
+		return solarCell;
+		
+	}
+	
+	public SolarCell ConstructAttachedSolarCell(Module parent, int spoke, float size){
+		SolarCell solarCell = new SolarCell(parent, spoke, size);
+		LocalLog ("Construct attached SolarCell");
+		return solarCell;
+		
+	}							
+	
+	
 	
 	public void ConstructorSetBotDefinition(Constructor constructor, string botDefinition){
 		constructor.SetBotDefinition(botDefinition);

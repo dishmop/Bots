@@ -245,8 +245,20 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		
+		float totalGiftedFuel = 0;
+		foreach(GameObject go in modulesToModuleGOs.Values){
+			BotModule botModule = go.GetComponent<BotModule>();
+			
+			totalGiftedFuel += botModule.availableGiftedFuel;
+		}
+		
+		
+
+		
 		// What proportion of the fuel requested can we supply?
-		float availableFuelRequested = Mathf.Min (totalFuelAvailable, fuelRequestedThisFrame);
+		float availableFuelRequested = Mathf.Min (totalFuelAvailable + totalGiftedFuel, fuelRequestedThisFrame);
+		
+		
 		float proportionAvailable = fuelRequestedThisFrame == 0 ? 1 : (availableFuelRequested / fuelRequestedThisFrame);
 		
 		
@@ -276,7 +288,48 @@ public class BotBot : MonoBehaviour {
 		
 		float totalFuelUsed = totalPowerUsed * Time.fixedDeltaTime;
 		
+		// First deduct what we have used from the gifted fuel
+		float giftedFuelUsed = Mathf.Min(totalGiftedFuel, totalFuelUsed);
+		
+		float giftedFuelRemaining = totalGiftedFuel - giftedFuelUsed;
+		
+		// If we have some batteries we can attempt to recharge them
+		int numFuelCells = 0;
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			BotFuelCell botFuelCell = go.GetComponent<BotFuelCell>();
+			if (botFuelCell != null){
+				numFuelCells++;
+			}
+		}
+		
+		// Probably need somethiung in here to ask if the cell can recharge this amount
+		float fuelToAddPerCell = giftedFuelRemaining / numFuelCells;
+		float giftedFuelAccepted = 0;
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			BotFuelCell botFuelCell = go.GetComponent<BotFuelCell>();
+			if (botFuelCell != null){
+				float currentFuel = botFuelCell.module.volume * botFuelCell.module.GetEnergyDensity();
+				float newFuel = currentFuel + fuelToAddPerCell;
+				float prop = newFuel / currentFuel;
+				botFuelCell.module.volume *= prop;
+				
+				float newFuelTest = botFuelCell.module.volume * botFuelCell.module.GetEnergyDensity();
+				giftedFuelAccepted += fuelToAddPerCell;
+			}
+		}
+		
+		// INform each moduel that attempted to gift some fuel how much we could accept
+		float propGiftedFuelAccepted = (giftedFuelAccepted == 0) ? 0 : (giftedFuelAccepted / totalGiftedFuel);
+		
+		foreach(GameObject go in modulesToModuleGOs.Values){
+			BotModule botModule = go.GetComponent<BotModule>();
+			
+			botModule.acceptableGiftedFuel = botModule.availableGiftedFuel * propGiftedFuelAccepted;
+		}
+		
+		
 		if (totalFuelAvailable != 0){
+		
 			float fuelProp = (totalFuelAvailable - totalFuelUsed) / totalFuelAvailable;
 		
 		

@@ -10,6 +10,11 @@ public class BotFactory : MonoBehaviour {
 	public GameObject botFuelCellPrefab;
 	public GameObject botConstructorPrefab;
 	public GameObject botAIPrefab;
+	public GameObject botRadioPrefab;
+	public GameObject botPlasmaPrefab;
+	public GameObject botSolarCellPrefab;
+	
+	
 	public GameObject botBotPrefab;
 	public GameObject botRodPrefab;
 	public GameObject generateEffectSpherePrefab;
@@ -123,6 +128,21 @@ public class BotFactory : MonoBehaviour {
 				newBotModule.GetComponent<BotAI>().ai = module as AI;
 				break;
 			}
+			case ModuleType.kRadio:{
+				newBotModule = GameObject.Instantiate(botRadioPrefab);
+				newBotModule.GetComponent<BotRadio>().radio = module as Radio;
+				break;
+			}
+			case ModuleType.kPlasma:{
+				newBotModule = GameObject.Instantiate(botPlasmaPrefab);
+				newBotModule.GetComponent<BotPlasma>().plasma = module as Plasma;
+				break;
+			}
+			case ModuleType.kSolarCell:{
+				newBotModule = GameObject.Instantiate(botSolarCellPrefab);
+				newBotModule.GetComponent<BotSolarCell>().solarCell = module as SolarCell;
+				break;
+			}			
 		}
 		newBotModule.GetComponent<BotModule>().module = module;
 		return newBotModule;
