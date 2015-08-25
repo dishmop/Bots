@@ -1,20 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.Linq;
 
 public class BotRadio : BotModule {
 	public Radio radio;
 	
+
+	public override void Start ()
+	{
+		base.Start ();
+
+	}
+
+	
 	// Update is called once per frame
 	public override void GameUpdate () {
 		base.GameUpdate();
-		
-
-		
 	
 	}
+	
+	public override void Update(){
+		
+		for (int i = 0; i < (int)Radio.ButtonNames.NumButtons; ++i){
+			radio.hasDownTriggered[i] = radio.hasDownTriggered[i] || Input.GetKeyDown(radio.thisToUnityButtonMappings[i]);	
+			radio.hasUpTriggered[i] = radio.hasUpTriggered[i] || Input.GetKeyUp(radio.thisToUnityButtonMappings[i]);	
+		}
+		
+	}
+	
 	
 
 }

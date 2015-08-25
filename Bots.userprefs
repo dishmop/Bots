@@ -1,42 +1,69 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BotModule.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Radio.cs">
     <Files>
-      <File FileName="Assets/Scripts/BotRadio.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotModule.cs" Line="76" Column="25" />
-      <File FileName="Assets/Scripts/BotBot.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Constructor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotConstructor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotEngine.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotRadio.cs" Line="23" Column="46" />
+      <File FileName="Assets/Scripts/BotBot.cs" Line="314" Column="39" />
+      <File FileName="Assets/Scripts/Constructor.cs" Line="33" Column="2" />
+      <File FileName="Assets/Scripts/BotConstructor.cs" Line="77" Column="1" />
+      <File FileName="Assets/Scripts/BotEngine.cs" Line="18" Column="3" />
       <File FileName="Assets/Scripts/BotFuelCell.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotSolarCell.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotFactory.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotAI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotSolarCell.cs" Line="26" Column="1" />
+      <File FileName="Assets/Scripts/BotFactory.cs" Line="132" Column="1" />
+      <File FileName="Assets/Scripts/BotAI.cs" Line="15" Column="75" />
       <File FileName="Assets/Scripts/SolarCell.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ModuleType.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EditorFactory.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/LuaBinding.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ModuleType.cs" Line="6" Column="5" />
+      <File FileName="Assets/Scripts/EditorFactory.cs" Line="18" Column="43" />
+      <File FileName="Assets/Scripts/LuaBinding.cs" Line="230" Column="1" />
       <File FileName="Assets/Scripts/BotPlasma.cs" Line="9" Column="16" />
+      <File FileName="Assets/Scripts/AetherSimCamera.cs" Line="87" Column="57" />
+      <File FileName="Assets/Scripts/Bot.cs" Line="13" Column="7" />
+      <File FileName="Assets/Scripts/BotModule.cs" Line="184" Column="27" />
+      <File FileName="Assets/Shaders/AetherScatter_01.shader" Line="135" Column="4" />
+      <File FileName="Assets/Scripts/EditorUI.cs" Line="40" Column="51" />
+      <File FileName="Assets/Scripts/FuelCell.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AI.cs" Line="20" Column="3" />
+      <File FileName="Assets/Scripts/Editor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Radio.cs" Line="101" Column="50" />
+      <File FileName="Assets/Scripts/Module.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="BotModule.cs" selected="True" />
+              <Node name="Radio.cs" selected="True" />
             </Node>
+            <Node name="Shaders" expanded="True" />
           </Node>
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>temp</Value>
+          <Value>(currentFuel - newFuelTest) * 1000000</Value>
+          <Value>newFuelTest</Value>
+          <Value>botFuelCell.module.volume</Value>
+          <Value>activity</Value>
+          <Value>(int)type</Value>
+          <Value>type</Value>
+          <Value>ex</Value>
+          <Value>ex.StackTrace</Value>
+          <Value>stringToAxisNamesMap</Value>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Radio.cs" line="82" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Radio.cs" line="45" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Radio.cs" line="51" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/LuaBinding.cs" line="230" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Module.cs" line="27" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/BotFactory.cs" line="132" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Radio.cs" line="76" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Radio.cs" line="77" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

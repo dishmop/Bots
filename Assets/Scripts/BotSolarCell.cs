@@ -23,8 +23,6 @@ public class BotSolarCell : BotModule {
 	public override void GameUpdate () {
 		base.GameUpdate();
 		
-		float maxEnergyPerFrame = module.volume * 0.25f;
-		
 		float propUsage = activity / GetMaxEnergyPerFrame();
 		
 		Color thisRingColor = transform.FindChild("Model").GetComponent<Renderer>().material.GetColor("_EmissionColor");

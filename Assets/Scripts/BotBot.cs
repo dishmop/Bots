@@ -251,8 +251,6 @@ public class BotBot : MonoBehaviour {
 			
 			totalGiftedFuel += botModule.availableGiftedFuel;
 		}
-		
-		
 
 		
 		// What proportion of the fuel requested can we supply?

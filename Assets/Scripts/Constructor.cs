@@ -69,7 +69,7 @@ public class Constructor : Module{
 	string GeneratePropertiesString(string thisName){
 		string text = "";
 		text += "ConstructorSetBotDefinition(" + thisName + ", \"" + botDefinition + "\")\n";
-		text += "ConstructorEnableAutoRepeat(" + thisName + ", " + enableAutoRepeat.ToString() + ")\n";
+		text += "ConstructorEnableAutoRepeat(" + thisName + ", " + LuaBinding.ConvertToLuaString(enableAutoRepeat) + ")\n";
 		text += "ConstructorActivate(" + thisName + ", " + activated.ToString() + ")\n";
 		return text;
 		

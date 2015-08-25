@@ -11,6 +11,10 @@ public class LuaBinding{
 	public Bot bot; 
 	public Lua lua = new Lua();
 	
+	
+	public static string ConvertToLuaString(bool flag){
+		return flag ? "true" : "false";
+	}
 
 
 	public LuaBinding(){
@@ -51,6 +55,14 @@ public class LuaBinding{
 				
 //		lua.RegisterFunction("BotLoadScript",this,this.GetType().GetMethod("BotLoadScript"));
 		lua.RegisterFunction("BotEnableAnchor",this,this.GetType().GetMethod("BotEnableAnchor"));
+		
+		lua.RegisterFunction("RadioHasButtonDownTriggered",this,this.GetType().GetMethod("RadioHasButtonDownTriggered"));
+		lua.RegisterFunction("RadioHasUpDownTriggered",this,this.GetType().GetMethod("RadioHasUpDownTriggered"));
+		lua.RegisterFunction("RadioIsButtonDown",this,this.GetType().GetMethod("RadioIsButtonDown"));
+		lua.RegisterFunction("RadioButtonTriggerReset",this,this.GetType().GetMethod("RadioButtonTriggerReset"));
+		lua.RegisterFunction("RadioGetAxisValue",this,this.GetType().GetMethod("RadioGetAxisValue"));
+		
+		
 		
 		
 		// Do runtime bindings
@@ -271,24 +283,54 @@ public class LuaBinding{
 //	}
 	
 	public void ConstructorEnableAutoRepeat(Constructor constructor, bool enable){
+		LocalLog ("ConstructorEnableAutoRepeat: " + enable);
 		constructor.EnableAutoRepeat(enable);
 
 	}
 	
 	public void ConstructorActivate(Constructor constructor, bool activate){
 		constructor.Activate(activate);
+		LocalLog ("ConstructorActivate: " + activate);
 		
 	}
 	
 	public void ModuleEnableConsumable(Module module, bool enable){
 		module.enableConsumable = enable;
+		LocalLog ("ModuleEnableConsumable");
 		
 	}	
 	
 	public void BotEnableAnchor(Bot bot, bool enable){
 		bot.enableAnchor = enable;
+		LocalLog ("BotEnableAnchor");
+	}
+	
+	
+	public bool RadioHasButtonDownTriggered(Radio radio, string key){
+		LocalLog ("RadioHasButtonDownTriggered");
+		return radio.HasButtonDownTriggered(key);
 		
-		
+
+	}
+	
+	public bool RadioHasUpDownTriggered(Radio radio, string key){
+		LocalLog ("RadioHasUpDownTriggered");
+		return radio.HasButtonUpTriggered(key);
+	}	
+	
+	public bool RadioIsButtonDown(Radio radio, string key){
+		LocalLog ("RadioIsButtonDown");
+		return radio.IsButtonDown(key);
+	}
+	
+	public void RadioButtonTriggerReset(Radio radio){
+		LocalLog ("RadioButtonTriggerReset");
+		radio.ButtonTriggerReset();
+	}
+	
+	public float RadioGetAxisValue(Radio radio, string key){
+		LocalLog ("RadioGetAxisValue");
+		return radio.GetAxisValue(key);
 	}
 	
 	public void Log(string text){
@@ -302,7 +344,7 @@ public class LuaBinding{
 	}
 	
 	void LocalLog(string text){
-		//Debug.Log (text);
+		Debug.Log (text);
 	}
 	
 	

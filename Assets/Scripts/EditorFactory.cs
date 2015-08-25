@@ -120,6 +120,10 @@ public class EditorFactory : MonoBehaviour {
 		modules[(int)ModuleType.kFuelCell] = new FuelCell((Bot)null, 1);
 		modules[(int)ModuleType.kEngine] = new Engine((Bot)null, 1);
 		modules[(int)ModuleType.kConstructor] = new Constructor((Bot)null, 1);
+		modules[(int)ModuleType.kAI] = new AI((Bot)null, 1);
+		modules[(int)ModuleType.kSolarCell] = new SolarCell((Bot)null, 1);
+		modules[(int)ModuleType.kPlasma] = new Plasma((Bot)null, 1);
+		modules[(int)ModuleType.kRadio] = new Radio((Bot)null, 1);
 	}
 	
 	
