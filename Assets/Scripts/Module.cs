@@ -7,7 +7,7 @@ public class Module{
 	public Module[]  modules = new Module[6];
 	public float energy;
 	public Guid guid;
-	public float groundFriction = 1;
+	public float groundFriction = 10;
 	public float airResistance = 1;
 	public float volume = 1;
 	public bool enableConsumable = false;

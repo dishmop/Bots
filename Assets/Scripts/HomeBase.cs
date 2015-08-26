@@ -23,6 +23,7 @@ public class HomeBase : MonoBehaviour {
 			homeBotGO.transform.localRotation = Quaternion.identity;
 			homeBotGO.GetComponent<BotBot>().SetBotActive(true);
 			homeBotGO.AddComponent<Rigidbody2D>();
+			homeBotGO.GetComponent<BotBot>().SolidifyColliders();
 			
 			
 			

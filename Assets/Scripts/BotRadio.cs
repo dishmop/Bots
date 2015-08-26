@@ -23,6 +23,10 @@ public class BotRadio : BotModule {
 		for (int i = 0; i < (int)Radio.ButtonNames.NumButtons; ++i){
 			radio.hasDownTriggered[i] = radio.hasDownTriggered[i] || Input.GetKeyDown(radio.thisToUnityButtonMappings[i]);	
 			radio.hasUpTriggered[i] = radio.hasUpTriggered[i] || Input.GetKeyUp(radio.thisToUnityButtonMappings[i]);	
+			radio.isDown[i] = Input.GetKey(radio.thisToUnityButtonMappings[i]);	
+		}
+		for (int i = 0; i < (int)Radio.AxisNames.NumAxes; ++i){
+			radio.axisValues[i] = -Input.GetAxis(radio.thisToUnityAxesMappings[i]);	
 		}
 		
 	}

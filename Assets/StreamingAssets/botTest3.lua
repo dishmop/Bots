@@ -13,4 +13,4 @@ obj_3 = ConstructAttachedAI(obj_0, 4, 1)
 obj_4 = ConstructAttachedEngine(obj_1, 2, 2)
 obj_5 = ConstructAttachedEngine(obj_1, 4, 2)
 
-AISetRuntimeScript(obj_3, "botRunInput")
+AISetRuntimeScript(obj_3, "botRunInput_2")

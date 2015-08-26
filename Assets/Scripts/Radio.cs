@@ -35,6 +35,8 @@ public class Radio : Module{
 	public KeyCode[] thisToUnityButtonMappings = new KeyCode[(int)ButtonNames.NumButtons];
 	public bool[] hasDownTriggered = new bool[(int)ButtonNames.NumButtons];
 	public bool[] hasUpTriggered = new bool[(int)ButtonNames.NumButtons];
+	public bool[] isDown = new bool[(int)ButtonNames.NumButtons];
+	public float[] axisValues = new float[(int)AxisNames.NumAxes];
 	
 	public string[] thisToUnityAxesMappings = new string[(int)AxisNames.NumAxes];
 	
@@ -88,14 +90,12 @@ public class Radio : Module{
 	
 	
 	public float GetAxisValue(string name){
-		AxisNames enumName = stringToAxisNamesMap[name];
-		return Input.GetAxis(thisToUnityAxesMappings[(int)enumName]);
+		return axisValues[(int)stringToAxisNamesMap[name]];
 		
 	}
 	
 	public bool IsButtonDown(string name){
-		ButtonNames enumName = stringToButtonNamesMap[name];
-		return Input.GetKey(thisToUnityButtonMappings[(int)enumName]);
+		return isDown[(int)stringToButtonNamesMap[name]];
 	}
 	
 	public bool HasButtonDownTriggered(string name){

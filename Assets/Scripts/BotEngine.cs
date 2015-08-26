@@ -24,6 +24,7 @@ public class BotEngine : BotModule {
 		}
 		readPower = availablePower * Balancing.singleton.enginePowerToForceMultiplier;
 		propForce = transform.rotation * new Vector3(0, readPower);
+		if (engine.desAmount < 0) propForce *= -1;
 		usedPower = availablePower;
 	}
 	

@@ -17,7 +17,7 @@ public class BotAI : BotModule {
 			foreach (KeyValuePair<string, object> pair in ai.bot.luaObjectLookup){
 				luaBinding.lua[pair.Key] = pair.Value;
 			}
-			luaBinding.lua.DoFileASync(Application.streamingAssetsPath  + "/" + ai.scriptName + ".lua", 1);
+			luaBinding.lua.DoFileASync(Application.streamingAssetsPath  + "/" + ai.scriptName + ".lua", 10);
 			//luaBinding.lua.DoFile(Application.streamingAssetsPath + "/" + bot.runtimeScript + ".lua");
 		}
 		

@@ -4,7 +4,7 @@ using System.Collections;
 public class Balancing : MonoBehaviour {
 	public static Balancing singleton = null;
 	
-	public float enginePowerToForceMultiplier = 100;
+	public float enginePowerToForceMultiplier = 200;
 	public int effectRenderQueueNum = 3000;
 	public float heatFromFieldMul = 0;
 	public float heatToRemoveProp = 0;
