@@ -182,8 +182,112 @@ public class BotBot : MonoBehaviour {
 		
 	}
 	
-	public void DestroyModule(GameObject module){
+	public void DestroyModule(GameObject botModuleGO){
+		Module module = botModuleGO.GetComponent<BotModule>().module;
+		Bot oldBot = module.bot;
+		
+		// We are going to need to traverse all the modules here
+		oldBot.ClearVisitedFlags();
+		
+		
+		// For each neighbour of the module we are destroying, we need to construct a new bot
+		List<Bot> newBots = new List<Bot>();
+		int fragCount = 0;
+		for (int i = 0; i < module.modules.Count (); ++i){
+			Module otherModule =module.modules[i];
+			if (otherModule != null){
+				// Remove the connection
+				module.modules[i] = null;
+				otherModule.modules[SpokeDirs.CalcInverseSpoke(i)] = null;
+				
+				// Remove the rod associated with this other module
+				GameObject otherRodGO = modulesToRodGOs[otherModule.guid];
+				modulesToRodGOs.Remove(otherModule.guid);
+				
+				
+				// Construct a new bot with this other module at its root
+				Bot newBot = new Bot(oldBot.name + "_" + fragCount++);
+				newBot.rootModule = otherModule;
+				newBot.rodSize = oldBot.rodSize;
+				newBot.enableAnchor = oldBot.enableAnchor;
+				newBot.guidModuleLookup.Add (otherModule.guid, otherModule);
+				
+				// Construct the GameObject to house the new bot
+				GameObject newBotBotGO = GameObject.Instantiate(BotFactory.singleton.botBotPrefab);
+				BotBot newBotBot = newBotBotGO.GetComponent<BotBot>();
+				newBotBot.bot = oldBot;
+				
+				// Get the gameobject associated with this "other" module and parent it to the new bot GO
+				GameObject otherBotModuleGO = modulesToModuleGOs[otherModule.guid];
+				modulesToModuleGOs.Remove(otherModule.guid);
+				newBotBot.modulesToModuleGOs.Add(otherModule.guid, otherBotModuleGO);
+				newBotBotGO.transform.rotation = otherBotModuleGO.transform.rotation;
+				newBotBotGO.transform.position = otherBotModuleGO.transform.position;
+				otherBotModuleGO.transform.SetParent(newBotBotGO.transform);
+				
+				otherModule.bot = newBot;
+				otherModule.visited = true;
+				
+				// Now follow the tree from this other module adding all the 
+				// modules, BotModules and Rods that we find into our new bot
+				Queue<Module> moduleQueue = new Queue<Module>();
+				for (int j = 0; j < 6; ++j){
+					Module otherOtherModule = otherModule.modules[j];
+					if (otherOtherModule != null && !otherOtherModule.visited){
+						moduleQueue.Enqueue(otherOtherModule);
+					}
+				}
+				
+				while (moduleQueue.Count () != 0){
+					Module otherModule2 = moduleQueue.Dequeue();
+					GameObject otherBotModuleGO2 = modulesToModuleGOs[otherModule2.guid];
+					GameObject otherRodGO2 = modulesToRodGOs[otherModule2.guid];
+					
+					// Add this one's children to the queue
+					for (int j = 0; j < 6; ++j){
+						Module otherOtherModule = otherModule2.modules[j];
+						if (otherOtherModule != null && !otherOtherModule.visited){
+							moduleQueue.Enqueue(otherOtherModule);
+						}
+					}
+					
+					// Deal with our module
+					otherModule2.bot = newBot;
+					newBot.guidModuleLookup.Add (otherModule2.guid, otherModule2);
+					oldBot.guidModuleLookup.Remove (otherModule2.guid);
+					
+					// Deal with the BotModuleGO
+					otherBotModuleGO2.transform.SetParent(newBotBotGO.transform);
+					otherRodGO2.transform.SetParent(newBotBotGO.transform);
+					
+					newBotBot.modulesToModuleGOs.Add (otherModule2.guid, otherBotModuleGO2);
+					newBotBot.modulesToRodGOs.Add (otherModule2.guid, otherRodGO2);
+					
+					// Remove from this bot
+					modulesToModuleGOs.Remove (otherModule2.guid);
+					modulesToRodGOs.Remove (otherModule2.guid);
+					
+					otherModule.visited = true;
+					
+					
+				}
+				
+				newBotBot.RecalcMass();
+				newBotBot.isBotActive = true;
+			}
+		}
+		// Remove the module game object
+		modulesToModuleGOs.Remove(module.guid);
+		GameObject.Destroy (botModuleGO);
+		
+		// Finally deestor this bot - as it is no longer needed - first check if all our lists and maps are empty
+		DebugUtils.Assert(oldBot.guidModuleLookup.Count () == 0, "Bot guidModuleLookup lookup not empty!");
+		
+		DebugUtils.Assert(modulesToModuleGOs.Count () == 0, "BotBot modulesToModuleGOs lookup not empty!");
+		DebugUtils.Assert(modulesToRodGOs.Count () == 0, "BotBot modulesToRodGOs lookup not empty!");
+		
 		GameObject.Destroy(gameObject);
+			
 		
 	}
 	
