@@ -14,6 +14,8 @@ public class BotFactory : MonoBehaviour {
 	public GameObject botPlasmaPrefab;
 	public GameObject botSolarCellPrefab;
 	
+	public GameObject botExplosion;
+	
 	
 	public GameObject botBotPrefab;
 	public GameObject botRodPrefab;

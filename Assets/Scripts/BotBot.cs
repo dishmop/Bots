@@ -173,12 +173,17 @@ public class BotBot : MonoBehaviour {
 		GetComponent<Rigidbody2D>().gravityScale = 0;
 		GetComponent<Rigidbody2D>().drag = 0;
 		GetComponent<Rigidbody2D>().angularDrag = 5;//1f;
-		GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.NeverSleep;	// temp test
+		GetComponent<Rigidbody2D>().sleepMode = RigidbodySleepMode2D.StartAwake;	// Perhaps need to never sleep?
 	}
 	
 	// Sets all the colliders to be non-triggers
 	public void SolidifyColliders(){
 		SolidifyColliders(transform);
+		
+	}
+	
+	public void DestroyModule(GameObject module){
+		GameObject.Destroy(gameObject);
 		
 	}
 	
@@ -450,11 +455,11 @@ public class BotBot : MonoBehaviour {
 		
 		// If we collided with another module, spread our heat between us and them
 		if (otherModule != null){
-			thisModule.module.heatEnergy += 10 * 0.5f * kineticEnergyDelta;
-			otherModule.module.heatEnergy += 10 * 0.5f * kineticEnergyDelta;
+			thisModule.module.heatEnergy += 4 * 0.5f * kineticEnergyDelta;
+			otherModule.module.heatEnergy += 4 * 0.5f * kineticEnergyDelta;
 		}
 		else{
-			thisModule.module.heatEnergy += 10 * kineticEnergyDelta;
+			thisModule.module.heatEnergy += 4 * kineticEnergyDelta;
 		}
 		kineticEnergy = newKineticEnergy;
 	}

@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\BotBot.cs" />
      <Compile Include="Assets\Scripts\BotConstructor.cs" />
      <Compile Include="Assets\Scripts\BotEngine.cs" />
+     <Compile Include="Assets\Scripts\BotExplosion.cs" />
      <Compile Include="Assets\Scripts\BotFactory.cs" />
      <Compile Include="Assets\Scripts\BotFuelCell.cs" />
      <Compile Include="Assets\Scripts\BotModule.cs" />

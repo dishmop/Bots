@@ -12,10 +12,6 @@ public class Bot{
 	public float rodSize = 1.25f;
 	public bool enableAnchor = false;
 	
-	public string runtimeScript;
-
-	
-	
 
 	public Bot (){
 	}

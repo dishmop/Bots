@@ -80,9 +80,23 @@ public class BotModule : MonoBehaviour {
 			transform.FindChild("Model").GetComponent<Renderer>().material.SetColor("_Color", col);
 		}
 		
+		float testTemperature = Balancing.singleton.heatToTempMul * module.heatEnergy / (module.volume * module.GetVolumetricHeatCapacity());
+		
+		if (testTemperature > 0.95 * module.GetMaxKelvin()){
+			DestroyModule();
+		}
+
+		
 		// Reduce the heater according to the sruface area (line actually) of the modukle
 		float heatToRemove =  Balancing.singleton.heatToRemoveProp * surfaceRadiation * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume);
 		module.heatEnergy -= heatToRemove;
+	}
+	
+	public void DestroyModule(){
+		GameObject explosion = GameObject.Instantiate(BotFactory.singleton.botExplosion);
+		explosion.transform.position = transform.position;
+		explosion.GetComponent<BotExplosion>().Trigger(module.volume);
+		transform.parent.GetComponent<BotBot>().DestroyModule(gameObject);
 	}
 	
 	// In most cases this just ups the temperature

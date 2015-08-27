@@ -344,7 +344,7 @@ public class LuaBinding{
 	}
 	
 	void LocalLog(string text){
-		Debug.Log (text);
+		//Debug.Log (text);
 	}
 	
 	

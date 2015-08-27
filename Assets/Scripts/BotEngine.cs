@@ -14,6 +14,7 @@ public class BotEngine : BotModule {
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		requestedPower = engine.CalcPowerRequirements(engine.desAmount);
 		
+		
 	
 	}
 	
@@ -28,12 +29,37 @@ public class BotEngine : BotModule {
 		usedPower = availablePower;
 	}
 	
+	void LateUpdate(){
+		SetParticleVelocities( -0.1f * propForce);
+		
+		                                
+	}
+
+	
 	
 	public override void FixedUpdate(){
 		base.FixedUpdate();
 		if (transform.parent.GetComponent<Rigidbody2D>() != null){
 			transform.parent.GetComponent<Rigidbody2D>().AddForceAtPosition(propForce, transform.position);
 		}
-		//Debug.DrawLine(transform.position,  transform.position + 0.1f * propForce, Color.red);
+		Debug.DrawLine(transform.position,  transform.position + 0.1f * propForce, Color.red);
 	}
+	
+	public void SetParticleVelocities(Vector3 vel){
+		ParticleSystem particleSystem = transform.FindChild("Particle System").GetComponent<ParticleSystem>();
+		ParticleSystem.Particle[] p = new ParticleSystem.Particle[particleSystem.particleCount+1];
+		int numParticles = particleSystem.GetParticles(p);
+		
+		
+		for (int i = 0; i < numParticles; ++i) {
+			p[i].velocity = vel;
+		}
+		
+		particleSystem.SetParticles(p, numParticles);    
+		
+		// Set the rate too
+		particleSystem.emissionRate = Mathf.Lerp (0, 1000, 0.05f * vel.magnitude);
+		
+		}
+	
 }
