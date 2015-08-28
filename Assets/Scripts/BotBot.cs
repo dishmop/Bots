@@ -653,11 +653,11 @@ public class BotBot : MonoBehaviour {
 		
 		// If we collided with another module, spread our heat between us and them
 		if (otherModule != null){
-			thisModule.module.heatEnergy += 4 * 0.5f * kineticEnergyDelta;
-			otherModule.module.heatEnergy += 4 * 0.5f * kineticEnergyDelta;
+			thisModule.module.heatEnergy += 6 * 0.5f * kineticEnergyDelta;
+			otherModule.module.heatEnergy += 6 * 0.5f * kineticEnergyDelta;
 		}
 		else{
-			thisModule.module.heatEnergy += 4 * kineticEnergyDelta;
+			thisModule.module.heatEnergy += 6 * kineticEnergyDelta;
 		}
 		kineticEnergy = newKineticEnergy;
 	}
