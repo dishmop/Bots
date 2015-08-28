@@ -66,6 +66,12 @@ SubShader {
 				float deltaX = 1/_Width;
 				float deltaY = 1/_Height;
 				
+				float border = 1;
+				
+				if (i.uv.x < border * deltaX || i.uv.x > 1 - border * deltaX || i.uv.y < border * deltaY || i.uv.y > 1 - border * deltaY){
+					return float4 (0, 0, 0, 0);
+				}
+				
 
 				
 				float4 northCoord = (i.uv + float4(0, 		deltaY, 0, 0));
