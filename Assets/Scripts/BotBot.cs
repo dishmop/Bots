@@ -8,7 +8,7 @@ public class BotBot : MonoBehaviour {
 	public Bot bot;
 	public Bounds bounds;
 	public Dictionary<Guid, GameObject> modulesToModuleGOs = new Dictionary<Guid, GameObject>();
-	public Dictionary<Guid, GameObject> modulesToRodGOs = new Dictionary<Guid, GameObject>();
+	public Dictionary<Guid, GameObject[]> modulesToRodGOs = new Dictionary<Guid, GameObject[]>();
 	public Dictionary<Guid, CircleCollider2D> guidToCollider = new Dictionary<Guid, CircleCollider2D>();
 	public bool isBotActive = false;
 	public float mass;
@@ -18,7 +18,7 @@ public class BotBot : MonoBehaviour {
 //	bool isOverlapTriggeringThisFrame = true;
 	
 	float kineticEnergy;
-
+	public bool toBeDestroyed = false;
 	
 
 	
@@ -36,8 +36,56 @@ public class BotBot : MonoBehaviour {
 		modulesToModuleGOs.Add (module.guid, go);
 	}
 	
-	public void RegisterRod(Module module, GameObject go){
-		modulesToRodGOs.Add (module.guid, go);
+	public void RemoveRod(Module module, int spokeDir){
+		Module otherModule = module.modules[spokeDir];
+		int otherSpokeDir = SpokeDirs.CalcInverseSpoke(spokeDir);
+
+		GameObject[] goArray = modulesToRodGOs[module.guid];
+		GameObject[] otherGoArray = modulesToRodGOs[otherModule.guid];
+		
+		goArray[spokeDir] = null;
+		otherGoArray[otherSpokeDir] = null;
+		
+		// If we've still got rods associated with this module, then keep the array hanging around - otherwise, remove it
+		bool isEmpty = true;
+		for (int i = 0; i < 6; ++i){
+			if (goArray[i] != null){
+				isEmpty = false;
+				break;
+			}
+		}
+
+		bool isOtherEmpty = true;
+		for (int i = 0; i < 6; ++i){
+			if (otherGoArray[i] != null){
+				isOtherEmpty = false;
+				break;
+			}
+		}
+		
+		if (isEmpty) modulesToRodGOs.Remove (module.guid);
+		if (isOtherEmpty) modulesToRodGOs.Remove (otherModule.guid);
+		
+	}
+	
+	public void RegisterRod(Module module, GameObject go, int spokeDir){
+		// Need to find the other module and register us there too
+		Module otherModule = module.modules[spokeDir];
+		int otherSpokeDir = SpokeDirs.CalcInverseSpoke(spokeDir);
+		
+		
+		if (!modulesToRodGOs.ContainsKey(module.guid)){
+			modulesToRodGOs.Add (module.guid, new GameObject[6]);	
+		}
+		if (!modulesToRodGOs.ContainsKey(otherModule.guid)){
+			modulesToRodGOs.Add (otherModule.guid, new GameObject[6]);	
+		}
+		
+		modulesToRodGOs[module.guid][spokeDir] = go;
+		modulesToRodGOs[otherModule.guid][otherSpokeDir] = go;
+		
+		
+		
 	}
 	
 	public void SetBotVisible(bool visible){
@@ -73,6 +121,9 @@ public class BotBot : MonoBehaviour {
 				}
 			}
 			// Set the BotModule position
+			if (!modulesToModuleGOs.ContainsKey(thisModule.guid)){
+				Debug.Log("Error!");
+			}
 			modulesToModuleGOs[thisModule.guid].transform.localPosition = thisPos;
 			thisModule.visited = true;
 			
@@ -81,7 +132,9 @@ public class BotBot : MonoBehaviour {
 				Vector3 parentPos = modulesToModuleGOs[thisParentModule.guid].transform.localPosition;
 				Vector3 rodPos = 0.5f * (parentPos + thisPos);
 				Quaternion rodOrient = SpokeDirs.GetDirRotation(thisSpoke);
-				GameObject rodGO = modulesToRodGOs[thisModule.guid];
+				
+				// THIS IS ALL A BIT DODGY - NOT SURE WHICH MODULE I SHOULD BE USING
+				GameObject rodGO = modulesToRodGOs[thisParentModule.guid][thisSpoke];
 				rodGO.transform.localPosition = rodPos;
 				rodGO.transform.localRotation = rodOrient;
 				rodGO.transform.localScale = bot.rodSize * BotFactory.singleton.botRodPrefab.transform.localScale;
@@ -107,8 +160,13 @@ public class BotBot : MonoBehaviour {
 			HandleVisibility(go.transform);
 			
 		}
-		foreach (GameObject go in modulesToRodGOs.Values){
-			HandleVisibility(go.transform);
+		foreach (GameObject[] goArray in modulesToRodGOs.Values){
+			for (int i = 0; i < 3; ++i){
+				if (goArray[i] != null){
+					HandleVisibility(goArray[i].transform);
+				}
+			}
+			
 		}
 	}
 	
@@ -186,36 +244,44 @@ public class BotBot : MonoBehaviour {
 		Module module = botModuleGO.GetComponent<BotModule>().module;
 		Bot oldBot = module.bot;
 		
+		// 
+		
 		// We are going to need to traverse all the modules here
 		oldBot.ClearVisitedFlags();
 		
 		
 		// For each neighbour of the module we are destroying, we need to construct a new bot
-		List<Bot> newBots = new List<Bot>();
 		int fragCount = 0;
 		for (int i = 0; i < module.modules.Count (); ++i){
-			Module otherModule =module.modules[i];
+			Module otherModule = module.modules[i];
 			if (otherModule != null){
+			
+				// Remove the rod associated with this other module as it should not longer exist
+				GameObject otherRodGO = modulesToRodGOs[module.guid][i];
+				RemoveRod(module, i);
+				GameObject.Destroy (otherRodGO);
+				
 				// Remove the connection
 				module.modules[i] = null;
 				otherModule.modules[SpokeDirs.CalcInverseSpoke(i)] = null;
 				
-				// Remove the rod associated with this other module
-				GameObject otherRodGO = modulesToRodGOs[otherModule.guid];
-				modulesToRodGOs.Remove(otherModule.guid);
 				
 				
 				// Construct a new bot with this other module at its root
-				Bot newBot = new Bot(oldBot.name + "_" + fragCount++);
+				Bot newBot = new Bot(gameObject.name + "_" + fragCount++);
 				newBot.rootModule = otherModule;
 				newBot.rodSize = oldBot.rodSize;
 				newBot.enableAnchor = oldBot.enableAnchor;
 				newBot.guidModuleLookup.Add (otherModule.guid, otherModule);
 				
+
+				
 				// Construct the GameObject to house the new bot
 				GameObject newBotBotGO = GameObject.Instantiate(BotFactory.singleton.botBotPrefab);
 				BotBot newBotBot = newBotBotGO.GetComponent<BotBot>();
-				newBotBot.bot = oldBot;
+				newBotBot.bot = newBot;
+				newBotBot.bounds = bounds;
+				newBotBotGO.name = newBot.name;
 				
 				// Get the gameobject associated with this "other" module and parent it to the new bot GO
 				GameObject otherBotModuleGO = modulesToModuleGOs[otherModule.guid];
@@ -224,6 +290,8 @@ public class BotBot : MonoBehaviour {
 				newBotBotGO.transform.rotation = otherBotModuleGO.transform.rotation;
 				newBotBotGO.transform.position = otherBotModuleGO.transform.position;
 				otherBotModuleGO.transform.SetParent(newBotBotGO.transform);
+
+								
 				
 				otherModule.bot = newBot;
 				otherModule.visited = true;
@@ -231,23 +299,28 @@ public class BotBot : MonoBehaviour {
 				// Now follow the tree from this other module adding all the 
 				// modules, BotModules and Rods that we find into our new bot
 				Queue<Module> moduleQueue = new Queue<Module>();
+				Queue<int> spokeQueue = new Queue<int>();
+				
 				for (int j = 0; j < 6; ++j){
 					Module otherOtherModule = otherModule.modules[j];
 					if (otherOtherModule != null && !otherOtherModule.visited){
 						moduleQueue.Enqueue(otherOtherModule);
+						spokeQueue.Enqueue(SpokeDirs.CalcInverseSpoke(j));
 					}
 				}
 				
 				while (moduleQueue.Count () != 0){
 					Module otherModule2 = moduleQueue.Dequeue();
+					int otherSpoke2 = spokeQueue.Dequeue();
 					GameObject otherBotModuleGO2 = modulesToModuleGOs[otherModule2.guid];
-					GameObject otherRodGO2 = modulesToRodGOs[otherModule2.guid];
+					GameObject otherRodGO2 = modulesToRodGOs[otherModule2.guid][otherSpoke2];
 					
 					// Add this one's children to the queue
 					for (int j = 0; j < 6; ++j){
 						Module otherOtherModule = otherModule2.modules[j];
 						if (otherOtherModule != null && !otherOtherModule.visited){
 							moduleQueue.Enqueue(otherOtherModule);
+							spokeQueue.Enqueue(SpokeDirs.CalcInverseSpoke(j));
 						}
 					}
 					
@@ -261,7 +334,7 @@ public class BotBot : MonoBehaviour {
 					otherRodGO2.transform.SetParent(newBotBotGO.transform);
 					
 					newBotBot.modulesToModuleGOs.Add (otherModule2.guid, otherBotModuleGO2);
-					newBotBot.modulesToRodGOs.Add (otherModule2.guid, otherRodGO2);
+					newBotBot.RegisterRod (otherModule2, otherRodGO2, otherSpoke2);
 					
 					// Remove from this bot
 					modulesToModuleGOs.Remove (otherModule2.guid);
@@ -273,7 +346,14 @@ public class BotBot : MonoBehaviour {
 				}
 				
 				newBotBot.RecalcMass();
-				newBotBot.isBotActive = true;
+				
+				newBotBot.CreateRigidBody();
+				if (GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
+					newBotBotGO.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().GetPointVelocity(newBotBotGO.transform.position);
+					newBotBotGO.GetComponent<Rigidbody2D>().angularVelocity = GetComponent<Rigidbody2D>().angularVelocity;
+				}
+				
+				newBotBot.SetBotActive(true);
 			}
 		}
 		// Remove the module game object
@@ -286,7 +366,7 @@ public class BotBot : MonoBehaviour {
 		DebugUtils.Assert(modulesToModuleGOs.Count () == 0, "BotBot modulesToModuleGOs lookup not empty!");
 		DebugUtils.Assert(modulesToRodGOs.Count () == 0, "BotBot modulesToRodGOs lookup not empty!");
 		
-		GameObject.Destroy(gameObject);
+		toBeDestroyed = true;
 			
 		
 	}
@@ -448,8 +528,22 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		
-
-
+		// Chec for any modules that need to be destoryed
+		List<BotModule> modulesToDestroy = new List<BotModule>();
+		
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			
+			if (go.GetComponent<BotModule>().toBeDestroyed){
+				modulesToDestroy.Add (go.GetComponent<BotModule>());
+			}
+		}
+		if (modulesToDestroy.Count() > 1){
+			Debug.LogError ("Can't handle multiple modules being destoryed just yet");
+		}
+		
+		if (modulesToDestroy.Count() == 1){
+			modulesToDestroy[0].DestroyModule();
+		}
 		
 		//Debug.Log(Time.fixedTime + ": FixedUpdate, speed = " + GetComponent<Rigidbody2D>().velocity.magnitude);
 	}

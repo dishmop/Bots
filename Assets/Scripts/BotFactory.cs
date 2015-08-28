@@ -72,7 +72,7 @@ public class BotFactory : MonoBehaviour {
 				newRod.transform.localPosition = rodPos;
 				newRod.transform.localRotation = rodRotation;
 				newRod.transform.localScale = bot.rodSize * botRodPrefab.transform.localScale;
-				newBotBot.RegisterRod(thisModule, newRod);
+				newBotBot.RegisterRod(thisModule, newRod, thisSpokeToParent);
 				
 			
 			}

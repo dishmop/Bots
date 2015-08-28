@@ -13,9 +13,11 @@ public class BotModule : MonoBehaviour {
 	public float availableGiftedFuel;
 	public float acceptableGiftedFuel;
 	
+	public bool toBeDestroyed = false;
 	
 	public bool isOverlapTriggering = true;
 	bool isOverlapTriggeringThisFrame = true;
+	
 	
 		
 	//public float editSize= -1;
@@ -83,7 +85,7 @@ public class BotModule : MonoBehaviour {
 		float testTemperature = Balancing.singleton.heatToTempMul * module.heatEnergy / (module.volume * module.GetVolumetricHeatCapacity());
 		
 		if (testTemperature > 0.95 * module.GetMaxKelvin()){
-			DestroyModule();
+			toBeDestroyed = true;
 		}
 
 		

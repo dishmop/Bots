@@ -56,13 +56,18 @@ public class GenerateEffect : MonoBehaviour {
 			effectObjects.Add (effectSphere);
 		}
 		// Generate rods
-		foreach (GameObject moduleGO in GetComponent<BotBot>().modulesToRodGOs.Values){
-			GameObject effectRod = GameObject.Instantiate(BotFactory.singleton.generateEffectRodPrefab);
-			effectRod.transform.SetParent(transform);
-			effectRod.transform.position = moduleGO.transform.position;
-			effectRod.transform.rotation = moduleGO.transform.rotation;
-			effectRod.transform.localScale = moduleGO.transform.localScale * magScale;
-			effectObjects.Add (effectRod);
+		foreach (GameObject[] rodArray in GetComponent<BotBot>().modulesToRodGOs.Values){
+			for (int i = 0; i < 3; ++i){
+				GameObject moduleGO = rodArray[i];
+				if (moduleGO != null){
+					GameObject effectRod = GameObject.Instantiate(BotFactory.singleton.generateEffectRodPrefab);
+					effectRod.transform.SetParent(transform);
+					effectRod.transform.position = moduleGO.transform.position;
+					effectRod.transform.rotation = moduleGO.transform.rotation;
+					effectRod.transform.localScale = moduleGO.transform.localScale * magScale;
+					effectObjects.Add (effectRod);
+				}	
+			}
 		}
 		//SetRenderQueue(Balancing.singleton.effectRenderQueueNum);
 	}

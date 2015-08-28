@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Simulation : MonoBehaviour {
 
@@ -30,6 +31,13 @@ public class Simulation : MonoBehaviour {
 		foreach (GameObject bot in bots){
 			bot.GetComponent<BotBot>().GameUpdate();
 		}
+		
+		for (int i = 0; i < bots.Count(); ++i){
+			GameObject bot = bots[i];
+			if (bot.GetComponent<BotBot>().toBeDestroyed)
+				GameObject.Destroy(bot);
+		}
+		
 	
 	}
 	

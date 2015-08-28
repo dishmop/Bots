@@ -1,51 +1,49 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BotFactory.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BotBot.cs">
     <Files>
-      <File FileName="Assets/Scripts/BotRadio.cs" Line="29" Column="27" />
+      <File FileName="Assets/Scripts/BotRadio.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Radio.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotBot.cs" Line="176" Column="107" />
-      <File FileName="Assets/Scripts/GenerateEffect.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotBot.cs" Line="319" Column="17" />
+      <File FileName="Assets/Scripts/GenerateEffect.cs" Line="69" Column="6" />
       <File FileName="Assets/Scripts/HomeBase.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotModule.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Module.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Engine.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Balancing.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/LuaBinding.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotFactory.cs" Line="17" Column="32" />
       <File FileName="Assets/Scripts/BotEngine.cs" Line="1" Column="1" />
-      <File FileName="Assets/ModuleExplosion.cs" Line="19" Column="2" />
+      <File FileName="Assets/Scripts/BotExplosion.cs" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/AetherRender_01.shader" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotAI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotConstructor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotFactory.cs" Line="75" Column="64" />
+      <File FileName="Assets/Scripts/Simulation.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="BotFactory.cs" selected="True" />
+              <Node name="BotBot.cs" selected="True" />
             </Node>
+            <Node name="Shaders" expanded="True" />
           </Node>
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>(currentFuel - newFuelTest) * 1000000</Value>
-          <Value>newFuelTest</Value>
-          <Value>botFuelCell.module.volume</Value>
-          <Value>activity</Value>
-          <Value>(int)type</Value>
-          <Value>type</Value>
-          <Value>ex</Value>
-          <Value>ex.StackTrace</Value>
-          <Value>stringToAxisNamesMap</Value>
-          <Value>radio.thisToUnityAxesMappings[i]</Value>
-          <Value>radio.axisValues[</Value>
-          <Value>0.05f * vel.magnitude</Value>
+          <Value>module</Value>
+          <Value>otherModule</Value>
+          <Value>modulesToModuleGOs.count</Value>
+          <Value>modulesToRodGOs.count</Value>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/BotBot.cs" line="338" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
