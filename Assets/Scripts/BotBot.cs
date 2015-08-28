@@ -340,7 +340,7 @@ public class BotBot : MonoBehaviour {
 					modulesToModuleGOs.Remove (otherModule2.guid);
 					modulesToRodGOs.Remove (otherModule2.guid);
 					
-					otherModule.visited = true;
+					otherModule2.visited = true;
 					
 					
 				}
