@@ -8,6 +8,9 @@ public class BotPlasma : BotModule {
 
 	public Plasma plasma;
 	
+
+	
+	
 	// Update is called once per frame
 	public override void GameUpdate () {
 		base.GameUpdate();
@@ -43,6 +46,8 @@ public class BotPlasma : BotModule {
 	
 	
 	public override void HandleHeat(){
+		if (IsAttachedToConstructor()) return ;
+		
 		float temp = 0.5f;
 		Color heatGlow = CalcHeatGlow(temp);
 		if (GetComponent<Renderer>() != null){

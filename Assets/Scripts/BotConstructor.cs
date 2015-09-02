@@ -76,6 +76,10 @@ public class BotConstructor : BotModule {
 			requestedPower = constructor.CalcPowerRequirements() + CalcKickPower();
 		}
 		
+		if (childBotBotGO != null){
+			childBotBotGO.GetComponent<BotBot>().GameUpdate();
+		}
+		
 
 	}
 	

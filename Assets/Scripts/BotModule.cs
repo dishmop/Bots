@@ -19,7 +19,7 @@ public class BotModule : MonoBehaviour {
 	bool isOverlapTriggeringThisFrame = true;
 	
 	public float readHeatEnergy;
-	
+
 	
 		
 	//public float editSize= -1;
@@ -99,7 +99,6 @@ public class BotModule : MonoBehaviour {
 	public void DestroyModule(){
 		GameObject explosion = GameObject.Instantiate(BotFactory.singleton.botExplosion);
 		explosion.transform.position = transform.position;
-		float kineticEnergy = 0.5f * module.volume * transform.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position).sqrMagnitude;
 		float totalEnergy = 0.0001f * module.heatEnergy;
 		explosion.GetComponent<BotExplosion>().Trigger(totalEnergy);
 		transform.parent.GetComponent<BotBot>().DestroyModule(gameObject);
@@ -144,6 +143,13 @@ public class BotModule : MonoBehaviour {
 		acceptableGiftedFuel = 0;
 	}
 	
+	public virtual void InactiveGameUpdate(){
+		HandleRadiation();
+		HandleHeat();
+		HandlePhysics();
+		
+	}
+	
 	// Update is called once per frame
 	public virtual void GameUpdate () {
 		
@@ -155,12 +161,35 @@ public class BotModule : MonoBehaviour {
 
 		HandleRadiation();
 		HandleHeat();
+		HandlePhysics();
+	}
+	
+	public bool IsAttachedToConstructor(){
+		return (transform.parent.parent != null);	
+	}
+	
+	public Rigidbody2D GetRigidBody2D(){
+		Rigidbody2D body = null;
+		
+		// If we are attached to a constructor
+		if (IsAttachedToConstructor()){
+			body = transform.parent.parent.parent.GetComponent<Rigidbody2D>();
+			
+		}
+		else{
+			body = transform.parent.GetComponent<Rigidbody2D>();
+		}
+		return body;
+	}
+	
+	
+	void HandlePhysics(){
+		
 
-		
-		
-		Rigidbody2D body = transform.parent.GetComponent<Rigidbody2D>();
-		
-		if (body.constraints == RigidbodyConstraints2D.FreezeAll) return;
+		Rigidbody2D body = GetRigidBody2D();
+
+		// body can be nul with the first object we create in the game
+		if (body == null || body.constraints == RigidbodyConstraints2D.FreezeAll) return;
 		
 		Vector2 vel = body.GetPointVelocity(transform.position);
 		Vector3 movementDir = vel.normalized;

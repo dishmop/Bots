@@ -381,13 +381,27 @@ public class BotBot : MonoBehaviour {
 		
 	}
 	
+	void InactiveGameUpdate(){
+		// Update modules
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			go.GetComponent<BotModule>().InactiveGameUpdate();
+			
+		}
+		
+		HandleModuleDestruction();
+		
+	}
+	
 	
 	
 	public void GameUpdate(){
 		if (GetComponent<Rigidbody2D>()){
 			GetComponent<Rigidbody2D>().isKinematic = !isBotActive;
 		}
-		if (!isBotActive) return;
+		if (!isBotActive){
+			InactiveGameUpdate();
+			return;
+		}
 		
 		// Thiswould be beter done on a per module basis for slingshot kindof manourvrees
 		GetComponent<Rigidbody2D>().constraints = bot.enableAnchor ? RigidbodyConstraints2D.FreezeAll : RigidbodyConstraints2D.None;
@@ -527,6 +541,12 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		
+		HandleModuleDestruction();
+		
+		//Debug.Log(Time.fixedTime + ": FixedUpdate, speed = " + GetComponent<Rigidbody2D>().velocity.magnitude);
+	}
+	
+	void HandleModuleDestruction(){
 		// Chec for any modules that need to be destoryed
 		List<BotModule> modulesToDestroy = new List<BotModule>();
 		
@@ -544,7 +564,6 @@ public class BotBot : MonoBehaviour {
 			modulesToDestroy[0].DestroyModule();
 		}
 		
-		//Debug.Log(Time.fixedTime + ": FixedUpdate, speed = " + GetComponent<Rigidbody2D>().velocity.magnitude);
 	}
 	
 	void FixedUpdate(){
