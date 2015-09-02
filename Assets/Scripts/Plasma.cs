@@ -6,10 +6,16 @@ public class Plasma : Module{
 
 
 	public Plasma(Bot bot, float size) : base(bot, size){
+		groundFriction = 0;
+		airResistance = 0;
+		enableConsumable = true;
 	}
 	
 	
 	public Plasma(Module parent, int spokeId, float size) : base(parent, spokeId, size){
+		groundFriction = 0;
+		airResistance = 0;
+		enableConsumable = true;
 	}
 	
 	

@@ -18,6 +18,8 @@ public class BotModule : MonoBehaviour {
 	public bool isOverlapTriggering = true;
 	bool isOverlapTriggeringThisFrame = true;
 	
+	public float readHeatEnergy;
+	
 	
 		
 	//public float editSize= -1;
@@ -84,7 +86,7 @@ public class BotModule : MonoBehaviour {
 		
 		float testTemperature = Balancing.singleton.heatToTempMul * module.heatEnergy / (module.volume * module.GetVolumetricHeatCapacity());
 		
-		if (testTemperature > 0.95 * module.GetMaxKelvin()){
+		if (testTemperature > 0.99 * module.GetMaxKelvin()){
 			toBeDestroyed = true;
 		}
 
@@ -97,7 +99,9 @@ public class BotModule : MonoBehaviour {
 	public void DestroyModule(){
 		GameObject explosion = GameObject.Instantiate(BotFactory.singleton.botExplosion);
 		explosion.transform.position = transform.position;
-		explosion.GetComponent<BotExplosion>().Trigger(module.volume);
+		float kineticEnergy = 0.5f * module.volume * transform.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position).sqrMagnitude;
+		float totalEnergy = 0.0001f * module.heatEnergy;
+		explosion.GetComponent<BotExplosion>().Trigger(totalEnergy);
 		transform.parent.GetComponent<BotBot>().DestroyModule(gameObject);
 	}
 	
@@ -126,9 +130,6 @@ public class BotModule : MonoBehaviour {
 		
 		ApplyRadiation(heat);
 		
-		
-		
-	
 	}
 	
 	public virtual void ApplyRadiation(float energy){
@@ -188,8 +189,14 @@ public class BotModule : MonoBehaviour {
 		isOverlapTriggering = isOverlapTriggeringThisFrame;
 		isOverlapTriggeringThisFrame = false;
 		
+		readHeatEnergy = module.heatEnergy;
+		
 		
 	}
+	
+	public virtual void OnGameCollision(){
+	}
+	
 	
 	void OnTriggerEnter2D(Collider2D collider){
 		HandleTrigger(collider);

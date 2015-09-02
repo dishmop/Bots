@@ -6,7 +6,7 @@ while true do
 	EngineSetPower(obj_4, turn + fwPower)
 	EngineSetPower(obj_5, -turn + fwPower)
 	
-	if (RadioHasButtonDownTriggered(obj_2, "JoystickButton_B")) then
-		ConstructorActivate(obj_1, true)
+	if (RadioIsButtonDown(obj_2, "JoystickButton_B")) then
+		ConstructorTrigger(obj_1)
 	end
 end

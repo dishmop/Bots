@@ -15,22 +15,29 @@ public class BotConstructor : BotModule {
 	public void OnConstructionReady(){
 		hasDettachStarted = true;
 		constructor.OnNewConstructionReady();
-		if (constructor.allowRelease){
-			DoDetachment();
-		}
+
 	}
 	
-	void DoDetachment(){
+	void DoDetachment(bool giveKick){
 		BotBot childBot = childBotBotGO.GetComponent<BotBot>();
 		childBot.GameUpdate();
 		constructor.OnCompleteConstruction();
 		
 		
 		childBotBotGO.GetComponent<BotBot>().CreateRigidBody();
+		Vector3 kickGlob = Vector3.zero;
+		if (giveKick){
+			kickGlob = transform.TransformVector(constructor.kickVel);
+		}
+		Vector2 kick2D = new Vector2(kickGlob.x, kickGlob.y);
 		if (childBotBotGO.transform.parent.parent.GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
-			childBotBotGO.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position);
+			childBotBotGO.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position) + kick2D;
 			childBotBotGO.GetComponent<Rigidbody2D>().angularVelocity = transform.parent.GetComponent<Rigidbody2D>().angularVelocity;
 		}
+		else{
+			childBotBotGO.GetComponent<Rigidbody2D>().velocity = kick2D;
+		}
+		
 		
 		childBotBotGO.transform.SetParent(null);
 		childBotBotGO.GetComponent<BotBot>().SetBotActive(true);
@@ -66,36 +73,48 @@ public class BotConstructor : BotModule {
 		if (!transform.parent.GetComponent<BotBot>().isBotActive) return;
 		
 		if (constructor.activated){
-			requestedPower = constructor.CalcPowerRequirements();
+			requestedPower = constructor.CalcPowerRequirements() + CalcKickPower();
 		}
 		
-		if (hasDettachStarted && !isDettachComplete && constructor.allowRelease){
-			DoDetachment();
-		}
-		else{
-			constructor.allowRelease = false;
-		}
 
-
-
+	}
+	
+	float CalcKickPower(){
+		float fudgeFactor = 0.2f;
+		return (childBotBotGO == null) ? 0 : fudgeFactor * 0.5f * childBotBotGO.GetComponent<BotBot>().mass * constructor.kickVel.sqrMagnitude / Time.fixedDeltaTime;
 		
 	}
 	
 	public override void GameUpdatePostPowerCalc ()
 	{
 		if (constructor.activated){
-			// if we have enough power to construct
-			if (MathUtils.FP.Feq(requestedPower, availablePower)){
+			// if we have enough power to construct - then do so
+			float kickPower = CalcKickPower();
+			float powerRequiredToConstruct = requestedPower - kickPower;
+			usedPower = 0;
+			if (MathUtils.FP.Fleq(powerRequiredToConstruct, availablePower)){
 				if (!IsConstructing()){
 					ConstructBot();
 				}
-				usedPower = availablePower;
+				usedPower += powerRequiredToConstruct;
 			}
 			else{
 				constructor.activated = false;
 			}
+			
+			
+			if (hasDettachStarted && !isDettachComplete && constructor.allowRelease){
+				bool giveKick = MathUtils.FP.Fleq(kickPower, availablePower - usedPower);
+				DoDetachment(giveKick);
+				if (giveKick){
+					usedPower += kickPower;
+				}
+			}
+			else{
+				constructor.allowRelease = false;
+			}				
 		}
-		if (!constructor.activated){
+		else{
 			// If not active and constructing, we need to cancel what we have done
 			if (IsConstructing()){
 				GameObject.Destroy(childBotBotGO);
@@ -103,6 +122,8 @@ public class BotConstructor : BotModule {
 			}
 			usedPower = 0;
 		}
+		
+
 
 		
 		// Also, if the effect is in waiting mode - then don't use any power
@@ -132,7 +153,7 @@ public class BotConstructor : BotModule {
 		// Position it appropriately
 		BotBot botBot = childBotBotGO.GetComponent<BotBot>();
 		Vector3 fwDir = transform.rotation * new Vector3(0, 1, 0);
-		float dist =  botBot.bounds.extents.y  + GetComponent<Renderer>().bounds.extents.y;
+		float dist =  botBot.bounds.extents.y  + GetComponent<Renderer>().bounds.extents.y + 0.1f;
 		childBotBotGO.transform.position = transform.position + dist * fwDir;
 		childBotBotGO.transform.rotation = transform.rotation;
 		

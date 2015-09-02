@@ -271,7 +271,7 @@ public class BotBot : MonoBehaviour {
 				Bot newBot = new Bot(gameObject.name + "_" + fragCount++);
 				newBot.rootModule = otherModule;
 				newBot.rodSize = oldBot.rodSize;
-				newBot.enableAnchor = oldBot.enableAnchor;
+				//newBot.enableAnchor = oldBot.enableAnchor;
 				newBot.guidModuleLookup.Add (otherModule.guid, otherModule);
 				
 
@@ -430,7 +430,7 @@ public class BotBot : MonoBehaviour {
 		float totalFuelAvailable = 0;
 		foreach(Module module in bot.guidModuleLookup.Values){
 			if (module.enableConsumable){
-				totalFuelAvailable += Mathf.Max (module.volume - 0.1f, 0f) * module.GetEnergyDensity();
+				totalFuelAvailable += Mathf.Max (module.volume - 0.01f, 0f) * module.GetEnergyDensity();
 			}
 		}
 		
@@ -652,11 +652,15 @@ public class BotBot : MonoBehaviour {
 		
 		// If we collided with another module, spread our heat between us and them
 		if (otherModule != null){
-			thisModule.module.heatEnergy += 6 * 0.5f * kineticEnergyDelta;
-			otherModule.module.heatEnergy += 6 * 0.5f * kineticEnergyDelta;
+			thisModule.module.heatEnergy += 10 * 0.5f * kineticEnergyDelta;
+			otherModule.module.heatEnergy += 10 * 0.5f * kineticEnergyDelta;
+			
+			thisModule.OnGameCollision();
+			otherModule.OnGameCollision();
 		}
 		else{
-			thisModule.module.heatEnergy += 6 * kineticEnergyDelta;
+			thisModule.module.heatEnergy += 10 * kineticEnergyDelta;
+			thisModule.OnGameCollision();
 		}
 		kineticEnergy = newKineticEnergy;
 	}

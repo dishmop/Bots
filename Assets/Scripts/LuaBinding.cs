@@ -59,6 +59,10 @@ public class LuaBinding{
 		// Like Activate - but works in ALwaysReady mode too
 		lua.RegisterFunction("ConstructorTrigger",this,this.GetType().GetMethod("ConstructorTrigger"));
 		
+		lua.RegisterFunction("ConstructorSetKickVelocity",this,this.GetType().GetMethod("ConstructorSetKickVelocity"));
+		
+		
+		
 		lua.RegisterFunction("ModuleEnableConsumable",this,this.GetType().GetMethod("ModuleEnableConsumable"));
 
 				
@@ -316,6 +320,14 @@ public class LuaBinding{
 		constructor.Activate(true);
 		constructor.Release();
 	}
+	
+	public void ConstructorSetKickVelocity(Constructor constructor, float x, float y){
+		LocalLog ("ConstructorSetKickVelocity");
+		
+		constructor.SetKickVelocity(x, y);
+	}
+	
+	
 	
 	
 	

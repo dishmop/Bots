@@ -1,5 +1,5 @@
 bot = ConstructBot()
 obj_0 = ConstructEngine(bot, 1)
-ModuleEnableConsumable(obj_0, true)
+ModuleEnableConsumable(obj_0, false)
 EngineSetPower(obj_0, 1)
 --obj_1 = ConstructAttachedFuelCell(obj_0, 0, 1)

@@ -7,6 +7,7 @@ public class Constructor : Module{
 	public bool enableAutoRepeat = false;
 	public bool enableManualRelease = false;
 	public bool allowRelease = true;
+	public Vector3 kickVel = Vector3.zero;
 
 	public Constructor(Bot bot, float size) : base(bot, size){
 
@@ -25,6 +26,11 @@ public class Constructor : Module{
 		if (activated){
 			allowRelease = true;
 		}
+	}
+	
+	public void SetKickVelocity(float x, float y){
+		
+		kickVel = new Vector3(x, y, 0);
 	}
 	
 	public void EnableManualRelease(bool enable){
