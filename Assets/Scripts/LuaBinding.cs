@@ -49,7 +49,16 @@ public class LuaBinding{
 		
 		
 		lua.RegisterFunction("ConstructorEnableAutoRepeat",this,this.GetType().GetMethod("ConstructorEnableAutoRepeat"));
+		lua.RegisterFunction("ConstructorEnableManualRelease",this,this.GetType().GetMethod("ConstructorEnableManualRelease"));
+		lua.RegisterFunction("ConstructorRelease",this,this.GetType().GetMethod("ConstructorRelease"));
+		lua.RegisterFunction("ConstructorSetAlwaysReadyMode",this,this.GetType().GetMethod("ConstructorSetAlwaysReadyMode"));
+		
+		
 		lua.RegisterFunction("ConstructorActivate",this,this.GetType().GetMethod("ConstructorActivate"));
+		
+		// Like Activate - but works in ALwaysReady mode too
+		lua.RegisterFunction("ConstructorTrigger",this,this.GetType().GetMethod("ConstructorTrigger"));
+		
 		lua.RegisterFunction("ModuleEnableConsumable",this,this.GetType().GetMethod("ModuleEnableConsumable"));
 
 				
@@ -286,6 +295,35 @@ public class LuaBinding{
 		LocalLog ("ConstructorEnableAutoRepeat: " + enable);
 		constructor.EnableAutoRepeat(enable);
 
+	}
+	
+	public void ConstructorEnableManualRelease(Constructor constructor, bool enable){
+		LocalLog ("ConstructorEnableManualRelease: " + enable);
+		constructor.EnableManualRelease(enable);
+		
+	}
+	
+	
+	public void ConstructorSetAlwaysReadyMode(Constructor constructor){
+		LocalLog ("ConstructorSetAlwaysReadyMode");
+		constructor.EnableManualRelease(true);
+		constructor.EnableAutoRepeat(true);
+		constructor.Activate(true);
+	}
+	
+	public void ConstructorTrigger(Constructor constructor){
+		LocalLog ("ConstructorTrigger");
+		constructor.Activate(true);
+		constructor.Release();
+	}
+	
+	
+	
+	
+	public void ConstructorRelease(Constructor constructor){
+		LocalLog ("ConstructorRelease");
+		constructor.Release();
+		
 	}
 	
 	public void ConstructorActivate(Constructor constructor, bool activate){

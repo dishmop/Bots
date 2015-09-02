@@ -4,8 +4,7 @@ obj_0 = ConstructFuelCell(bot, 4)
 
 obj_1 = ConstructAttachedConstructor(obj_0, 0, 1)
 ConstructorSetBotDefinition(obj_1, "missile")
-ConstructorActivate(obj_1, true)
-ConstructorEnableAutoRepeat(obj_1, true)
+ConstructorSetAlwaysReadyMode(obj_1)
 
 obj_2 = ConstructAttachedRadio(obj_0, 2, 1)
 obj_3 = ConstructAttachedAI(obj_0, 4, 1)

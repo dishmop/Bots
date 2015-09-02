@@ -20,6 +20,7 @@ public class GenerateEffect : MonoBehaviour {
 		kShowBot,
 		kFadeEffectOut,
 		kFinaliseEffect,
+		kAwaitingDetach,
 		kActivateBot
 	};
 	
@@ -155,19 +156,18 @@ public class GenerateEffect : MonoBehaviour {
 			}
 			case State.kFinaliseEffect:{
 				DestroyEffectGeometry();
-				transform.parent.GetComponent<BotConstructor>().OnSpawnDetach();
-				GetComponent<BotBot>().CreateRigidBody();
-				if (transform.parent.parent.GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
-					GetComponent<Rigidbody2D>().velocity = transform.parent.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position);
-					GetComponent<Rigidbody2D>().angularVelocity = transform.parent.parent.GetComponent<Rigidbody2D>().angularVelocity;
-				}
-
-				transform.SetParent(null);
-				GetComponent<BotBot>().SetBotActive(true);
-				state = State.kInactive;
-			
+				transform.parent.GetComponent<BotConstructor>().OnConstructionReady();
+				state = State.kAwaitingDetach;
 				break;
 			}
+			case State.kAwaitingDetach:{
+				if (transform.parent == null){
+					state = State.kInactive;
+				}
+				break;
+			}
+
+
 		}
 	}
 }

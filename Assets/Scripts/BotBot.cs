@@ -309,7 +309,7 @@ public class BotBot : MonoBehaviour {
 					}
 				}
 				
-				while (moduleQueue.Count () != 0){
+				while (moduleQueue.Count () != 0){ 
 					Module otherModule2 = moduleQueue.Dequeue();
 					int otherSpoke2 = spokeQueue.Dequeue();
 					GameObject otherBotModuleGO2 = modulesToModuleGOs[otherModule2.guid];
@@ -500,7 +500,6 @@ public class BotBot : MonoBehaviour {
 				float prop = newFuel / currentFuel;
 				botFuelCell.module.volume *= prop;
 				
-				float newFuelTest = botFuelCell.module.volume * botFuelCell.module.GetEnergyDensity();
 				giftedFuelAccepted += fuelToAddPerCell;
 			}
 		}

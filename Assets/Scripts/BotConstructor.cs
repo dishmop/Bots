@@ -5,20 +5,49 @@ using System.Collections.Generic;
 public class BotConstructor : BotModule {
 	public Constructor constructor;
 	public static int botCount = 0;
+	
+	bool isDettachComplete = true;
+	bool hasDettachStarted = false;
 
 
 	GameObject childBotBotGO;
 
-	public void OnSpawnDetach(){
+	public void OnConstructionReady(){
+		hasDettachStarted = true;
+		constructor.OnNewConstructionReady();
+		if (constructor.allowRelease){
+			DoDetachment();
+		}
+	}
+	
+	void DoDetachment(){
 		BotBot childBot = childBotBotGO.GetComponent<BotBot>();
-		childBotBotGO = null;
 		childBot.GameUpdate();
 		constructor.OnCompleteConstruction();
 		
 		
+		childBotBotGO.GetComponent<BotBot>().CreateRigidBody();
+		if (childBotBotGO.transform.parent.parent.GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
+			childBotBotGO.GetComponent<Rigidbody2D>().velocity = transform.parent.GetComponent<Rigidbody2D>().GetPointVelocity(transform.position);
+			childBotBotGO.GetComponent<Rigidbody2D>().angularVelocity = transform.parent.GetComponent<Rigidbody2D>().angularVelocity;
+		}
 		
+		childBotBotGO.transform.SetParent(null);
+		childBotBotGO.GetComponent<BotBot>().SetBotActive(true);
+		
+		isDettachComplete = true;
+		constructor.allowRelease = false;
+		hasDettachStarted = false;
+		
+		childBotBotGO = null;
+		Debug.Log (Time.fixedTime + ": DoDetachment");
 	}
 	
+	
+//	public bool IsDetachComplete(){
+//		return isDettachComplete;
+//	}
+//	
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
@@ -39,6 +68,14 @@ public class BotConstructor : BotModule {
 		if (constructor.activated){
 			requestedPower = constructor.CalcPowerRequirements();
 		}
+		
+		if (hasDettachStarted && !isDettachComplete && constructor.allowRelease){
+			DoDetachment();
+		}
+		else{
+			constructor.allowRelease = false;
+		}
+
 
 
 		
@@ -114,6 +151,9 @@ public class BotConstructor : BotModule {
 		float constructionDuration = botBot.mass / constructor.volume;
 		childBotBotGO.transform.SetParent(transform);
 		childBotBotGO.GetComponent<GenerateEffect>().InitialiseEffect(constructionDuration);
+		
+		isDettachComplete = false;
+		
 		return childBotBotGO;
  		
 	}

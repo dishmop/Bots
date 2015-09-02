@@ -29,6 +29,12 @@ public class BotRadio : BotModule {
 			radio.axisValues[i] = -Input.GetAxis(radio.thisToUnityAxesMappings[i]);	
 		}
 		
+		
+		if (Input.GetKeyDown(KeyCode.Return)){	
+			Debug.Log (Time.fixedTime + ": KeyCode.Return");
+		}
+		
+		
 	}
 	
 	
