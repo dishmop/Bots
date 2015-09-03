@@ -42,8 +42,8 @@ public class BotModule : MonoBehaviour {
 	
 	public void HandleScale(){
 		// use 2 x because module is radius 0.5
-		if (float.IsNaN(module.volume)){
-			Debug.Log ("error");
+		if (float.IsNaN(module.volume) || module.volume <  0 ){
+			Debug.Log ("Error - HandleScale - module.volume: " + module.volume);
 		}
 		transform.localScale = 2 * Balancing.singleton.ConvertModuleVolumeToRadius(module.volume) * new Vector3(1, 1, 1);
 	}

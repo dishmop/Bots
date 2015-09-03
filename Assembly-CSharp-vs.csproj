@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\EditorUI.cs" />
      <Compile Include="Assets\Scripts\Engine.cs" />
      <Compile Include="Assets\Scripts\FuelCell.cs" />
+     <Compile Include="Assets\Scripts\GameMode.cs" />
      <Compile Include="Assets\Scripts\GenerateEffect.cs" />
      <Compile Include="Assets\Scripts\Global.cs" />
      <Compile Include="Assets\Scripts\GridPaper.cs" />
@@ -92,12 +93,15 @@
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
      <Compile Include="Assets\Scripts\Sun.cs" />
      <Compile Include="Assets\Scripts\TestYield.cs" />
+     <Compile Include="Assets\Scripts\TextBox.cs" />
+     <Compile Include="Assets\Scripts\UISidePanel.cs" />
      <Compile Include="Assets\Scripts\VectorCircle.cs" />
      <None Include="Assets\Shaders\noiseSimplex.cginc" />
      <None Include="Assets\Shaders\AetherBlur_01.shader" />
      <None Include="Assets\Shaders\AetherSink_01.shader" />
      <None Include="Assets\Shaders\AetherRenderInter_01.shader" />
      <None Include="Assets\Shaders\AetherRender_01.shader" />
+     <None Include="Assets\Fonts\Bitstream Vera License.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Shaders\AetherRenderPower_01.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />

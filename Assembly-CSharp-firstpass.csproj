@@ -94,6 +94,7 @@
      <None Include="Assets\Shaders\AetherSink_01.shader" />
      <None Include="Assets\Shaders\AetherRenderInter_01.shader" />
      <None Include="Assets\Shaders\AetherRender_01.shader" />
+     <None Include="Assets\Fonts\Bitstream Vera License.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Shaders\AetherRenderPower_01.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />

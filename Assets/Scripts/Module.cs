@@ -68,7 +68,7 @@ public class Module{
 	
 	// We shouldn't grow more than our initial volume
 	public void SetVolume(float newVolume){
-		volume = Mathf.Min (newVolume, initialVolume);
+		volume = Mathf.Max (0, Mathf.Min (newVolume, initialVolume));
 	}
 	
 	public virtual void DebugPrint(){

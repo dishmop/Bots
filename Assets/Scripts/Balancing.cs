@@ -11,8 +11,14 @@ public class Balancing : MonoBehaviour {
 	public float heatToTempMul = 2;
 	public float heatToTempMulSurf = 0;
 	public float SurfToFieldMul = 1;
+	
+	
+	// layout
+	public float topMenuProp = 0.1f;
+	public float scriptUIProp = 0.25f;
 
-	//
+
+	
 	public enum ModuleShape{
 		kHemisphere,		// actually a sphere - but equivilent to hemisphere of twice the density
 		kDisc,

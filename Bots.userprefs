@@ -1,25 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/RechargeEffect.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TextBox.cs">
     <Files>
-      <File FileName="Assets/Scripts/RechargeEffect.cs" Line="4" Column="1" />
+      <File FileName="Assets/Scripts/RechargeEffect.cs" Line="15" Column="8" />
       <File FileName="Assets/Scripts/Radio.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotRadio.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/GenerateEffect.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/HomeBase.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotModule.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Engine.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Balancing.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/LuaBinding.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotEngine.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotExplosion.cs" Line="1" Column="1" />
       <File FileName="Assets/Shaders/AetherRender_01.shader" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotAI.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotConstructor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Simulation.cs" Line="1" Column="1" />
       <File FileName="Assets/Shaders/AetherPropagate_01.shader" Line="1" Column="1" />
       <File FileName="Assets/Shaders/AetherScatter_01.shader" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Constructor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotPlasma.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Module.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Plasma.cs" Line="1" Column="1" />
@@ -27,31 +24,42 @@
       <File FileName="Assets/Scripts/BotFuelCell.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/FuelCell.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Bot.cs" Line="1" Column="1" />
-      <File FileName="Assets/RechargeEffect.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotFactory.cs" Line="16" Column="41" />
+      <File FileName="Assets/Scripts/BotFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotExplosion.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotSolarCell.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SolarCell.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Constructor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Global.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GameMode.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Balancing.cs" Line="35" Column="34" />
+      <File FileName="Assets/Scripts/TextBox.cs" Line="70" Column="61" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="RechargeEffect.cs" selected="True" />
+              <Node name="TextBox.cs" selected="True" />
             </Node>
           </Node>
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>name</Value>
-          <Value>transform.parent</Value>
-          <Value>transform.parent.parent</Value>
+          <Value>module.volume</Value>
+          <Value>botModule.module.volume</Value>
+          <Value>totalGiftedFuel</Value>
+          <Value>rechargeBotModule.module.volume</Value>
+          <Value>module.volume</Value>
+          <Value>worldCorners</Value>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Constructor.cs" line="15" />
+      <Breakpoint enabled="false" file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Constructor.cs" line="15" />
+      <Breakpoint enabled="false" file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/BotPlasma.cs" line="26" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
