@@ -156,7 +156,9 @@ public class GenerateEffect : MonoBehaviour {
 			}
 			case State.kFinaliseEffect:{
 				DestroyEffectGeometry();
-				transform.parent.GetComponent<BotConstructor>().OnConstructionReady();
+				if (transform.parent != null){
+					transform.parent.GetComponent<BotConstructor>().OnConstructionReady();
+				}
 				state = State.kAwaitingDetach;
 				break;
 			}

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BotConstructor : BotModule {
 	public Constructor constructor;
@@ -8,9 +9,11 @@ public class BotConstructor : BotModule {
 	
 	bool isDettachComplete = true;
 	bool hasDettachStarted = false;
-
-
+	
+	bool isInChargingMode = false;
 	GameObject childBotBotGO;
+	
+	Dictionary<GameObject, GameObject> rechargeEffectLookup = new Dictionary<GameObject, GameObject>();
 
 	public void OnConstructionReady(){
 		hasDettachStarted = true;
@@ -47,7 +50,7 @@ public class BotConstructor : BotModule {
 		hasDettachStarted = false;
 		
 		childBotBotGO = null;
-		Debug.Log (Time.fixedTime + ": DoDetachment");
+//		Debug.Log (Time.fixedTime + ": DoDetachment");
 	}
 	
 	
@@ -74,6 +77,70 @@ public class BotConstructor : BotModule {
 		
 		if (constructor.activated){
 			requestedPower = constructor.CalcPowerRequirements() + CalcKickPower();
+			isInChargingMode = false;
+		}
+		else{
+			isInChargingMode = true;
+			
+			float chargingRadius = transform.localScale.x * 4f;
+			
+			// Check if any of the list of charging bots is out of range
+			List<GameObject> effectsToRemove = new List<GameObject>();
+			foreach (GameObject key in rechargeEffectLookup.Keys){
+				if (key == null){
+					effectsToRemove.Add (key);
+					continue;
+				}
+				if (!key.GetComponent<BotBot>().CanRecharge()){
+					effectsToRemove.Add (key);
+					continue;
+				}
+				Vector3 hereToThere = transform.position - key.transform.position;
+				if (hereToThere.sqrMagnitude > chargingRadius * chargingRadius){
+					effectsToRemove.Add (key);
+					continue;
+				}
+			}
+			
+			// So remove all of those
+			foreach (GameObject go in effectsToRemove){
+				GameObject.Destroy (rechargeEffectLookup[go]);
+				rechargeEffectLookup.Remove(go);
+			}
+			
+			// Check if there are any things to charge
+			Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), chargingRadius);
+			foreach (Collider2D collider in colliders){
+				GameObject botGO = collider.gameObject.transform.parent.gameObject;
+				
+				if (botGO == null) continue;
+				
+				// Don't try and recharge ourselves
+				if (botGO == transform.parent.gameObject) continue;
+				
+				
+				// Don't try and recharge things that don't need to be recharged
+				if (!botGO.GetComponent<BotBot>().CanRecharge()) continue;
+				
+				if (!rechargeEffectLookup.ContainsKey(botGO)){
+					GameObject newEffect = GameObject.Instantiate(BotFactory.singleton.rechargeEffectPrefab);
+					newEffect.transform.SetParent(transform);
+					newEffect.transform.localPosition = new Vector3(0, 0, -0.2f);
+					newEffect.transform.localRotation = Quaternion.identity;
+					rechargeEffectLookup.Add (botGO, newEffect);
+				}
+				
+				// Get the nearest module to this position and set out "beam" to point to it
+				GameObject moduleGO = botGO.GetComponent<BotBot>().GetNearestModule(transform.position);
+				GameObject effect = rechargeEffectLookup[botGO];
+				effect.GetComponent<RechargeEffect>().chargeeModuleGO = moduleGO;
+				float beamWidth = Mathf.Min (transform.lossyScale.x, moduleGO.transform.lossyScale.x) / transform.lossyScale.x;
+				effect.transform.localScale = 0.5f * beamWidth * new Vector3(1, 1, 1);
+			}	
+			if (rechargeEffectLookup.Count() > 0){
+				requestedPower = constructor.CalcPowerRequirements();
+			}		
+			
 		}
 		
 		if (childBotBotGO != null){
@@ -91,6 +158,26 @@ public class BotConstructor : BotModule {
 	
 	public override void GameUpdatePostPowerCalc ()
 	{
+		if (isInChargingMode){
+			usedPower = 0;
+			int numChargees = rechargeEffectLookup.Count ();
+			if (numChargees > 0){
+				if (MathUtils.FP.Feq(availablePower, requestedPower)){
+					foreach (KeyValuePair<GameObject, GameObject> entry in rechargeEffectLookup){
+						entry.Value.GetComponent<ParticleSystem>().emissionRate = 100 * entry.Value.transform.lossyScale.x / numChargees;
+						entry.Key.GetComponent<BotBot>().AddRechargeEnergy(availablePower * Time.fixedDeltaTime);
+					}
+					usedPower = availablePower;
+
+				}
+				else{
+					foreach (KeyValuePair<GameObject, GameObject> entry in rechargeEffectLookup){
+						entry.Value.GetComponent<ParticleSystem>().emissionRate = 0;
+					}
+				}
+			}
+			return ;
+		}
 		if (constructor.activated){
 			// if we have enough power to construct - then do so
 			float kickPower = CalcKickPower();
@@ -100,7 +187,10 @@ public class BotConstructor : BotModule {
 				if (!IsConstructing()){
 					ConstructBot();
 				}
-				usedPower += powerRequiredToConstruct;
+				// Only use the power is we are not holding into (and so) our child release) our child
+				if (!hasDettachStarted || isDettachComplete){
+					usedPower += powerRequiredToConstruct;
+				}
 			}
 			else{
 				constructor.activated = false;

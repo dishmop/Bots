@@ -13,7 +13,7 @@ public class BotFactory : MonoBehaviour {
 	public GameObject botRadioPrefab;
 	public GameObject botPlasmaPrefab;
 	public GameObject botSolarCellPrefab;
-	
+	public GameObject rechargeEffectPrefab;
 	public GameObject botExplosion;
 	
 	

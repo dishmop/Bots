@@ -12,6 +12,9 @@ public class SolarCell : Module{
 	public SolarCell(Module parent, int spokeId, float size) : base(parent, spokeId, size){
 	}
 	
+	public override float GetVolumetricHeatCapacity(){
+		return 20;
+	}
 	
 
 	public override string GetTypeName(){

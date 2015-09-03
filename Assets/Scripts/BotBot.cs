@@ -16,6 +16,8 @@ public class BotBot : MonoBehaviour {
 	public float momentOfInteria;
 	public bool isOverlapTriggering = true;
 //	bool isOverlapTriggeringThisFrame = true;
+
+	float rechargeEnergy = 0;
 	
 	float kineticEnergy;
 	public bool toBeDestroyed = false;
@@ -67,6 +69,38 @@ public class BotBot : MonoBehaviour {
 		if (isOtherEmpty) modulesToRodGOs.Remove (otherModule.guid);
 		
 	}
+	
+	public bool CanRecharge(){
+		if (!isBotActive) return false;
+		
+		// Check if we have any modules which can recharge
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			if (go.GetComponent<BotModule>().module.CanRecharge()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void AddRechargeEnergy(float energy){
+		rechargeEnergy += energy;
+	}
+	
+	
+	public GameObject GetNearestModule(Vector3 position){
+		GameObject retGO = null;
+		float minDistSq = 1000000f;
+		foreach (GameObject go in modulesToModuleGOs.Values){
+			Vector3 hereToThere = position - go.transform.position;
+			float distSq = hereToThere.sqrMagnitude;
+			if (distSq < minDistSq){
+				minDistSq = distSq;
+				retGO = go;
+			}
+		}
+		return retGO;
+	}
+	
 	
 	public void RegisterRod(Module module, GameObject go, int spokeDir){
 		// Need to find the other module and register us there too
@@ -448,12 +482,14 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		
-		float totalGiftedFuel = 0;
+		float totalGiftedFuel = rechargeEnergy;
 		foreach(GameObject go in modulesToModuleGOs.Values){
 			BotModule botModule = go.GetComponent<BotModule>();
 			
 			totalGiftedFuel += botModule.availableGiftedFuel;
 		}
+		
+		rechargeEnergy = 0;
 
 		
 		// What proportion of the fuel requested can we supply?
@@ -462,8 +498,6 @@ public class BotBot : MonoBehaviour {
 		
 		float proportionAvailable = fuelRequestedThisFrame == 0 ? 1 : (availableFuelRequested / fuelRequestedThisFrame);
 		
-		
-
 		
 		// Inform each module how much power is available to them
 		foreach(GameObject go in modulesToModuleGOs.Values){
@@ -497,8 +531,8 @@ public class BotBot : MonoBehaviour {
 		// If we have some batteries we can attempt to recharge them
 		int numFuelCells = 0;
 		foreach (GameObject go in modulesToModuleGOs.Values){
-			BotFuelCell botFuelCell = go.GetComponent<BotFuelCell>();
-			if (botFuelCell != null){
+			BotModule rechargeBotModule = go.GetComponent<BotModule>();
+			if (rechargeBotModule.module.CanRecharge()){
 				numFuelCells++;
 			}
 		}
@@ -507,12 +541,12 @@ public class BotBot : MonoBehaviour {
 		float fuelToAddPerCell = giftedFuelRemaining / numFuelCells;
 		float giftedFuelAccepted = 0;
 		foreach (GameObject go in modulesToModuleGOs.Values){
-			BotFuelCell botFuelCell = go.GetComponent<BotFuelCell>();
-			if (botFuelCell != null){
-				float currentFuel = botFuelCell.module.volume * botFuelCell.module.GetEnergyDensity();
+			BotModule rechargeBotModule = go.GetComponent<BotModule>();
+			if (rechargeBotModule.module.CanRecharge()){
+				float currentFuel = rechargeBotModule.module.volume * rechargeBotModule.module.GetEnergyDensity();
 				float newFuel = currentFuel + fuelToAddPerCell;
 				float prop = newFuel / currentFuel;
-				botFuelCell.module.volume *= prop;
+				rechargeBotModule.module.SetVolume(rechargeBotModule.module.volume * prop);
 				
 				giftedFuelAccepted += fuelToAddPerCell;
 			}
@@ -536,7 +570,7 @@ public class BotBot : MonoBehaviour {
 			// Reduce the size of the consumable modules accordingly
 			foreach(Module module in bot.guidModuleLookup.Values){
 				if (module.enableConsumable){
-					module.volume *= fuelProp;
+					module.SetVolume(module.volume * fuelProp);
 				}
 			}
 		}
@@ -557,10 +591,10 @@ public class BotBot : MonoBehaviour {
 			}
 		}
 		if (modulesToDestroy.Count() > 1){
-			Debug.LogError ("Can't handle multiple modules being destoryed just yet");
+			Debug.Log ("Can't handle multiple modules being destoryed just yet");
 		}
 		
-		if (modulesToDestroy.Count() == 1){
+		if (modulesToDestroy.Count() >= 1){
 			modulesToDestroy[0].DestroyModule();
 		}
 		

@@ -3,7 +3,7 @@ obj_0 = ConstructFuelCell(bot, 4)
 
 
 obj_1 = ConstructAttachedConstructor(obj_0, 0, 2)
-ConstructorSetBotDefinition(obj_1, "missile")
+ConstructorSetBotDefinition(obj_1, "missile_2")
 ConstructorSetAlwaysReadyMode(obj_1)
 ConstructorSetKickVelocity(obj_1, 0, 20)
 

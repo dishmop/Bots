@@ -222,7 +222,7 @@ public class Radio : Module{
 		for (int i = 0; i < (int)AxisNames.NumAxes; ++i){
 			AxisNames enumName = (AxisNames)i;
 			stringToAxisNamesMap.Add (enumName.ToString(), enumName);
-			Debug.Log ("enumName.ToString() = " + enumName.ToString());
+//			Debug.Log ("enumName.ToString() = " + enumName.ToString());
 		}
 	}
 	

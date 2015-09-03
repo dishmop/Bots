@@ -12,6 +12,7 @@ public class Module{
 	public float volume = 1;
 	public bool enableConsumable = false;
 	public float heatEnergy = 0;
+	public float initialVolume = 0;
 	
 	public Bot bot;
 	
@@ -19,12 +20,14 @@ public class Module{
 	
 	public Module (Bot bot, float size){
 		this.volume= size;
+		initialVolume = size;
 		InitSetup(bot);
 	}
 	
 	// Parent and the spoke of the parent we are attaching to
 	public Module(Module parent, int spokeId, float size){
 		this.volume= size;
+		initialVolume = size;
 		InitSetup(parent.bot);
 		
 		
@@ -59,7 +62,14 @@ public class Module{
 		
 	}
 	
-
+	public bool CanRecharge(){
+		return (volume < initialVolume);
+	}
+	
+	// We shouldn't grow more than our initial volume
+	public void SetVolume(float newVolume){
+		volume = Mathf.Min (newVolume, initialVolume);
+	}
 	
 	public virtual void DebugPrint(){
 		Debug.Log("numSpokes = " + numSpokes);

@@ -53,9 +53,14 @@ public class BotSolarCell : BotModule {
 	public override void ApplyRadiation(float energy){
 	
 		float energyToConvert = Mathf.Min (GetMaxEnergyPerFrame(), energy);
-		activity = energyToConvert;
-		
-		base.ApplyRadiation( (energy - activity));
+		if (transform.parent.GetComponent<BotBot>().CanRecharge()){
+			activity = energyToConvert;
+		}
+		else{
+			activity = 0;
+			
+		}		
+		base.ApplyRadiation( 0.75f * (energy - activity));
 		
 		
 	}
