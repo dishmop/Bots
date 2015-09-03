@@ -215,7 +215,7 @@ public class TextBox : MonoBehaviour {
 			
 			
 			#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
-			crazyEnterAdded = DealwithCrazyMacKeyDownBug(cursorPos);
+			crazyEnterAdded = DealwithCrazyMacKeyDownBug(editor.pos);
 			#endif
 
 			
