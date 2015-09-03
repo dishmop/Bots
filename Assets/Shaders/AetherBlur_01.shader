@@ -77,7 +77,7 @@ SubShader {
 			float4 pix22 = tex2D(_RawData02, i.uv + float4(+deltaX, -deltaY, 0, 0));
 			
 			
-			float4 output = 0.2 * ((pix00 + pix20 + pix02 + pix22) / 16f + (pix10 + pix01 + pix21 + pix12) / 8 + pix11 / 4) + pix11 * 0.798;
+			float4 output = 0.2 * ((pix00 + pix20 + pix02 + pix22) / 16 + (pix10 + pix01 + pix21 + pix12) / 8 + pix11 / 4) + pix11 * 0.798;
 			
 			return  output;
 

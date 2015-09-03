@@ -62,8 +62,8 @@ SubShader {
 		
 		float4 frag2(v2f i) : COLOR
 		{
-			float deltaX = 1f/_Width;
-			float deltaY = 1f/_Height;
+			float deltaX = 1/_Width;
+			float deltaY = 1/_Height;
 			
 			float xx = i.uv.x - 0.5;
 			float yy = i.uv.y - 0.5;

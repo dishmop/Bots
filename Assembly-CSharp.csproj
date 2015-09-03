@@ -88,10 +88,12 @@
      <Compile Include="Assets\Scripts\QuitOnEsc.cs" />
      <Compile Include="Assets\Scripts\Radio.cs" />
      <Compile Include="Assets\Scripts\RechargeEffect.cs" />
+     <Compile Include="Assets\Scripts\ScriptLibraryText.cs" />
      <Compile Include="Assets\Scripts\Simulation.cs" />
      <Compile Include="Assets\Scripts\SolarCell.cs" />
      <Compile Include="Assets\Scripts\SpokeDirs.cs" />
      <Compile Include="Assets\Scripts\Sun.cs" />
+     <Compile Include="Assets\Scripts\SystemScripts.cs" />
      <Compile Include="Assets\Scripts\TestYield.cs" />
      <Compile Include="Assets\Scripts\TextBox.cs" />
      <Compile Include="Assets\Scripts\UISidePanel.cs" />

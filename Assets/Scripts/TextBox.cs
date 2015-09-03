@@ -6,8 +6,12 @@ using System.Collections.Generic;
 public class TextBox : MonoBehaviour {
 
 	public GameObject panel;
+	[Multiline]
 	public string textToEdit = "Starting text";
 	public bool isEditable;
+	public bool isListBox;
+	public int listItemSelected = 0;
+	
 	public Font font;
 	public Vector2 scrollPosition = Vector2.zero;
 	public Texture2D blackTeture;
@@ -19,12 +23,20 @@ public class TextBox : MonoBehaviour {
 	float letterHeight;
 	float margineSizeY;
 	
-		
+	int count = 1;
+	
+	
+	KeyCode lastKeyCode = KeyCode.None;
+	EventType lastKeyType = EventType.Ignore;
+	int keyUpCounter = 0;
 		
 	
 
 	// Use this for initialization
 	void Start () {
+	
+		textToEdit = "Hello \nthis is some text\nAnd here is some more";
+
 	
 	}
 	
@@ -107,6 +119,13 @@ public class TextBox : MonoBehaviour {
 		
 	}
 	
+//	public void TriggerReturn(){
+//		//if (GUI.GetNameOfFocusedControl() == ConstructControlName()){
+//			textToEdit += "Return";
+//		//}
+//	}
+	
+	
 	
 	void OnGUI() {
 		Vector3[] worldCorners = new Vector3[4];
@@ -137,7 +156,11 @@ public class TextBox : MonoBehaviour {
 		Vector2 stringDims = GUICalcStringDims(textToEdit, style, cursorPos, out cursorPosVec);
 		
 		Rect screenRect = new Rect(worldCorners[1], worldCorners[3] - worldCorners[1]);
-
+		
+		// For Crazy OSX standalong keydown bug
+		bool crazyEnterAdded = false;
+		
+		
 		if (GUI.GetNameOfFocusedControl() == ConstructControlName()){
 			if (cursorPos != lastCursorPos){
 				int borderLetters = 1;
@@ -161,10 +184,28 @@ public class TextBox : MonoBehaviour {
 				}
 				
 			}
+			TextEditor editor = GetActiveEditor();
+			
+			// If we are a list box - make the whoel ine that the cursor is on selected
+			if (isListBox){
+				editor.SelectTextStart();
+				editor.MoveRight();
+				editor.SelectTextEnd();
+			}
+			
+			
+			#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
+			crazyEnterAdded = DealwithCrazyMacKeyDownBug(cursorPos);
+			#endif
+
+			
+
+			
 			lastCursorPos = cursorPos;
 		}
+
 		
-//		Rect viewRect = new Rect(0, 0, stringDims.x, stringDims.y);
+		//		Rect viewRect = new Rect(0, 0, stringDims.x, stringDims.y);
 		Rect viewRect = new Rect(0, 0, Mathf.Max (screenRect.width, stringDims.x), Mathf.Max (screenRect.height, stringDims.y));
 		
 		scrollPosition = GUI.BeginScrollView(screenRect, scrollPosition, viewRect);
@@ -172,16 +213,79 @@ public class TextBox : MonoBehaviour {
 		string newText = GUI.TextArea(viewRect, textToEdit, style);
 		GUI.EndScrollView();
 		
-		
-		
-		if (isEditable){
-			GUI.skin.settings.cursorColor = Color.white;
-			textToEdit = newText;
+		if (crazyEnterAdded){
+			GetActiveEditor().MoveRight();
 		}
-		else{
-			GUI.skin.settings.cursorColor = Color.black;
+		
+	
+		
+		
+		if (GUI.GetNameOfFocusedControl() == ConstructControlName()){
+			if (isEditable){
+				GUI.skin.settings.cursorColor = Color.white;
+				textToEdit = newText;
+			}
+			else{
+				GUI.skin.settings.cursorColor = Color.black;
+			}
+
 		}
 
+		
+	}
+	
+	bool DealwithCrazyMacKeyDownBug(int cursorPos){
+		bool crazyEnterAdded = false;
+		TextEditor editor = GetActiveEditor();
+		
+		if (Event.current.keyCode !=  KeyCode.None){
+			// Deal with Arrow keys
+			if (Event.current.type == EventType.KeyUp){
+				keyUpCounter++;
+				if (keyUpCounter % 2 == 1){
+					
+					if (Event.current.keyCode == KeyCode.LeftArrow){
+						//textToEdit += "Left: " + keyUpCounter + "\n";
+						editor.MoveLeft();
+						
+					}
+					if (Event.current.keyCode == KeyCode.RightArrow){
+						editor.MoveRight();
+						//textToEdit += "Right: " + keyUpCounter + "\n";
+					}
+					if (Event.current.keyCode == KeyCode.UpArrow){
+						editor.MoveUp();
+						//textToEdit += "Up: " + keyUpCounter + "\n";
+					}
+					if (Event.current.keyCode == KeyCode.DownArrow){
+						editor.MoveDown();
+						//textToEdit += "Down: " + keyUpCounter + "\n";
+					}
+				}
+				
+				
+			}
+			if (Event.current.type == EventType.KeyDown){ 
+				if (Event.current.keyCode == KeyCode.Return){
+					//editor.MoveDown();
+					textToEdit = textToEdit.Insert(cursorPos, "\n");
+					crazyEnterAdded = true;
+					//textToEdit += "cursorPos = " + cursorPos + "\n";
+				}
+			}
+			
+			if (lastKeyCode != Event.current.keyCode){
+				keyUpCounter = 0;
+			}
+			
+			
+			if (Event.current.keyCode != KeyCode.None){
+				lastKeyCode = Event.current.keyCode;
+				lastKeyType = Event.current.type;
+			}
+		}
+		return crazyEnterAdded;
+		
 		
 	}
 }

@@ -42,11 +42,11 @@ public class EditorUI : MonoBehaviour {
 	Module hiddenToModule;
 	
 	public void WriteData(){
-		StreamWriter sr = File.CreateText(Application.streamingAssetsPath+"/"+loadFileName);
-		
-		sr.Write(binding.GenerateBotConstructionScript(editorBot));
-		
-		sr.Close();
+//		StreamWriter sr = File.CreateText(Application.streamingAssetsPath + "/"+loadFileName);
+//		
+//		sr.Write(binding.GenerateBotConstructionScript(editorBot));
+//		
+//		sr.Close();
 	
 	}
 	

@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TextBox.cs">
     <Files>
-      <File FileName="Assets/Scripts/RechargeEffect.cs" Line="15" Column="8" />
+      <File FileName="Assets/Scripts/ScriptLibraryText.cs" Line="27" Column="46" />
+      <File FileName="Assets/Scripts/RechargeEffect.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Radio.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotRadio.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/GenerateEffect.cs" Line="1" Column="1" />
@@ -31,8 +32,14 @@
       <File FileName="Assets/Scripts/Constructor.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Global.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/GameMode.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Balancing.cs" Line="35" Column="34" />
-      <File FileName="Assets/Scripts/TextBox.cs" Line="70" Column="61" />
+      <File FileName="Assets/Scripts/Balancing.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AetherSimCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Editor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SystemScripts.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/TextBox.cs" Line="180" Column="5" />
+      <File FileName="Assets/Shaders/AetherBlur_01.shader" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/AetherSetup_01.shader" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EditorUI.cs" Line="58" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -41,17 +48,13 @@
             <Node name="Scripts" expanded="True">
               <Node name="TextBox.cs" selected="True" />
             </Node>
+            <Node name="Shaders" expanded="True" />
           </Node>
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
-          <Value>module.volume</Value>
-          <Value>botModule.module.volume</Value>
-          <Value>totalGiftedFuel</Value>
-          <Value>rechargeBotModule.module.volume</Value>
-          <Value>module.volume</Value>
-          <Value>worldCorners</Value>
+          <Value>style</Value>
         </State>
       </Pad>
     </Pads>
@@ -60,6 +63,7 @@
     <BreakpointStore>
       <Breakpoint enabled="false" file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Constructor.cs" line="15" />
       <Breakpoint enabled="false" file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/BotPlasma.cs" line="26" />
+      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/ScriptLibraryText.cs" line="29" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
