@@ -84,28 +84,34 @@ public class BotConstructor : BotModule {
 			
 			float chargingRadius = transform.localScale.x * 4f;
 			
+			
+			
 			// Check if any of the list of charging bots is out of range
-			List<GameObject> effectsToRemove = new List<GameObject>();
-			foreach (GameObject key in rechargeEffectLookup.Keys){
+			List<KeyValuePair<GameObject, GameObject>> effectsToRemove = new List<KeyValuePair<GameObject, GameObject>>();
+			foreach (KeyValuePair<GameObject, GameObject> item in rechargeEffectLookup){
+				GameObject key = item.Key;
+				GameObject value = item.Value;
+				
 				if (key == null){
-					effectsToRemove.Add (key);
+					effectsToRemove.Add (new KeyValuePair<GameObject, GameObject>(key, value));
 					continue;
 				}
 				if (!key.GetComponent<BotBot>().CanRecharge()){
-					effectsToRemove.Add (key);
+					effectsToRemove.Add (new KeyValuePair<GameObject, GameObject>(key, value));
 					continue;
 				}
 				Vector3 hereToThere = transform.position - key.transform.position;
 				if (hereToThere.sqrMagnitude > chargingRadius * chargingRadius){
-					effectsToRemove.Add (key);
+					effectsToRemove.Add (new KeyValuePair<GameObject, GameObject>(key, value));
 					continue;
 				}
 			}
 			
 			// So remove all of those
-			foreach (GameObject go in effectsToRemove){
-				GameObject.Destroy (rechargeEffectLookup[go]);
-				rechargeEffectLookup.Remove(go);
+			foreach (KeyValuePair<GameObject, GameObject> item in effectsToRemove){
+				rechargeEffectLookup.Remove(item.Key);
+				GameObject.Destroy (item.Value);
+				
 			}
 			
 			// Check if there are any things to charge
@@ -117,6 +123,10 @@ public class BotConstructor : BotModule {
 				
 				// Don't try and recharge ourselves
 				if (botGO == transform.parent.gameObject) continue;
+				
+				if (botGO.GetComponent<BotBot>() == null){
+					Debug.LogError ("Error - BotBot doesn't exist: " + botGO.name);
+				}
 				
 				
 				// Don't try and recharge things that don't need to be recharged
@@ -164,15 +174,19 @@ public class BotConstructor : BotModule {
 			if (numChargees > 0){
 				if (MathUtils.FP.Feq(availablePower, requestedPower)){
 					foreach (KeyValuePair<GameObject, GameObject> entry in rechargeEffectLookup){
-						entry.Value.GetComponent<ParticleSystem>().emissionRate = 100 * entry.Value.transform.lossyScale.x / numChargees;
-						entry.Key.GetComponent<BotBot>().AddRechargeEnergy(availablePower * Time.fixedDeltaTime);
+						if (entry.Key != null){
+							entry.Value.GetComponent<ParticleSystem>().emissionRate = 100 * entry.Value.transform.lossyScale.x / numChargees;
+							entry.Key.GetComponent<BotBot>().AddRechargeEnergy(availablePower * Time.fixedDeltaTime);
+						}
 					}
 					usedPower = availablePower;
 
 				}
 				else{
 					foreach (KeyValuePair<GameObject, GameObject> entry in rechargeEffectLookup){
-						entry.Value.GetComponent<ParticleSystem>().emissionRate = 0;
+						if (entry.Value != null && entry.Value.GetComponent<ParticleSystem>() != null){
+							entry.Value.GetComponent<ParticleSystem>().emissionRate = 0;
+						}
 					}
 				}
 			}

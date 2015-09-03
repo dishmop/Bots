@@ -17,7 +17,6 @@ public class ScriptLibraryText : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-	
 		if (Time.fixedTime > nextDirCheckTime){
 			nextDirCheckTime = Time.fixedTime + dirCheckDuration;
 			UpdateDirInfo();
@@ -28,7 +27,8 @@ public class ScriptLibraryText : MonoBehaviour {
 	
 	
 	void UpdateDirInfo(){
-
+		return ;
+		
 		dirText.Length = 0;
 		foreach (Object script in SystemScripts.singleton.systemScripts){
 			dirText.Append(script.name + "\n");

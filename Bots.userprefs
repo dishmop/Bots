@@ -1,16 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TextBox.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BotConstructor.cs">
     <Files>
-      <File FileName="Assets/Scripts/TextBox.cs" Line="185" Column="1" />
-      <File FileName="Assets/Scripts/ScriptLibraryText.cs" Line="29" Column="1" />
+      <File FileName="Assets/Scripts/BotConstructor.cs" Line="187" Column="24" />
+      <File FileName="Assets/Scripts/TextBox.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ScriptLibraryText.cs" Line="31" Column="3" />
+      <File FileName="Assets/Scripts/BotExplosion.cs" Line="37" Column="43" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Node name="Assembly-CSharp" expanded="True">
             <Node name="Scripts" expanded="True">
-              <Node name="TextBox.cs" selected="True" />
+              <Node name="BotConstructor.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -18,6 +20,7 @@
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
           <Value>style</Value>
+          <Value>textToEdit.length</Value>
         </State>
       </Pad>
     </Pads>
@@ -27,7 +30,6 @@
       <Breakpoint enabled="false" file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/Constructor.cs" line="15" />
       <Breakpoint enabled="false" file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/BotPlasma.cs" line="26" />
       <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/ScriptLibraryText.cs" line="29" />
-      <Breakpoint file="/Users/dac70/ownCloud/CUED_IWTSE/Game prototyping/Unity Demos/Bots/Assets/Scripts/TextBox.cs" line="185" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -46,7 +46,7 @@ public class BotExplosion : MonoBehaviour {
 		if (count > 10) particleSystem.emissionRate = 0;
 		
 		
-		if (count > 1000){
+		if (count > 20){
 			GameObject.Destroy (gameObject);
 		}
 		++count;
