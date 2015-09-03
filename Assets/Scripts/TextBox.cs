@@ -22,12 +22,10 @@ public class TextBox : MonoBehaviour {
 	float margineSizeX;
 	float letterHeight;
 	float margineSizeY;
-	
-	int count = 1;
+
 	
 	
 	KeyCode lastKeyCode = KeyCode.None;
-	EventType lastKeyType = EventType.Ignore;
 	int keyUpCounter = 0;
 		
 	
@@ -149,20 +147,19 @@ public class TextBox : MonoBehaviour {
 		
 		
 		// Find cursor pos in current active window - I suppose
-		TextEditor currentTextEditor = GetActiveEditor();
-		int cursorPos =  currentTextEditor.pos;
+		TextEditor editor = GetActiveEditor();
+	
 		
 		Vector2 cursorPosVec;
-		Vector2 stringDims = GUICalcStringDims(textToEdit, style, cursorPos, out cursorPosVec);
+		Vector2 stringDims = GUICalcStringDims(textToEdit, style, editor.pos, out cursorPosVec);
 		
 		Rect screenRect = new Rect(worldCorners[1], worldCorners[3] - worldCorners[1]);
 		
 		// For Crazy OSX standalong keydown bug
 		bool crazyEnterAdded = false;
 		
-		
 		if (GUI.GetNameOfFocusedControl() == ConstructControlName()){
-			if (cursorPos != lastCursorPos){
+			if (editor.pos != lastCursorPos){
 				int borderLetters = 1;
 				
 				// our rect is thre size of the screen rect. need to move this as little as possible to get the cursor confortably inside it
@@ -183,15 +180,38 @@ public class TextBox : MonoBehaviour {
 					
 				}
 				
+
+				
 			}
-			TextEditor editor = GetActiveEditor();
+			if (isListBox){
+				int countToStart = 0;
+				editor.MoveLeft();
+				
+				while (editor.pos - countToStart != -1 && textToEdit[editor.pos - countToStart] != '\n'){
+					countToStart++;
+				}
+				countToStart--;
+				
+				
+				int countToEnd = 0;
+				while (editor.pos + countToEnd != textToEdit.Length && textToEdit[editor.pos + countToEnd] != '\n'){
+					countToEnd++;
+				}
+				
+				
+				for (int i = 0; i < countToStart; ++i){
+					editor.MoveLeft();
+				}
+				
+				for (int i = 0; i < countToStart + countToEnd; ++i){
+					editor.SelectRight();
+				}
+				
+				
+			}
 			
 			// If we are a list box - make the whoel ine that the cursor is on selected
-			if (isListBox){
-				editor.SelectTextStart();
-				editor.MoveRight();
-				editor.SelectTextEnd();
-			}
+
 			
 			
 			#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
@@ -201,7 +221,7 @@ public class TextBox : MonoBehaviour {
 			
 
 			
-			lastCursorPos = cursorPos;
+			lastCursorPos = editor.pos;
 		}
 
 		
@@ -281,7 +301,6 @@ public class TextBox : MonoBehaviour {
 			
 			if (Event.current.keyCode != KeyCode.None){
 				lastKeyCode = Event.current.keyCode;
-				lastKeyType = Event.current.type;
 			}
 		}
 		return crazyEnterAdded;

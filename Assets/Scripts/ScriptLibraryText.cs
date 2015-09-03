@@ -23,14 +23,12 @@ public class ScriptLibraryText : MonoBehaviour {
 			UpdateDirInfo();
 		}
 		
-//		if (Input.GetKeyDown(KeyCode.Return)){
-//			GetComponent<TextBox>().TriggerReturn();
-//		}
+
 	}
 	
 	
 	void UpdateDirInfo(){
-	return ;
+
 		dirText.Length = 0;
 		foreach (Object script in SystemScripts.singleton.systemScripts){
 			dirText.Append(script.name + "\n");
