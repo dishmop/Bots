@@ -1,32 +1,40 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TextBox.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SystemScripts.cs">
     <Files>
-      <File FileName="Assets/Shaders/AetherPropagate_01.shader" Line="63" Column="4" />
-      <File FileName="Assets/Scripts/BotConstructor.cs" Line="187" Column="24" />
-      <File FileName="Assets/Scripts/TextBox.cs" Line="218" Column="1" />
-      <File FileName="Assets/Scripts/ScriptLibraryText.cs" Line="1" Column="1" />
+      <File FileName="../Leccy/Assets/Scripts/LevelManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/LuaBinding.cs" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/AetherPropagate_01.shader" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotConstructor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/TextBox.cs" Line="260" Column="5" />
       <File FileName="Assets/Scripts/BotExplosion.cs" Line="1" Column="1" />
-      <File FileName="Assets/Shaders/AetherScatter_01.shader" Line="184" Column="10" />
+      <File FileName="Assets/Shaders/AetherScatter_01.shader" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotBot.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotModule.cs" Line="90" Column="3" />
-      <File FileName="Assets/Scripts/AetherSimCamera.cs" Line="47" Column="7" />
-      <File FileName="Assets/Shaders/Aether_01.shader" Line="78" Column="25" />
+      <File FileName="Assets/Scripts/BotModule.cs" Line="221" Column="1" />
+      <File FileName="Assets/Scripts/AetherSimCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/Aether_01.shader" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EditorUI.cs" Line="518" Column="1" />
+      <File FileName="Assets/Scripts/Simulation.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ScriptLibrary.cs" Line="42" Column="3" />
+      <File FileName="Assets/Scripts/UI.cs" Line="58" Column="51" />
+      <File FileName="Assets/Scripts/SystemScripts.cs" Line="42" Column="49" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="Assembly-CSharp" expanded="True">
-            <Node name="Scripts" expanded="True">
-              <Node name="TextBox.cs" selected="True" />
-            </Node>
-          </Node>
-        </State>
+        <State expanded="True" selected="True" />
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
           <Value>style</Value>
           <Value>textToEdit.length</Value>
+          <Value>text</Value>
+          <Value>text[i] </Value>
+          <Value>cursorPosX</Value>
+          <Value>cursorPosY</Value>
+          <Value>currentLineLen</Value>
+          <Value>nameListString</Value>
+          <Value>startIndex</Value>
+          <Value>endIndex</Value>
         </State>
       </Pad>
     </Pads>

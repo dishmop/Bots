@@ -252,7 +252,7 @@ public class BotConstructor : BotModule {
 	
 	GameObject ConstructBot(){
 		LuaBinding binding = new LuaBinding();
-		Bot newBot = binding.ProcessLuaFile(Application.streamingAssetsPath + "/" + constructor.botDefinition + ".lua");
+		Bot newBot = binding.ProcessLuaFile(constructor.botDefinition + ".lua");
 		
 		
 		childBotBotGO = BotFactory.singleton.ConstructBotBot(newBot);

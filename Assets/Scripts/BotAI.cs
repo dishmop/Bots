@@ -17,7 +17,19 @@ public class BotAI : BotModule {
 			foreach (KeyValuePair<string, object> pair in ai.bot.luaObjectLookup){
 				luaBinding.lua[pair.Key] = pair.Value;
 			}
-			luaBinding.lua.DoFileASync(Application.streamingAssetsPath  + "/" + ai.scriptName + ".lua", 10);
+			string scriptName = ai.scriptName + ".lua";
+			
+			
+			if (!SystemScripts.singleton.DoesScriptExist(scriptName)){
+				UI.singleton.LogConsole("Error: Attempting to run non existance script - '" + scriptName + "'", UI.LogLevel.kError);
+				return;
+			}
+			string script = SystemScripts.singleton.FetchScript(scriptName);
+			
+			
+			luaBinding.lua.DoStringASync(script, scriptName, 20);
+			
+			
 			//luaBinding.lua.DoFile(Application.streamingAssetsPath + "/" + bot.runtimeScript + ".lua");
 		}
 		

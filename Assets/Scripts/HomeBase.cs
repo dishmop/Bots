@@ -16,7 +16,7 @@ public class HomeBase : MonoBehaviour {
 	// Use this for initialization
 	void FixedUpdate () {
 		if (count++ == 12){
-			homeBot = binding.ProcessLuaFile(Application.streamingAssetsPath+"/" + startupBotDefinition + ".lua");			
+			homeBot = binding.ProcessLuaFile(startupBotDefinition + ".lua");			
 			GameObject homeBotGO = BotFactory.singleton.ConstructBotBot(homeBot);
 			homeBotGO.transform.SetParent(transform);
 			homeBotGO.transform.localPosition = Vector3.zero;

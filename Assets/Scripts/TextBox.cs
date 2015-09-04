@@ -2,19 +2,30 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using System;
+using System.Text;
 
 public class TextBox : MonoBehaviour {
 
 	public GameObject panel;
 	[Multiline]
-	public string textToEdit = "Starting text";
+	public string textToEdit;
 	public bool isEditable;
 	public bool isListBox;
-	public int listItemSelected = 0;
+	public bool isSingleLine;
 	
 	public Font font;
 	public Vector2 scrollPosition = Vector2.zero;
 	public Texture2D blackTeture;
+	public string listBoxSelectedText;
+	public int listBoxSelectedItem;
+	public Guid guid;
+	public bool wasInFocus;
+	
+	List<string> listBoxItems = new List<string>();
+	Dictionary<string, Color> listBoxItemColLookup = new Dictionary<string, Color>();
+
+	
 	
 	int lastCursorPos = 0;
 	
@@ -27,15 +38,45 @@ public class TextBox : MonoBehaviour {
 	
 	KeyCode lastKeyCode = KeyCode.None;
 	int keyUpCounter = 0;
-		
 	
+	public void ClearListBoxItems(){
+		listBoxItems.Clear();
+		listBoxItemColLookup.Clear();
+	}
+		
+	public void AddItemToListBox(string text, Color highlightCol){
+		listBoxItems.Add (text);
+		listBoxItemColLookup.Add (text, highlightCol);
+	}
+	
+	public void RemoveItemFromListBox(string text){
+		listBoxItems.Remove (text);
+		listBoxItemColLookup.Remove (text);
+	}
 
 	// Use this for initialization
 	void Start () {
 	
-		textToEdit = "Hello \nthis is some text\nAnd here is some more";
-
+		guid = Guid.NewGuid();
+	}
 	
+	public void AddRichText(string text, Color color){
+		string itemString = "<color=" + CreateColorString(color) + ">" + text  + "</color>" + "\n";
+		textToEdit += itemString;
+	}
+	
+	string ConstructStringFromListBox(){
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < listBoxItems.Count(); ++i){
+			string text = listBoxItems[i];
+			Color col = listBoxItemColLookup[text];
+			
+			Color useCol = (listBoxSelectedItem == i) ? col : Color.Lerp (col, Color.black, 0.5f);
+			string itemString = "<color=" + CreateColorString(useCol) + ">" + text  + "</color>" + "\n";
+			sb.Append(itemString);
+		}
+
+		return sb.ToString ();
 	}
 	
 	// Update is called once per frame
@@ -51,13 +92,24 @@ public class TextBox : MonoBehaviour {
 		bool cursorDone = false;
 		cursorPosX = 0;
 		cursorPosY = 0;
+		bool isInsideTag = false;
 		
 		for (int i = 0; i < text.Length; ++i){
+		
 			if (i == cursorPos){
 				cursorPosX = currentLineLen;
 				cursorPosY = numLines-1;
 				cursorDone = true;
 			}
+			if (text[i] == '<'){
+				isInsideTag = true;
+			}
+			if (text[i] == '>'){
+				isInsideTag = false;
+				continue;
+			}
+			if (isInsideTag) continue;
+
 			if (text[i] == '\n'){
 				numLines++;
 				if (currentLineLen > maxLineLen){
@@ -79,11 +131,10 @@ public class TextBox : MonoBehaviour {
 		
 	}
 	
-	Vector2 GUICalcStringDims(string text, GUIStyle style, int cursorPos, out Vector2 cursorPosVec){
+	Vector2 GUICalcStringDims(string text, GUIStyle style, int cursorPos, out Vector2 cursorPosVec, out int cursorPosY){
 		int numLines;
 		int maxLineLen;
 		int cursorPosX;
-		int cursorPosY;
 		GUICalcStringDims(text, out numLines, out maxLineLen, cursorPos, out cursorPosX, out cursorPosY);
 		
 		Vector2 textSize1 = style.CalcSize(new GUIContent("A"));
@@ -113,7 +164,7 @@ public class TextBox : MonoBehaviour {
 	}
 	
 	string ConstructControlName(){
-		return name + "_TextArea";
+		return guid.ToString();
 		
 	}
 	
@@ -123,7 +174,23 @@ public class TextBox : MonoBehaviour {
 //		//}
 //	}
 	
+	void FixedUpdate(){
+		if (listBoxSelectedItem >= 0 && listBoxSelectedItem < listBoxItems.Count()){
+			listBoxSelectedText = listBoxItems[listBoxSelectedItem];
+		}
+		
+	}
 	
+	void OnClickList(Vector2 mousePosition, Rect screenRect){
+		float pixelsFromTopOfScrenRect = screenRect.height - screenRect.yMax + mousePosition.y;
+		float pixelsFromTopOfView = pixelsFromTopOfScrenRect + scrollPosition.y;
+		
+		int linNum = (int)((pixelsFromTopOfView - margineSizeY) /  letterHeight);
+		listBoxSelectedItem = Mathf.Min (linNum, listBoxItems.Count());
+		listBoxSelectedText = listBoxItems[listBoxSelectedItem];
+		
+		//Debug.Log ("OnClickList: " + linNum);
+	}
 	
 	void OnGUI() {
 		Vector3[] worldCorners = new Vector3[4];
@@ -142,7 +209,15 @@ public class TextBox : MonoBehaviour {
 		style.focused.background = null;
 		style.active.background = null;
 		style.hover.background = null;
+		
+		Color textColor = isEditable ? Color.white : Color.gray;
+		style.normal.textColor = textColor;
+		style.focused.textColor = textColor;
+		style.active.textColor = textColor;
+		style.normal.textColor = textColor;
 		style.wordWrap = false;
+		
+		style.richText = (isListBox || !isEditable);
 		
 		
 		
@@ -150,16 +225,44 @@ public class TextBox : MonoBehaviour {
 		TextEditor editor = GetActiveEditor();
 	
 		
+		string textToShow = isListBox ? ConstructStringFromListBox() : textToEdit;
+		
 		Vector2 cursorPosVec;
-		Vector2 stringDims = GUICalcStringDims(textToEdit, style, editor.pos, out cursorPosVec);
+		int cursorPosLineNum;
+		Vector2 stringDims = GUICalcStringDims(textToShow, style, editor.pos, out cursorPosVec, out cursorPosLineNum);
 		
 		Rect screenRect = new Rect(worldCorners[1], worldCorners[3] - worldCorners[1]);
+
 		
 		// For Crazy OSX standalong keydown bug
 		bool crazyEnterAdded = false;
 		
 		if (GUI.GetNameOfFocusedControl() == ConstructControlName()){
-			if (editor.pos != lastCursorPos){
+			if (isListBox){
+				float border = 20;
+				Vector2 mousePos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+				Rect useScreenRect = new Rect(screenRect.xMin, screenRect.yMin, screenRect.width - border, screenRect.height - border);
+				if (!wasInFocus){
+					
+					if (useScreenRect.Contains(mousePos)){
+						OnClickList(mousePos, screenRect);
+					}
+					
+				}
+				if (Event.current.isMouse){
+					if (Event.current.type == EventType.MouseDown){
+						if (useScreenRect.Contains(mousePos)){
+							OnClickList(mousePos, screenRect);
+						}
+					}
+				}
+				editor.SelectNone();
+								//listBoxSelectedItem =  cursorPosLineNum;
+			}
+			else{
+				listBoxSelectedItem = -1;
+			}
+			if (editor.pos != lastCursorPos && !isListBox){
 				int borderLetters = 1;
 				
 				// our rect is thre size of the screen rect. need to move this as little as possible to get the cursor confortably inside it
@@ -183,32 +286,33 @@ public class TextBox : MonoBehaviour {
 
 				
 			}
-			if (isListBox){
-				int countToStart = 0;
-				editor.MoveLeft();
-				
-				while (editor.pos - countToStart != -1 && textToEdit[editor.pos - countToStart] != '\n'){
-					countToStart++;
-				}
-				countToStart--;
-				
-				
-				int countToEnd = 0;
-				while (editor.pos + countToEnd != textToEdit.Length && textToEdit[editor.pos + countToEnd] != '\n'){
-					countToEnd++;
-				}
-				
-				
-				for (int i = 0; i < countToStart; ++i){
-					editor.MoveLeft();
-				}
-				
-				for (int i = 0; i < countToStart + countToEnd; ++i){
-					editor.SelectRight();
-				}
-				
-				
-			}
+
+//			if (isListBox){
+//				int countToStart = 0;
+//				editor.MoveLeft();
+//				
+//				while (editor.pos - countToStart != -1 && textToEdit[editor.pos - countToStart] != '\n'){
+//					countToStart++;
+//				}
+//				countToStart--;
+//				
+//				
+//				int countToEnd = 0;
+//				while (editor.pos + countToEnd != textToEdit.Length && textToEdit[editor.pos + countToEnd] != '\n'){
+//					countToEnd++;
+//				}
+//				
+//				
+//				for (int i = 0; i < countToStart; ++i){
+//					editor.MoveLeft();
+//				}
+//				
+//				for (int i = 0; i < countToStart + countToEnd; ++i){
+//					editor.SelectRight();
+//				}
+//				
+//				
+//			}
 			
 			// If we are a list box - make the whoel ine that the cursor is on selected
 
@@ -217,11 +321,12 @@ public class TextBox : MonoBehaviour {
 			#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
 			crazyEnterAdded = DealwithCrazyMacKeyDownBug(editor.pos);
 			#endif
-
-			
-
 			
 			lastCursorPos = editor.pos;
+			wasInFocus = true;
+		}
+		else{
+			wasInFocus = false;
 		}
 
 		
@@ -230,7 +335,13 @@ public class TextBox : MonoBehaviour {
 		
 		scrollPosition = GUI.BeginScrollView(screenRect, scrollPosition, viewRect);
 		GUI.SetNextControlName(ConstructControlName());
-		string newText = GUI.TextArea(viewRect, textToEdit, style);
+		string newText;
+		if (isSingleLine){
+			newText = GUI.TextField(viewRect, textToShow, style);
+		}
+		else{
+			 newText = GUI.TextArea(viewRect, textToShow, style);
+		}
 		GUI.EndScrollView();
 		
 		if (crazyEnterAdded){
@@ -306,5 +417,12 @@ public class TextBox : MonoBehaviour {
 		return crazyEnterAdded;
 		
 		
+	}
+	
+	string CreateColorString(Color col){
+		int red = (int)(col.r * 255);
+		int green = (int)(col.g * 255);
+		int blue = (int)(col.b * 255);
+		return string.Format("#{0:x2}{1:x2}{2:x2}", red, green, blue);
 	}
 }

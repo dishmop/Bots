@@ -86,16 +86,19 @@ public class LuaBinding{
 		lua.RegisterFunction("Log",this,this.GetType().GetMethod("Log"));
 	}
 	
-	public Bot ProcessLuaFile(string luaFilename){
+	public Bot ProcessLuaFile(string scriptName){
 		
 		bot = null;
 		try
 		{
-			StreamReader reader = File.OpenText(luaFilename);
-			string program = reader.ReadToEnd();
-			reader.Close();
+			if (!SystemScripts.singleton.DoesScriptExist(scriptName)){
+				UI.singleton.LogConsole("Error: Attempting to run non existance script - '" + scriptName + "'", UI.LogLevel.kError);
+				return null;
+			}
+			string script = SystemScripts.singleton.FetchScript(scriptName);
 			
-			lua.DoStringASync(program, luaFilename, 1);
+			
+			lua.DoStringASync(script, scriptName, 1);
 			//lua.DoFileASync(luaFilename, 1);
 			
 			while (!lua.isFinishedASync){
