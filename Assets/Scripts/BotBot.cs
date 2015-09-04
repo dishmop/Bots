@@ -382,7 +382,7 @@ public class BotBot : MonoBehaviour {
 				newBotBot.RecalcMass();
 				
 				newBotBot.CreateRigidBody();
-				if (GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
+				if (GetComponent<Rigidbody2D>() != null && GetComponent<Rigidbody2D>().constraints != RigidbodyConstraints2D.FreezeAll){
 					newBotBotGO.GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().GetPointVelocity(newBotBotGO.transform.position);
 					newBotBotGO.GetComponent<Rigidbody2D>().angularVelocity = GetComponent<Rigidbody2D>().angularVelocity;
 				}
