@@ -108,7 +108,9 @@ public class LuaBinding{
 		}
 		catch (KopiLua.Lua.LuaException ex)
 		{
-			LocalLog(ex.StackTrace);
+			Debug.Log (ex.StackTrace);
+			UI.singleton.LogConsole(ex.StackTrace, UI.LogLevel.kError);
+			return null;
 		}
 
 		return bot;

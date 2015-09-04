@@ -71,7 +71,7 @@ public class TextBox : MonoBehaviour {
 			string text = listBoxItems[i];
 			Color col = listBoxItemColLookup[text];
 			
-			Color useCol = (listBoxSelectedItem == i) ? col : Color.Lerp (col, Color.black, 0.5f);
+			Color useCol = (listBoxSelectedItem == i) ? col : Color.Lerp (col, Color.black, 0.25f);
 			string itemString = "<color=" + CreateColorString(useCol) + ">" + text  + "</color>" + "\n";
 			sb.Append(itemString);
 		}
@@ -204,6 +204,7 @@ public class TextBox : MonoBehaviour {
 		
 		GUIStyle style = GUI.skin.textArea;
 		
+		style.fontSize = 11;
 		style.font = font;
 		style.normal.background = null;
 		style.focused.background = null;
@@ -333,7 +334,11 @@ public class TextBox : MonoBehaviour {
 		//		Rect viewRect = new Rect(0, 0, stringDims.x, stringDims.y);
 		Rect viewRect = new Rect(0, 0, Mathf.Max (screenRect.width, stringDims.x), Mathf.Max (screenRect.height, stringDims.y));
 		
-		scrollPosition = GUI.BeginScrollView(screenRect, scrollPosition, viewRect);
+		if (isSingleLine){
+			viewRect = screenRect;
+		}
+		
+		if (!isSingleLine) scrollPosition = GUI.BeginScrollView(screenRect, scrollPosition, viewRect);
 		GUI.SetNextControlName(ConstructControlName());
 		string newText;
 		if (isSingleLine){
@@ -342,7 +347,7 @@ public class TextBox : MonoBehaviour {
 		else{
 			 newText = GUI.TextArea(viewRect, textToShow, style);
 		}
-		GUI.EndScrollView();
+		if (!isSingleLine) GUI.EndScrollView();
 		
 		if (crazyEnterAdded){
 			GetActiveEditor().MoveRight();

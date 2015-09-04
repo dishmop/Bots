@@ -11,6 +11,7 @@ public class UI : MonoBehaviour {
 	public GameObject editPanel;
 	public GameObject editNamePanel;
 	public GameObject consolePanel;
+	public GameObject homeBase;
 	
 	public Color[] levelColors;
 	
@@ -40,6 +41,11 @@ public class UI : MonoBehaviour {
 		lastListItem = -1;
 	}
 	
+	public void OnBaseBuildClick(){
+		homeBase.GetComponent<HomeBase>().build = true;
+		
+	}
+	
 	public void OnDeleteClick(){
 		int listItem = libPanel.transform.FindChild("TextBox").GetComponent<TextBox>().listBoxSelectedItem;
 		if (listItem >= 0 ){
@@ -58,6 +64,10 @@ public class UI : MonoBehaviour {
 		
 	}
 	
+	public void OnRestart(){
+		Application.LoadLevel(0);
+	}
+		
 	
 	public void OnSaveClick(){
 		// Get the name to save it as

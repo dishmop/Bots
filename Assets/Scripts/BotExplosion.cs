@@ -38,7 +38,9 @@ public class BotExplosion : MonoBehaviour {
 				Vector3 fromCentreToCollider = colliderPos - transform.position;
 				Vector2 forceDir = forceModifier * new Vector2(fromCentreToCollider.x, fromCentreToCollider.y);
 				Vector2 impactPos = new Vector2(colliderPos.x, colliderPos.y);
-				collider.attachedRigidbody.AddForceAtPosition(forceDir, impactPos, ForceMode2D.Impulse);
+				if (collider.attachedRigidbody != null){
+					collider.attachedRigidbody.AddForceAtPosition(forceDir, impactPos, ForceMode2D.Impulse);
+				}
 				
 			}
 		}

@@ -125,7 +125,8 @@ public class BotConstructor : BotModule {
 				if (botGO == transform.parent.gameObject) continue;
 				
 				if (botGO.GetComponent<BotBot>() == null){
-					Debug.LogError ("Error - BotBot doesn't exist: " + botGO.name);
+					//Debug.LogError ("BotBot doesn't exist for  " + botGO.name);
+					return;
 				}
 				
 				
@@ -252,7 +253,13 @@ public class BotConstructor : BotModule {
 	
 	GameObject ConstructBot(){
 		LuaBinding binding = new LuaBinding();
+		
 		Bot newBot = binding.ProcessLuaFile(constructor.botDefinition + ".lua");
+		
+		if (newBot == null){
+			constructor.activated = false;
+			return null;
+		}
 		
 		
 		childBotBotGO = BotFactory.singleton.ConstructBotBot(newBot);

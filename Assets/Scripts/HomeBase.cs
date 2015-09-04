@@ -3,8 +3,10 @@ using System.Collections;
 
 public class HomeBase : MonoBehaviour {
 	public string startupBotDefinition;
+	public bool build = false;
 	LuaBinding binding = new LuaBinding();
 	Bot homeBot;
+	GameObject homeBotGO;
 	
 	
 	int count = 0;
@@ -15,9 +17,9 @@ public class HomeBase : MonoBehaviour {
 
 	// Use this for initialization
 	void FixedUpdate () {
-		if (count++ == 12){
+		if (count++ == 10){
 			homeBot = binding.ProcessLuaFile(startupBotDefinition + ".lua");			
-			GameObject homeBotGO = BotFactory.singleton.ConstructBotBot(homeBot);
+			homeBotGO = BotFactory.singleton.ConstructBotBot(homeBot);
 			homeBotGO.transform.SetParent(transform);
 			homeBotGO.transform.localPosition = Vector3.zero;
 			homeBotGO.transform.localRotation = Quaternion.identity;
@@ -26,6 +28,15 @@ public class HomeBase : MonoBehaviour {
 			homeBotGO.GetComponent<BotBot>().SolidifyColliders();
 			
 			
+		}
+		
+		if (build){
+			foreach (GameObject go in homeBotGO.GetComponent<BotBot>().modulesToModuleGOs.Values){
+				if (go.GetComponent<BotConstructor>() != null){
+					go.GetComponent<BotConstructor>().constructor.Activate(true);
+				}
+			}
+			build = false;
 			
 		}
 

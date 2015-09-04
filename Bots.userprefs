@@ -1,27 +1,38 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SystemScripts.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/BotBot.cs">
     <Files>
+      <File FileName="Assets/Scripts/LuaBinding.cs" Line="113" Column="16" />
       <File FileName="../Leccy/Assets/Scripts/LevelManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/LuaBinding.cs" Line="1" Column="1" />
       <File FileName="Assets/Shaders/AetherPropagate_01.shader" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BotConstructor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/TextBox.cs" Line="260" Column="5" />
+      <File FileName="Assets/Scripts/TextBox.cs" Line="74" Column="87" />
       <File FileName="Assets/Scripts/BotExplosion.cs" Line="1" Column="1" />
       <File FileName="Assets/Shaders/AetherScatter_01.shader" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotBot.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/BotModule.cs" Line="221" Column="1" />
+      <File FileName="Assets/Scripts/BotModule.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/AetherSimCamera.cs" Line="1" Column="1" />
       <File FileName="Assets/Shaders/Aether_01.shader" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/EditorUI.cs" Line="518" Column="1" />
+      <File FileName="Assets/Scripts/EditorUI.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Simulation.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ScriptLibrary.cs" Line="42" Column="3" />
-      <File FileName="Assets/Scripts/UI.cs" Line="58" Column="51" />
-      <File FileName="Assets/Scripts/SystemScripts.cs" Line="42" Column="49" />
+      <File FileName="Assets/Scripts/ScriptLibrary.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI.cs" Line="31" Column="3" />
+      <File FileName="Assets/Scripts/SystemScripts.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotBot.cs" Line="172" Column="1" />
+      <File FileName="Assets/Scripts/BotAI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Shaders/AetherSink_01.shader" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BotFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/HomeBase.cs" Line="1" Column="1" />
+      <File FileName="Assets/Target.cs" Line="17" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True" />
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scripts" expanded="True">
+              <Node name="BotBot.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
         <State>
