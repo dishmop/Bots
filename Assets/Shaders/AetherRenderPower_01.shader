@@ -34,7 +34,6 @@ SubShader {
 		 ZWrite off
 		CGPROGRAM
 // Upgrade NOTE: excluded shader from DX11, Xbox360, OpenGL ES 2.0 because it uses unsized arrays
-#pragma exclude_renderers d3d11 xbox360 gles
 		
 		#pragma target 3.0
 		
@@ -95,6 +94,7 @@ SubShader {
 		
 		float4 frag(v2f i) : COLOR
 		{
+			
 			float power = 
 				abs(tex2D(_History_0, float2(i.uv.x, i.uv.y)).r) + 
 				abs(tex2D(_History_1, float2(i.uv.x, i.uv.y)).r) + 
@@ -119,32 +119,7 @@ SubShader {
 		
 
 		
-		float4 frag2(v2f i) : COLOR
-		{
-			float4 incoming;
-			//sampler2D[] samplerIndex = sampler2D[32];
-			if (_BufferIndex == 0){incoming =  tex2D(_History_0, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 1){incoming =  tex2D(_History_1, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 2){incoming =  tex2D(_History_2, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 3){incoming =  tex2D(_History_3, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 4){incoming =  tex2D(_History_4, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 5){incoming =  tex2D(_History_5, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 6){incoming =  tex2D(_History_6, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 7){incoming =  tex2D(_History_7, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 8){incoming =  tex2D(_History_8, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 9){incoming =  tex2D(_History_9, float2(i.uv.x, i.uv.y));}
-			
-			else if (_BufferIndex == 10){incoming =  tex2D(_History_11, float2(i.uv.x, i.uv.y));}
-			else if (_BufferIndex == 11){incoming =  tex2D(_History_11, float2(i.uv.x, i.uv.y));}
 
-			else{
-				return float4 (1, 1, 0, 1); 
-			}
-
-			return incoming;
-//		
-
-		}
 		
 		ENDCG
 	}

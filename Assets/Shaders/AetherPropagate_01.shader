@@ -3,6 +3,7 @@ Properties {
 	_RawData01 ("RawData01", 2D) = "defaulttexture" {}
 	_RawData02 ("RawData02", 2D) = "defaulttexture" {}
 	_RawData03 ("RawData03", 2D) = "defaulttexture" {}
+	_IsWindows("IsWindows", int) = 0
 	_Width ("Width", int) = 0
 	_Height ("Height", int) = 0
 	_IntTime ("IntTime", int) = 0
@@ -39,6 +40,7 @@ SubShader {
 		uniform float _Height;
 		uniform int _IntTime;
 		uniform float _Drag;
+		uniform int _IsWindows;
 				
 
 			
@@ -63,6 +65,11 @@ SubShader {
 		
 		float4 frag(v2f i) : COLOR
 		{
+				// If windows
+				if (_IsWindows == 1) i.uv.y = 1-i.uv.y;
+
+				//return tex2D(_RawData02, i.uv);
+				
 				float deltaX = 1/_Width;
 				float deltaY = 1/_Height;
 				

@@ -9,6 +9,7 @@ public class AetherSimCamera : MonoBehaviour {
 	public Shader simScatter;
 	public Shader simPropagate;
 	public Shader simBlur;
+	public Shader simCopy;
 	public Shader renderShader;
 	public Shader renderPowerShader;
 	public Shader sourceShader;
@@ -42,6 +43,9 @@ public class AetherSimCamera : MonoBehaviour {
 		quadGO.GetComponent<Renderer>().material.SetFloat ("_Width", GetComponent<Camera>().targetTexture.width);
 		quadGO.GetComponent<Renderer>().material.SetFloat ("_Height", GetComponent<Camera>().targetTexture.height);
 		
+		#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+		quadGO.GetComponent<Renderer>().material.SetFloat ("_IsWindows", 1);
+		#endif
 		GetComponent<Camera>().targetTexture = tex1;
 		GetComponent<Camera>().RenderWithShader(simSetup, "");
 		
@@ -68,7 +72,7 @@ public class AetherSimCamera : MonoBehaviour {
 
 	
 	// Update is called once per frame
-	public void GameUpdate () {
+	public void GameUpdate () {	
 
 		sourceCamera.GetComponent<Camera>().targetTexture = tex3;
 		sourceCamera.GetComponent<Camera>().RenderWithShader(sourceShader, "");
@@ -83,9 +87,11 @@ public class AetherSimCamera : MonoBehaviour {
 			GetComponent<Camera>().targetTexture = tex2;
 			GetComponent<Camera>().RenderWithShader(simScatter, "");
 			
-			GetComponent<Camera>().targetTexture = tex2;
+			GetComponent<Camera>().targetTexture = tex1;
 			GetComponent<Camera>().RenderWithShader(simBlur, "");
 			
+			GetComponent<Camera>().targetTexture = tex2;
+			GetComponent<Camera>().RenderWithShader(simCopy, "");
 
 			GetComponent<Camera>().targetTexture = tex1;
 			GetComponent<Camera>().RenderWithShader(simPropagate, "");

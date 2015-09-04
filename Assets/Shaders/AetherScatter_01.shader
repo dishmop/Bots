@@ -169,6 +169,7 @@ SubShader {
 		float4 frag(v2f i) : COLOR
 		{
 		
+		
 //			float deltaX = 1/_Width;
 //			float deltaY = 1/_Height;
 //			
@@ -178,8 +179,13 @@ SubShader {
 //			}
 
 			// North, east, south, west
-			float4 incoming = tex2D(_RawData01, float2(i.uv.x, i.uv.y));
+			float4 incomingUV = i.uv;
 			
+			// If windows			
+		//	incomingUV.y = 1- incomingUV.y;
+			float4 incoming = tex2D(_RawData01, incomingUV);
+			
+		//	incoming = float4(0, 0, 0, 0);
 			// input is "incoming" pressure
 			return mulSink(i.uv) * float4( 
 				0.5 * (-incoming[0] + incoming[1] + incoming[2] + incoming[3]),

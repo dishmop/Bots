@@ -27,7 +27,7 @@ public class ScriptLibraryText : MonoBehaviour {
 	
 	
 	void UpdateDirInfo(){
-		return ;
+			return ;
 		
 		dirText.Length = 0;
 		foreach (Object script in SystemScripts.singleton.systemScripts){

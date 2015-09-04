@@ -18,7 +18,7 @@ Properties {
 	_History_10 ("History_10", 2D) = "defaulttexture" {}
 	_History_11 ("History_11", 2D) = "defaulttexture" {}
 	
-	
+	_IsWindow ("_IsWindows", int) = 0	
 	_Width ("Width", int) = 0
 	_Height ("Height", int) = 0
 	_SpringConst ("SprintConst", float) = 0
@@ -75,6 +75,7 @@ SubShader {
 		uniform float _Width;
 		uniform float _Height;
 		uniform int _IntTime;
+		uniform int _IsWindows;
 		uniform int _BufferIndex;
 				
 

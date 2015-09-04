@@ -104,6 +104,7 @@
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
      <None Include="Assets\Shaders\AetherScatter_01.shader" />
      <None Include="Assets\Shaders\noise-simplex_v05.shader" />
+     <None Include="Assets\Shaders\AetherCopy_01.shader" />
      <None Include="Assets\Shaders\AetherSetup_01.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
      <None Include="Assets\Shaders\AetherHeat_01.shader" />
