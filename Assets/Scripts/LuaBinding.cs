@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using LuaInterface;
 
 
@@ -90,7 +91,12 @@ public class LuaBinding{
 		bot = null;
 		try
 		{
-			lua.DoFileASync(luaFilename, 1);
+			StreamReader reader = File.OpenText(luaFilename);
+			string program = reader.ReadToEnd();
+			reader.Close();
+			
+			lua.DoStringASync(program, luaFilename, 1);
+			//lua.DoFileASync(luaFilename, 1);
 			
 			while (!lua.isFinishedASync){
 				lua.ResumeAsync();

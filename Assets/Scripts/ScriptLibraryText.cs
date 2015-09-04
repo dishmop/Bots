@@ -27,11 +27,10 @@ public class ScriptLibraryText : MonoBehaviour {
 	
 	
 	void UpdateDirInfo(){
-			return ;
 		
 		dirText.Length = 0;
-		foreach (Object script in SystemScripts.singleton.systemScripts){
-			dirText.Append(script.name + "\n");
+		foreach (string scriptName in SystemScripts.singleton.scriptNames){
+			dirText.Append(scriptName + "\n");
 		}
 		
 		GetComponent<TextBox>().textToEdit = dirText.ToString();

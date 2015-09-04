@@ -47,6 +47,7 @@ namespace LuaRunner
                     test.CallLoop();
                 }
                 */
+                string luaProgram = "print 'Hello world2'\nTestFunc()\n";
                 TestClass test = new TestClass();
                 //TestHookClass testObj = new TestHookClass(args[0]);
                 Lua lua = new Lua();
@@ -54,7 +55,9 @@ namespace LuaRunner
                 try
                 {
                     //Console.WriteLine("DoFile(" + args[0] + ");");
-                    lua.DoFileASync(args[0], 1);
+                   // lua.DoFileASync(args[0], 1);
+                    lua.DoStringASync(luaProgram, "LuaProgramString", 1);
+
 
                     while (!lua.isFinishedASync)
                     {

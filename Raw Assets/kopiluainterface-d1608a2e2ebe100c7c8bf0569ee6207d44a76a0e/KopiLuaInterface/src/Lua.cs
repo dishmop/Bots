@@ -214,15 +214,18 @@ namespace LuaInterface
                 return 0;
         }
 
-
-		/*
+        public object[] DoString(string chunk)
+        {
+            return DoString(chunk, "chunk");
+        }
+        /*
 		 * Excutes a Lua chunk and returns all the chunk's return
 		 * values in an array
 		 */
-		public object[] DoString(string chunk) 
+        public object[] DoString(string chunk, string chunkName) 
 		{
 			int oldTop=LuaDLL.lua_gettop(luaState);
-			if(LuaDLL.luaL_loadbuffer(luaState,chunk,"chunk")==0) 
+			if(LuaDLL.luaL_loadbuffer(luaState,chunk, chunkName) ==0) 
 			{
                 if (LuaDLL.lua_pcall(luaState, 0, -1, 0) == 0)
                     return translator.popValues(luaState, oldTop);
@@ -254,9 +257,12 @@ namespace LuaInterface
             return null;            // Never reached - keeps compiler happy
 		}
 
+        public bool isFileMode; // Otherwise in string mode
         public bool isFinishedASync;
         public bool triggerAbortAsync;
         string filename;
+        string chunk;
+        string chunkName;
         //This AutoResetEvent starts out non-signalled
         public static AutoResetEvent mainThreadBlocker = new AutoResetEvent(false);
 
@@ -272,6 +278,35 @@ namespace LuaInterface
             triggerAbortAsync = false;
             asyncException = null;
             this.filename = filename;
+            isFileMode = true;
+
+            Thread oThread = new Thread(new ThreadStart(this.Run));
+
+            // Start the thread
+            oThread.Start();
+
+
+            // Spin for a while waiting for the started thread to become
+            // alive:
+            while (!oThread.IsAlive) ;  
+
+            mainThreadBlocker.WaitOne();
+            if (asyncException != null)
+            {
+                throw asyncException;
+            }
+
+        }
+
+        public void DoStringASync(string chunk, string chunkName, int nunInstructions)
+        {
+            asyncNumInstructions = nunInstructions;
+            isFinishedASync = false;
+            triggerAbortAsync = false;
+            asyncException = null;
+            this.chunk = chunk;
+            this.chunkName = chunkName;
+            isFileMode = false;
 
             Thread oThread = new Thread(new ThreadStart(this.Run));
 
@@ -324,7 +359,10 @@ namespace LuaInterface
             lua_sethook(this.InternalHook, KopiLua.Lua.LUA_MASKCOUNT, asyncNumInstructions);
 
             try {
-                DoFile(filename);
+                if (isFileMode)
+                    DoFile(filename);
+                else
+                    DoString(chunk, chunkName);
             }
             catch (Exception e)
             {
